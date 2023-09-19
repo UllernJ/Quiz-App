@@ -3,17 +3,29 @@ package hiof.mobilg11.quizapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import hiof.mobilg11.quizapplication.ui.theme.QuizApplicationTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent {
+            NavigationApp()
+        }
+    }
+
+    @Composable
+    fun NavigationApp() {
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "login") {
+            composable("login") {
+                LoginPage(navController)
+            }
+            composable("register") {
+                RegisterActivity()
+            }
+        }
     }
 }
