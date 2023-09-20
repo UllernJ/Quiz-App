@@ -142,7 +142,7 @@ fun LoginPage(navController: NavController) {
                     .height(45.dp)
             ) {
                 Text(
-                    text = "Register",
+                    text = "To register",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                 )

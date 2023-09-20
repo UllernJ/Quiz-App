@@ -113,27 +113,43 @@ fun RegisterPage(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-                Button(onClick = {
-                 auth.createUserWithEmailAndPassword(email, password)
-                     .addOnCompleteListener { task ->
-                         if (task.isSuccessful) {
-                             Toast.makeText(context, "User Created", Toast.LENGTH_SHORT).show()
-                             navController.navigate(R.string.login_page_path.toString())
-                         } else {
-                             Toast.makeText(context, "Error! ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                         }
-                     }
+            Button(onClick = {
+                navController.navigate(R.string.login_page_path.toString())
             },
                 modifier = Modifier
                     .weight(1f)
                     .height(45.dp)
             ) {
                 Text(
-                    text = "Register",
+                    text = "Back",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                 )
             }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Button(onClick = {
+             auth.createUserWithEmailAndPassword(email, password)
+                 .addOnCompleteListener { task ->
+                     if (task.isSuccessful) {
+                         Toast.makeText(context, "User Created", Toast.LENGTH_SHORT).show()
+                         navController.navigate(R.string.login_page_path.toString())
+                     } else {
+                         Toast.makeText(context, "Error! ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                     }
+                 }
+        },
+            modifier = Modifier
+                .weight(1f)
+                .height(45.dp)
+        ) {
+            Text(
+                text = "Register",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
         }
     }
 }
