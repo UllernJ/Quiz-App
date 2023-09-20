@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication
+package hiof.mobilg11.quizapplication.ui.pages
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import hiof.mobilg11.quizapplication.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -12,6 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.ui.pages.LoginPage
+import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
+import hiof.mobilg11.quizapplication.ui.pages.RegisterPage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

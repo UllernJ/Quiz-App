@@ -1,9 +1,8 @@
-package hiof.mobilg11.quizapplication
+package hiof.mobilg11.quizapplication.ui.pages
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,19 +16,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,9 +55,8 @@ fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        val imagePainter = painterResource(id = R.drawable.quiz)
         Image(
-            painter = imagePainter,
+            painter = painterResource(quizIcon),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
