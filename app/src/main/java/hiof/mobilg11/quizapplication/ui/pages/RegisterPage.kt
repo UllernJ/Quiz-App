@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -32,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.ui.theme.quizIcon
+import hiof.mobilg11.quizapplication.ui.theme.registerIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,6 +61,13 @@ fun RegisterPage(navController: NavController) {
             color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Image(
+            painter = painterResource(registerIcon),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
         )
     }
 
