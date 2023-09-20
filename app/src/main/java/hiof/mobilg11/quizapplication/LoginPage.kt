@@ -37,6 +37,22 @@ fun LoginPage(navController: NavController) {
         mutableStateOf("")
     }
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(26.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "Login Page",
+            fontSize = 20.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -44,7 +60,6 @@ fun LoginPage(navController: NavController) {
             .padding(26.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
-        val context = LocalContext.current
 
         Text(
             text = "Email",
