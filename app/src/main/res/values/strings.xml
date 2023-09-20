@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Quiz Application</string>
-    <string name="login">Login</string>
-    <string name="email">email</string>
-    <string name="password">password</string>
-    <string name="register">register</string>
-    <string name="Register">Register</string>
-    <string name="title_activity_login_page">LoginPage</string>
+    <string name="login_page_path">Login</string>
+    <string name="register_page_path">register</string>
 </resources>

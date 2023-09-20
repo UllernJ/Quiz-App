@@ -19,11 +19,11 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "login") {
-            composable("login") {
+        NavHost(navController = navController, startDestination = R.string.login_page_path.toString()) {
+            composable(R.string.login_page_path.toString()) {
                 LoginPage(navController)
             }
-            composable("register") {
+            composable(R.string.register_page_path.toString()) {
                 RegisterPage(navController)
             }
         }

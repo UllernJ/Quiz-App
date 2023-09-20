@@ -118,7 +118,7 @@ fun RegisterPage(navController: NavController) {
                      .addOnCompleteListener { task ->
                          if (task.isSuccessful) {
                              Toast.makeText(context, "User Created", Toast.LENGTH_SHORT).show()
-                             navController.navigate("login")
+                             navController.navigate(R.string.login_page_path.toString())
                          } else {
                              Toast.makeText(context, "Error! ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                          }

@@ -135,7 +135,7 @@ fun LoginPage(navController: NavController) {
             Spacer(modifier = Modifier.width(16.dp))
 
             Button(onClick = {
-                navController.navigate("register")
+                navController.navigate(R.string.register_page_path.toString())
             },
                 modifier = Modifier
                     .weight(1f)
