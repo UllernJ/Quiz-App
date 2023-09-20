@@ -26,10 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import hiof.mobilg11.quizapplication.model.User
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPage(navController: NavController) {
+fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
     var password by remember {
         mutableStateOf("")
     }
@@ -38,6 +39,7 @@ fun LoginPage(navController: NavController) {
     }
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
+    var user: User = User("test", 69, null) //todo fetch real user
 
     Column(
         modifier = Modifier
@@ -114,7 +116,7 @@ fun LoginPage(navController: NavController) {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                                //route to home page
+                                onLogin(user) //todo fetch real user
                             } else {
                                 Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
