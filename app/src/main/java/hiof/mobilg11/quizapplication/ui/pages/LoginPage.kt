@@ -40,7 +40,8 @@ fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
     }
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
-    var user: User = User("test", 69, null) //todo fetch real user
+    // TODO : Fetch real user
+    var user: User = User("", "user", 50.0)
 
     Column(
         modifier = Modifier
@@ -124,7 +125,7 @@ fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                                onLogin(user) //todo fetch real user
+                                onLogin(user)
                             } else {
                                 Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }

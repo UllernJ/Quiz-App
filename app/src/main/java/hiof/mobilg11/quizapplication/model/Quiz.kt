@@ -9,7 +9,4 @@ data class Quiz (
     val category: Category,
     val dateCreated: LocalDate? = LocalDate.now()
     ) {
-    fun getQuestions(): List<Question<*>> {
-        return questions
-    }
 }

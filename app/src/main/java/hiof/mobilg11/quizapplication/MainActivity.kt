@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.ui.pages.HomePage
 import hiof.mobilg11.quizapplication.ui.pages.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
 import hiof.mobilg11.quizapplication.ui.pages.RegisterPage
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
             composable(R.string.login_page_path.toString()) {
                 LoginPage(navController) { loggedInUser ->
                     user = loggedInUser
-                    navController.navigate(R.string.profile_page_path.toString())
+                    navController.navigate(R.string.home_page_path.toString())
                 }
             }
             composable(R.string.register_page_path.toString()) {
@@ -41,6 +42,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(R.string.profile_page_path.toString()) {
                 ProfilePage(navController, user)
+            }
+            composable(R.string.home_page_path.toString()) {
+                HomePage(navController, user);
             }
         }
     }

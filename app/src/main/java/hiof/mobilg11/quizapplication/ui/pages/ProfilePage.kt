@@ -51,6 +51,16 @@ fun ProfilePage(navController: NavController, user: User? = null) {
                 style = MaterialTheme.typography.bodyLarge
             )
         }
+        Button(
+            onClick = {
+                navController.navigate(R.string.home_page_path.toString())
+            },
+        ) {
+            Text(
+                text = "Home",
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 
 }
