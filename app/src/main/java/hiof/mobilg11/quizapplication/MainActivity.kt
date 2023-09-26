@@ -16,6 +16,7 @@ import hiof.mobilg11.quizapplication.ui.pages.HomePage
 import hiof.mobilg11.quizapplication.ui.pages.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
 import hiof.mobilg11.quizapplication.ui.pages.RegisterPage
+import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,10 @@ class MainActivity : ComponentActivity() {
                 ProfilePage(navController, user)
             }
             composable(R.string.home_page_path.toString()) {
-                HomePage(navController, user);
+                HomePage(navController, user)
+            }
+            composable(R.string.single_player_path.toString()) {
+                SinglePlayerPage(navController)
             }
         }
     }
