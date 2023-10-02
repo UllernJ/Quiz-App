@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication
 
 import MultiplayerPage
+import QuizPage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -53,6 +54,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(R.string.multiplayer_path.toString()) {
                 MultiplayerPage(navController)
+            }
+            composable(R.string.quiz_page_path.toString()) {
+                QuizPage()
             }
         }
     }
