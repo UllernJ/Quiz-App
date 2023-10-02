@@ -5,4 +5,5 @@
     <string name="profile_page_path">profile</string>
     <string name="home_page_path">home</string>
     <string name="single_player_path">single-player</string>
+    <string name="multiplayer_path">Multiplayer</string>
 </resources>

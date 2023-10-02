@@ -32,7 +32,7 @@ fun HomePage(navController: NavController, user: User? = null) {
                 onClick = {
                     when(label) {
                         "Singleplayer" -> navController.navigate(R.string.single_player_path.toString())
-                        "Multiplayer" -> Log.i("INFO","Not implemented.");
+                        "Multiplayer" -> navController.navigate(R.string.multiplayer_path.toString())
                         "Leaderboards" -> Log.i("INFO","Not implemented.");
                         "Settings" -> Log.i("INFO","Not implemented.");
                         "Profile" -> navController.navigate(R.string.profile_page_path.toString());
