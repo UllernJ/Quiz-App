@@ -20,10 +20,11 @@ class QuizDao(private val db: FirebaseFirestore) {
                     val description = document.data["description"] as String
                     val categoryRef = document.getDocumentReference("category")
                     val questionRefs = document.get("questions") as? List<DocumentReference>
+                    Log.d(ContentValues.TAG, "$questionRefs")
 
                     if (questionRefs != null && categoryRef != null) {
                         var category: Category? = null
-                        val questions: MutableList<Question<*>> = mutableListOf()
+                        var questions: MutableList<Question<*>> = mutableListOf()
 
                         getCategory(categoryRef) { fetchedCategory ->
                             category = fetchedCategory
@@ -36,7 +37,7 @@ class QuizDao(private val db: FirebaseFirestore) {
                         }
 
                         getQuestions(questionRefs) { question ->
-                            questions.add(question)
+                            questions = question
 
                             if (category != null && questions.isNotEmpty()) {
                                 val quiz = Quiz(questions, title, description, category!!)
@@ -68,21 +69,26 @@ class QuizDao(private val db: FirebaseFirestore) {
     }
 
     private fun getQuestions(questionReferences: List<DocumentReference>,
-                             callback: (Question<*>) -> Unit) {
+                             callback: (MutableList<Question<*>>) -> Unit) {
+        val questions = mutableListOf<Question<*>>()
         for (questionReference in questionReferences) {
             questionReference.get()
                 .addOnSuccessListener { document ->
-                    val question = Question(
-                        question = document.data?.get("question") as String,
-                        choices = document.data?.get("choices") as List<String>,
-                        correctAnswer = document.data?.get("correctAnswer") as String
-                    )
-                    callback(question)
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    if(document.data !== null) {
+                        val question = Question(
+                            question = document.data?.get("question") as String,
+                            choices = document.data?.get("choices") as List<String>,
+                            correctAnswer = document.data?.get("correctAnswer") as String
+                        )
+                        questions.add(question)
+                    }
                 }
                 .addOnFailureListener { exception ->
                     Log.d(ContentValues.TAG, "get failed with ", exception)
                 }
         }
+        callback(questions)
     }
 
 }
