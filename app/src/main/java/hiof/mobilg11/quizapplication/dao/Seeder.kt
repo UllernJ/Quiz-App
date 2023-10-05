@@ -11,6 +11,7 @@ import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class Seeder(private val db: FirebaseFirestore) {
     @OptIn(DelicateCoroutinesApi::class)
@@ -38,42 +39,39 @@ class Seeder(private val db: FirebaseFirestore) {
                     val gson = Gson()
                     val triviaResponse = gson.fromJson(responseData, TriviaResponse::class.java)
 
+                    var categories = db.collection("category").get().await().documents.map { it.getString("name") }
+                    Log.d("Seeder", "Categories: $categories")
                     triviaResponse.results.map { triviaQuestion ->
-                        db.collection("question")
-                            .whereEqualTo("question", removeHTMLTags(triviaQuestion.question))
-                            .get()
-                            .addOnSuccessListener { result ->
-                                if (result.isEmpty) {
-                                    db.collection("question")
-                                        .add(
-                                            mapOf(
-                                                "question" to removeHTMLTags(triviaQuestion.question),
-                                                "choices" to (triviaQuestion.incorrect_answers + triviaQuestion.correct_answer).shuffled(),
-                                                "correctAnswer" to removeHTMLTags(triviaQuestion.correct_answer),
-                                                "category" to removeHTMLTags(triviaQuestion.category)
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-
-
-                    val categories = triviaResponse.results.map { it.category }.distinct()
-                    categories.map {
-                        db.collection("category")
-                            .whereEqualTo("name", removeHTMLTags(it))
-                            .get()
-                            .addOnSuccessListener { result ->
-                                if (result.isEmpty) {
-                                    db.collection("category")
-                                        .add(
-                                            mapOf(
-                                                "name" to removeHTMLTags(it)
-                                            )
-                                        )
-                                    }
-                                }
-                            }
+                        val categoryText = removeHTMLTags(triviaQuestion.category)
+                        if (!categories.contains(categoryText)) {
+                            val sanitizedChoices = triviaQuestion.incorrect_answers.map { removeHTMLTags(it) } +
+                                    listOf(removeHTMLTags(triviaQuestion.correct_answer))
+                            val newCategoryRef = db.collection("category").document()
+                            newCategoryRef.set(mapOf("name" to categoryText))
+                            db.collection("question")
+                                .add(
+                                mapOf(
+                                    "question" to removeHTMLTags(triviaQuestion.question),
+                                    "choices" to sanitizedChoices.shuffled(),
+                                    "correctAnswer" to removeHTMLTags(triviaQuestion.correct_answer),
+                                    "category" to newCategoryRef
+                                )
+                            )
+                            categories = categories.plus(categoryText)
+                            Log.d("Seeder", "Added new category '$categoryText'")
+                        } else {
+                            println("Category '$categoryText' already exists, adding question...")
+                            db.collection("question").add(
+                                mapOf(
+                                    "question" to removeHTMLTags(triviaQuestion.question),
+                                    "choices" to triviaQuestion.incorrect_answers.map { removeHTMLTags(it) } +
+                                            listOf(removeHTMLTags(triviaQuestion.correct_answer)),
+                                    "correctAnswer" to removeHTMLTags(triviaQuestion.correct_answer),
+                                    "category" to db.collection("category").whereEqualTo("name", categoryText).get().await().documents.first().reference
+                                )
+                            )
+                        }
+                    }
 
                     Log.d("Seeder", "Seeding successful!")
 
