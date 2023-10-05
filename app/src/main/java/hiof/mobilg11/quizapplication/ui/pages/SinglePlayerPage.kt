@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -19,34 +21,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import hiof.mobilg11.quizapplication.dao.CategoryDao
 import hiof.mobilg11.quizapplication.model.Category
-
-var categories: List<Category> = listOf(
-    Category("General Knowledge", "General Knowledge"),
-    Category("Books", "Entertainment: Books"),
-    Category("Film", "Entertainment: Film"),
-    Category("Music", "Entertainment: Music"),
-    Category("Musicals & Theatres", "Entertainment: Musicals & Theatres"),
-    Category("Television", "Entertainment: Television"),
-    Category("Video Games", "Entertainment: Video Games"),
-    Category("Board Games", "Entertainment: Board Games"),
-    Category("Science & Nature", "Science & Nature"),
-    Category("Computers", "Science: Computers"),
-    Category("Mathematics", "Science: Mathematics"),
-) //todo fetch from api/db
-
-var selectedCategory: List<Category> = listOf()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SinglePlayerPage(navController: NavController) {
-
+    val categoryDao = CategoryDao(Firebase.firestore)
+    val categories = remember { mutableStateOf(listOf<Category>()) }
     val searchQuery = remember { mutableStateOf("") }
+    val selectedCategory = remember { mutableStateOf<List<Category>>(emptyList()) }
+    val scrollState = rememberScrollState()
 
+    categoryDao.getAll {
+        categories.value = it
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(state = scrollState)
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -56,7 +52,7 @@ fun SinglePlayerPage(navController: NavController) {
             value = searchQuery.value,
             onValueChange = { newValue ->
                 searchQuery.value = newValue
-                selectedCategory = filterCategories(searchQuery.value, categories)
+                selectedCategory.value = filterCategories(searchQuery.value, categories.value)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,23 +61,36 @@ fun SinglePlayerPage(navController: NavController) {
                 Text("Search Categories")
             }
         )
-        if(searchQuery.value.isEmpty()) {
-            selectedCategory = categories
+
+        if (searchQuery.value.isEmpty()) {
+            selectedCategory.value = categories.value
         }
-        selectedCategory.forEach { label ->
-            Button(
-                onClick = {
-                          Log.i("INFO", "${label.name} clicked") //todo go to quiz page with category parameter
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = label.name,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
+
+        if (selectedCategory.value.isEmpty()) {
+            Text(
+                text = "No categories found",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        } else {
+            selectedCategory.value.forEach { label ->
+                Button(
+                    onClick = {
+                        Log.i(
+                            "INFO",
+                            "${label.name} with document reference ${label.documentReference}"
+                        ) //todo go to quiz page with category parameter
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = label.name,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }

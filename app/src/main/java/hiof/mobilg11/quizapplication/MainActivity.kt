@@ -58,7 +58,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 composable(R.string.register_page_path.toString()) {
-                    QuizPage()
+                    SinglePlayerPage(navController)
+//                    QuizPage()
 //                    RegisterPage(navController)
                 }
                 composable(R.string.profile_page_path.toString()) {

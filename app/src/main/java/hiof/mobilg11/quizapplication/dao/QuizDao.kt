@@ -60,8 +60,7 @@ class QuizDao(private val db: FirebaseFirestore) {
         categoryReference.get()
             .addOnSuccessListener { document ->
                 val name = document.data?.get("name") as String
-                val description = document.data?.get("description") as String
-                val category = Category(name, description)
+                val category = Category(name)
                 callback(category)
             }
             .addOnFailureListener { exception ->

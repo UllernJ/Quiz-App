@@ -57,7 +57,7 @@ fun QuizPage() {
         questions = listOf(questionOne, questionTwo, questionThree),
         title = "Capitals of Scandinavia",
         description = "A quiz about the capitals of Scandinavia",
-        category = Category("Geography", "A quiz about geography")
+        category = Category("Geography")
     )
 
         var currentQuestionIndex by remember { mutableIntStateOf(0) }
