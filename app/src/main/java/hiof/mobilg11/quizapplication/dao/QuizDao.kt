@@ -9,6 +9,7 @@ import hiof.mobilg11.quizapplication.model.Question
 import hiof.mobilg11.quizapplication.model.Quiz
 
 class QuizDao(private val db: FirebaseFirestore) {
+    //todo fix this to the new structure.
     fun getAllQuiz(callback: (List<Quiz>) -> Unit) {
         db.collection("quiz")
             .get()
@@ -78,7 +79,7 @@ class QuizDao(private val db: FirebaseFirestore) {
                     if(document.data !== null) {
                         val question = Question(
                             question = document.data?.get("question") as String,
-                            choices = document.data?.get("choices") as List<String>,
+                            choices = document.data?.get("choices") as List<*>,
                             correctAnswer = document.data?.get("correctAnswer") as String
                         )
                         questions.add(question)

@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
     fun NavigationApp() {
         val navController = rememberNavController()
         var user: User? by remember { mutableStateOf(null) }
-
+        //todo bottom bar with navigation.
         Scaffold(
             topBar = {
                 NavBar(navController)

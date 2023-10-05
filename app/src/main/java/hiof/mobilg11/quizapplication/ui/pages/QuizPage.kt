@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hiof.mobilg11.quizapplication.dao.QuizDao
+import hiof.mobilg11.quizapplication.dao.Seeder
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.model.Question
 import hiof.mobilg11.quizapplication.model.Quiz
@@ -26,40 +27,40 @@ import hiof.mobilg11.quizapplication.model.Quiz
 fun QuizPage() {
 
     val quizDao = QuizDao(Firebase.firestore)
+    val seeder = Seeder(Firebase.firestore)
     var quizList by remember { mutableStateOf(listOf<Quiz>()) }
 
-    LaunchedEffect(Unit) {
-        quizDao.getAllQuiz { fetchedQuizList ->
-            quizList = fetchedQuizList
-        }
-    }
+    seeder.seed()
 
-    if (quizList.isNotEmpty()) {
-        val quiz: Quiz = quizList[0]
+//    LaunchedEffect(Unit) {
+//        quizDao.getAllQuiz { fetchedQuizList ->
+//            quizList = fetchedQuizList
+//        }
+//        seeder.seed()
+//    }
 
 
-// todo cleanup
-//    val questionOne = Question(
-//        question = "What is the capital of Norway?",
-//        choices = listOf("Oslo", "Bergen", "Trondheim", "Stavanger"),
-//        correctAnswer = "Oslo"
-//    )
-//    val questionTwo = Question(
-//        question = "What is the capital of Sweden?",
-//        choices = listOf("Oslo", "Bergen", "Stockholm", "Stavanger"),
-//        correctAnswer = "Stockholm"
-//    )
-//    val questionThree = Question(
-//        question = "What is the capital of Denmark?",
-//        choices = listOf("Oslo", "Copenhagen", "Trondheim", "Stavanger"),
-//        correctAnswer = "Copenhagen"
-//    )
-//    val quiz = Quiz(
-//        questions = listOf(questionOne, questionTwo, questionThree),
-//        title = "Capitals of Scandinavia",
-//        description = "A quiz about the capitals of Scandinavia",
-//        category = Category("Geography", "A quiz about geography")
-//    )
+    val questionOne = Question(
+        question = "What is the capital of Norway?",
+        choices = listOf("Oslo", "Bergen", "Trondheim", "Stavanger"),
+        correctAnswer = "Oslo"
+    )
+    val questionTwo = Question(
+        question = "What is the capital of Sweden?",
+        choices = listOf("Oslo", "Bergen", "Stockholm", "Stavanger"),
+        correctAnswer = "Stockholm"
+    )
+    val questionThree = Question(
+        question = "What is the capital of Denmark?",
+        choices = listOf("Oslo", "Copenhagen", "Trondheim", "Stavanger"),
+        correctAnswer = "Copenhagen"
+    )
+    val quiz = Quiz(
+        questions = listOf(questionOne, questionTwo, questionThree),
+        title = "Capitals of Scandinavia",
+        description = "A quiz about the capitals of Scandinavia",
+        category = Category("Geography", "A quiz about geography")
+    )
 
         var currentQuestionIndex by remember { mutableIntStateOf(0) }
         var score by remember { mutableIntStateOf(0) }
@@ -120,16 +121,5 @@ fun QuizPage() {
                 }
             }
         }
-    } else {
-        Text(
-            text = "Loading...",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            textAlign = TextAlign.Center
-            )
-    }
 }
 
