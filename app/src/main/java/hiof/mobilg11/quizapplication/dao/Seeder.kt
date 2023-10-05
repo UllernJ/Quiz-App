@@ -40,10 +40,12 @@ class Seeder(private val db: FirebaseFirestore) {
                     val triviaResponse = gson.fromJson(responseData, TriviaResponse::class.java)
 
                     var categories = db.collection("category").get().await().documents.map { it.getString("name") }
-                    Log.d("Seeder", "Categories: $categories")
+                    var questions = db.collection("question").get().await().documents.map { it.getString("question") }
+
                     triviaResponse.results.map { triviaQuestion ->
                         val categoryText = removeHTMLTags(triviaQuestion.category)
-                        if (!categories.contains(categoryText)) {
+                        val questionText = removeHTMLTags(triviaQuestion.question)
+                        if (!categories.contains(categoryText) && !questions.contains(questionText)) {
                             val sanitizedChoices = triviaQuestion.incorrect_answers.map { removeHTMLTags(it) } +
                                     listOf(removeHTMLTags(triviaQuestion.correct_answer))
                             val newCategoryRef = db.collection("category").document()
@@ -51,25 +53,29 @@ class Seeder(private val db: FirebaseFirestore) {
                             db.collection("question")
                                 .add(
                                 mapOf(
-                                    "question" to removeHTMLTags(triviaQuestion.question),
+                                    "question" to questionText,
                                     "choices" to sanitizedChoices.shuffled(),
                                     "correctAnswer" to removeHTMLTags(triviaQuestion.correct_answer),
                                     "category" to newCategoryRef
                                 )
                             )
                             categories = categories.plus(categoryText)
-                            Log.d("Seeder", "Added new category '$categoryText'")
-                        } else {
-                            println("Category '$categoryText' already exists, adding question...")
+                            questions = questions.plus(questionText)
+                            Log.d("Seeder", "Added new category '$categoryText' and question '${questionText}'")
+                        } else if(!questions.contains(questionText)) {
                             db.collection("question").add(
                                 mapOf(
-                                    "question" to removeHTMLTags(triviaQuestion.question),
+                                    "question" to questionText,
                                     "choices" to triviaQuestion.incorrect_answers.map { removeHTMLTags(it) } +
                                             listOf(removeHTMLTags(triviaQuestion.correct_answer)),
                                     "correctAnswer" to removeHTMLTags(triviaQuestion.correct_answer),
                                     "category" to db.collection("category").whereEqualTo("name", categoryText).get().await().documents.first().reference
                                 )
                             )
+                            questions = questions.plus(triviaQuestion.question)
+                            Log.d("Seeder", "Added new question '${questionText}'")
+                        } else {
+                            println("Question '${questionText}' already exists, skipping...")
                         }
                     }
 
@@ -95,6 +101,7 @@ class Seeder(private val db: FirebaseFirestore) {
             .replace("&uuml;", "ü")
             .replace("&eacute;", "é")
             .replace("&aacute;", "á")
+            .replace("&#039;", "'")
     }
 }
 

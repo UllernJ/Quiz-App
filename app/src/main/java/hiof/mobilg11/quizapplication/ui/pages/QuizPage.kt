@@ -29,9 +29,7 @@ fun QuizPage() {
     val quizDao = QuizDao(Firebase.firestore)
     val seeder = Seeder(Firebase.firestore)
     var quizList by remember { mutableStateOf(listOf<Quiz>()) }
-
-    seeder.seed()
-
+    //todo fix this to the new structure.
 //    LaunchedEffect(Unit) {
 //        quizDao.getAllQuiz { fetchedQuizList ->
 //            quizList = fetchedQuizList
