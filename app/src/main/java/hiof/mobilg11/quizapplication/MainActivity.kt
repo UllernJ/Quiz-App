@@ -2,7 +2,7 @@ package hiof.mobilg11.quizapplication
 
 import MultiplayerPage
 import NavBar
-import QuizPage
+import hiof.mobilg11.quizapplication.ui.pages.QuizPage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,9 +24,9 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.pages.HomePage
-import hiof.mobilg11.quizapplication.ui.pages.LoginPage
+import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
-import hiof.mobilg11.quizapplication.ui.pages.RegisterPage
+import hiof.mobilg11.quizapplication.ui.pages.auth.RegisterPage
 import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 import hiof.mobilg11.quizapplication.ui.pages.ui.theme.QuizApplicationTheme
 
