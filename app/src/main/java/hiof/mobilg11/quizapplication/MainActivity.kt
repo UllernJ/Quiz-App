@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +28,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.ui.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.pages.HomePage
 import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
@@ -35,8 +37,6 @@ import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 import hiof.mobilg11.quizapplication.ui.pages.ui.theme.QuizApplicationTheme
 
 class MainActivity : ComponentActivity() {
-    private var userUid: String? = null //todo instantiate with userDao that fetches user based on user uid
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -56,11 +56,19 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationApp() {
         val navController = rememberNavController()
-        var user: User? by remember { mutableStateOf(null) }
+        val user: User? by remember { mutableStateOf(null) }
         var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
+        var userUid: String? by remember { mutableStateOf(null) }
+
         Scaffold(
             topBar = {
                 NavBar(navController)
+            },
+
+            bottomBar = {
+                if (!userUid.isNullOrBlank()) {
+                    BottomNavBar(navController)
+                }
             }
         ) { innerPadding ->
             NavHost(
@@ -70,12 +78,12 @@ class MainActivity : ComponentActivity() {
             ) {
                 composable(R.string.login_page_path.toString()) {
                     LoginPage(navController) {
-                        doLogin(navController)
+                        userUid = doLogin(navController)
                     }
                 }
                 composable(R.string.register_page_path.toString()) {
                     RegisterPage() {
-                        doLogin(navController)
+                        userUid = doLogin(navController)
                     }
                 }
                 composable(R.string.profile_page_path.toString()) {
@@ -99,9 +107,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    private fun doLogin(navController: NavController) {
-        this.userUid = FirebaseAuth.getInstance().currentUser?.uid
-        Log.d("MainActivity", "User logged in with uid: $userUid")
+    private fun doLogin(navController: NavController): String {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        Log.d("MainActivity", "User logged in with uid: $uid")
         navController.navigate(R.string.home_page_path.toString())
+        return uid ?: ""
     }
 }
