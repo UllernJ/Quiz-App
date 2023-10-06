@@ -1,6 +1,5 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import hiof.mobilg11.quizapplication.dao.CategoryDao
@@ -28,7 +27,7 @@ import hiof.mobilg11.quizapplication.model.Category
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SinglePlayerPage(navController: NavController) {
+fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
     val categoryDao = CategoryDao(Firebase.firestore)
     val categories = remember { mutableStateOf(listOf<Category>()) }
     val searchQuery = remember { mutableStateOf("") }
@@ -76,10 +75,7 @@ fun SinglePlayerPage(navController: NavController) {
             selectedCategory.value.forEach { label ->
                 Button(
                     onClick = {
-                        Log.i(
-                            "INFO",
-                            "${label.name} with document reference ${label.documentReference}"
-                        ) //todo go to quiz page with category parameter
+                        label.documentReference?.let { callback(it) }
                     },
                     modifier = Modifier
                         .fillMaxWidth()

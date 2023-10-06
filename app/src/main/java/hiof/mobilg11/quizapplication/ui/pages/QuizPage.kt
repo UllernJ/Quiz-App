@@ -1,5 +1,3 @@
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -12,53 +10,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import hiof.mobilg11.quizapplication.dao.QuizDao
-import hiof.mobilg11.quizapplication.dao.Seeder
-import hiof.mobilg11.quizapplication.model.Category
+import hiof.mobilg11.quizapplication.dao.QuestionDao
 import hiof.mobilg11.quizapplication.model.Question
-import hiof.mobilg11.quizapplication.model.Quiz
 
 @Composable
-fun QuizPage() {
+fun QuizPage(categoryReference: DocumentReference?) {
+    val questionDao = QuestionDao(Firebase.firestore)
+    var questions by remember { mutableStateOf(listOf<Question<*>>()) }
 
-    val quizDao = QuizDao(Firebase.firestore)
-    val seeder = Seeder(Firebase.firestore)
-    var quizList by remember { mutableStateOf(listOf<Quiz>()) }
-    //todo fix this to the new structure.
-//    LaunchedEffect(Unit) {
-//        quizDao.getAllQuiz { fetchedQuizList ->
-//            quizList = fetchedQuizList
-//        }
-//        seeder.seed()
-//    }
-
-
-    val questionOne = Question(
-        question = "What is the capital of Norway?",
-        choices = listOf("Oslo", "Bergen", "Trondheim", "Stavanger"),
-        correctAnswer = "Oslo"
-    )
-    val questionTwo = Question(
-        question = "What is the capital of Sweden?",
-        choices = listOf("Oslo", "Bergen", "Stockholm", "Stavanger"),
-        correctAnswer = "Stockholm"
-    )
-    val questionThree = Question(
-        question = "What is the capital of Denmark?",
-        choices = listOf("Oslo", "Copenhagen", "Trondheim", "Stavanger"),
-        correctAnswer = "Copenhagen"
-    )
-    val quiz = Quiz(
-        questions = listOf(questionOne, questionTwo, questionThree),
-        title = "Capitals of Scandinavia",
-        description = "A quiz about the capitals of Scandinavia",
-        category = Category("Geography")
-    )
+    LaunchedEffect(categoryReference) {
+        if (categoryReference != null) {
+            questionDao.getQuizByCategoryReference(categoryReference) {
+                questions = it.shuffled().subList(0, 3)
+            }
+        }
+    }
 
         var currentQuestionIndex by remember { mutableIntStateOf(0) }
         var score by remember { mutableIntStateOf(0) }
@@ -70,9 +41,9 @@ fun QuizPage() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (currentQuestionIndex >= quiz.questions.size) {
+            if (currentQuestionIndex >= questions.size && questions.isNotEmpty()) {
                 Text(
-                    text = "You got $score out of ${quiz.questions.size} correct",
+                    text = "You got $score out of ${questions.size} correct",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -91,8 +62,15 @@ fun QuizPage() {
                         fontWeight = FontWeight.Bold
                     )
                 }
-            } else {
-                val currentQuestion = quiz.questions[currentQuestionIndex]
+            } else if(questions.isEmpty()) {
+                Text(
+                    text = "Loading...",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            else {
+                val currentQuestion = questions[currentQuestionIndex]
 
                 Text(text = currentQuestion.question, fontSize = 24.sp)
                 Spacer(modifier = Modifier.height(16.dp))

@@ -9,8 +9,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.pages.HomePage
 import hiof.mobilg11.quizapplication.ui.pages.LoginPage
@@ -40,6 +39,7 @@ class MainActivity : ComponentActivity() {
     fun NavigationApp() {
         val navController = rememberNavController()
         var user: User? by remember { mutableStateOf(null) }
+        var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
         //todo bottom bar with navigation.
         Scaffold(
             topBar = {
@@ -58,9 +58,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 composable(R.string.register_page_path.toString()) {
-                    SinglePlayerPage(navController)
-//                    QuizPage()
-//                    RegisterPage(navController)
+                    RegisterPage(navController)
                 }
                 composable(R.string.profile_page_path.toString()) {
                     ProfilePage(navController, user)
@@ -69,13 +67,16 @@ class MainActivity : ComponentActivity() {
                     HomePage(navController, user)
                 }
                 composable(R.string.single_player_path.toString()) {
-                    SinglePlayerPage(navController)
+                    SinglePlayerPage {
+                        selectedReference = it
+                        navController.navigate(R.string.quiz_page_path.toString())
+                    }
                 }
                 composable(R.string.multiplayer_path.toString()) {
                     MultiplayerPage(navController)
                 }
                 composable(R.string.quiz_page_path.toString()) {
-                    QuizPage()
+                    QuizPage(selectedReference)
                 }
             }
         }
