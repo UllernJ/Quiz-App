@@ -3,11 +3,19 @@ package hiof.mobilg11.quizapplication.ui.pages
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,12 +23,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusOrder
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -29,138 +45,130 @@ import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
     var password by remember {
-        mutableStateOf("")
+        mutableStateOf(InputType.Password)
     }
     var email by remember {
-        mutableStateOf("")
+        mutableStateOf(InputType.Email)
     }
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
-    // TODO : Fetch real user
+
     var user: User = User("", "user", 50.0)
 
     Column(
         modifier = Modifier
+            .navigationBarsPadding()
             .fillMaxSize()
-            .padding(26.dp),
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, alignment = Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = "Login Page",
-            fontSize = 20.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
         Image(
             painter = painterResource(quizIcon),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-            )
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(26.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center) {
-
-        Text(
-            text = "Email",
-            fontSize = 20.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
+                .size(120.dp)
+                .padding(bottom = 24.dp)
         )
-        TextField(
-            value = email,
-            onValueChange = { email = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Email,
-            ),
-            placeholder = {
-                Text(text = "Email")
-            }
-        )
-
-        Text(
-            text = "Password",
-            fontSize = 20.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Password,
-            ),
-            placeholder = {
-                Text(text = "Password")
-            },
-            visualTransformation = PasswordVisualTransformation(),
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Button(onClick = {
-                if(email.isNotEmpty() && password.isNotEmpty()) {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                                onLogin(user)
-                            } else {
-                                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
-                            }
+        TextInput(email)
+        TextInput(password)
+        Button(
+            onClick = {
+                auth.signInWithEmailAndPassword(email.value, password.value)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            onLogin(user)
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
-                },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(45.dp)
-            ) {
-                Text(
-                    text = "Login",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Button(onClick = {
-                navController.navigate(R.string.register_page_path.toString())
             },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(45.dp)
-            ) {
-                Text(
-                    text = "To register",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Text(
+                text = "Sign in",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
-    }
+        Divider(
+            color = Color.Black.copy(alpha = 0.3f),
+            thickness = 1.dp,
+            modifier = Modifier.padding(top = 48.dp)
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Don't have an account?")
+            TextButton(
+                onClick = {
+                    navController.navigate(R.string.register_page_path.toString())
+                },
+            ) {
+                Text("SIGN UP")
+            }
 
+        }
+
+
+    }
+}
+
+sealed class InputType(
+    var value: String = "",
+    val label: String,
+    val icon: ImageVector,
+    val keyboardOptions: KeyboardOptions,
+    val visualTransformation: VisualTransformation,
+) {
+    object Email : InputType(
+        label = "Email",
+        icon = Icons.Default.Person,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None,
+    )
+
+    object Password : InputType(
+        label = "Password",
+        icon = Icons.Default.Lock,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Password
+        ),
+        visualTransformation = PasswordVisualTransformation()
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TextInput(
+    inputType: InputType) {
+    var value by remember { mutableStateOf("") }
+
+    TextField(
+        value = value,
+        onValueChange = { value = it; inputType.value = it },
+        modifier = Modifier
+            .fillMaxWidth(),
+        leadingIcon = { Icon(imageVector = inputType.icon, null) },
+        label = { Text(text = inputType.label) },
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+        ),
+        singleLine = true,
+        keyboardOptions = inputType.keyboardOptions,
+        visualTransformation = inputType.visualTransformation,
+    )
 }
 
 

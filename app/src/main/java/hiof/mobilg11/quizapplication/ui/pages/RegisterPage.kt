@@ -58,7 +58,6 @@ fun RegisterPage(navController: NavController) {
         Text(
             text = "Register Page",
             fontSize = 20.sp,
-            color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -81,7 +80,6 @@ fun RegisterPage(navController: NavController) {
         Text(
             text = "Email",
             fontSize = 20.sp,
-            color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -102,7 +100,6 @@ fun RegisterPage(navController: NavController) {
         Text(
             text = "Password",
             fontSize = 20.sp,
-            color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -125,21 +122,6 @@ fun RegisterPage(navController: NavController) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = {
-                navController.navigate(R.string.login_page_path.toString())
-            },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(45.dp)
-            ) {
-                Text(
-                    text = "Back",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
 
             Button(onClick = {
              auth.createUserWithEmailAndPassword(email, password)
