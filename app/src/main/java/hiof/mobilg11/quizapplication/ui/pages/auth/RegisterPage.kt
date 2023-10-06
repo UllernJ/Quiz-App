@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,13 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
-import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.ui.theme.registerIcon
 
 @Composable
-fun RegisterPage(navController: NavController) {
+fun RegisterPage(onLogin: () -> Unit) {
     var email by remember {
         mutableStateOf(InputType.Email)
     }
@@ -67,11 +64,8 @@ fun RegisterPage(navController: NavController) {
                     auth.createUserWithEmailAndPassword(email.value, password.value)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                navController.navigate(R.string.login_page_path.toString()) {
-                                    popUpTo(R.string.login_page_path.toString()) {
-                                        inclusive = true
-                                    }
-                                }
+                                Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
+                                onLogin()
                             } else {
                                 Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
                             }

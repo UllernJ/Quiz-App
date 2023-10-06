@@ -4,6 +4,7 @@ import MultiplayerPage
 import NavBar
 import hiof.mobilg11.quizapplication.ui.pages.QuizPage
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,9 +19,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.pages.HomePage
@@ -31,8 +35,11 @@ import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 import hiof.mobilg11.quizapplication.ui.pages.ui.theme.QuizApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    private var userUid: String? = null //todo instantiate with userDao that fetches user based on user uid
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             QuizApplicationTheme(darkTheme = true) {
                 Surface(
@@ -51,7 +58,6 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
         var user: User? by remember { mutableStateOf(null) }
         var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
-        //todo bottom bar with navigation.
         Scaffold(
             topBar = {
                 NavBar(navController)
@@ -63,13 +69,14 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.padding(innerPadding)
             ) {
                 composable(R.string.login_page_path.toString()) {
-                    LoginPage(navController) { loggedInUser ->
-                        user = loggedInUser
-                        navController.navigate(R.string.home_page_path.toString())
+                    LoginPage(navController) {
+                        doLogin(navController)
                     }
                 }
                 composable(R.string.register_page_path.toString()) {
-                    RegisterPage(navController)
+                    RegisterPage() {
+                        doLogin(navController)
+                    }
                 }
                 composable(R.string.profile_page_path.toString()) {
                     ProfilePage(navController, user)
@@ -91,5 +98,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    private fun doLogin(navController: NavController) {
+        this.userUid = FirebaseAuth.getInstance().currentUser?.uid
+        Log.d("MainActivity", "User logged in with uid: $userUid")
+        navController.navigate(R.string.home_page_path.toString())
     }
 }

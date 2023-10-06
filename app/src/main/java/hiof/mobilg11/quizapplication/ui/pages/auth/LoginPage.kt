@@ -27,7 +27,7 @@ import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 
 @Composable
-fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
+fun LoginPage(navController: NavController, onLogin: () -> Unit) {
     var password by remember {
         mutableStateOf(InputType.Password)
     }
@@ -36,8 +36,6 @@ fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
     }
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
-
-    var user: User = User("", "user", 50.0)
 
     Column(
         modifier = Modifier
@@ -58,18 +56,26 @@ fun LoginPage(navController: NavController, onLogin: (User) -> Unit) {
         TextInput(password)
         Button(
             onClick = {
-                auth.signInWithEmailAndPassword(email.value, password.value)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            onLogin(user)
-                        } else {
-                            Toast.makeText(
-                                context,
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                if(email.value.isEmpty() || password.value.isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        "Please fill in all fields.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    auth.signInWithEmailAndPassword(email.value, password.value)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                onLogin()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Authentication failed.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
