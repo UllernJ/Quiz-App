@@ -27,7 +27,7 @@ fun QuizPage(categoryReference: DocumentReference?) {
 
     LaunchedEffect(categoryReference) {
         if (categoryReference != null) {
-            questionDao.getQuizByCategoryReference(categoryReference) {
+            questionDao.getQuestionsByCategoryReference(categoryReference) {
                 questions = it.shuffled().subList(0, 3)
             }
         }

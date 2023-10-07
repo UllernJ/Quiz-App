@@ -1,23 +1,28 @@
-package hiof.mobilg11.quizapplication.ui.pages
+package hiof.mobilg11.quizapplication.ui.pages.home
 
+import Alert
 import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.dao.UserDao
 import hiof.mobilg11.quizapplication.model.User
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(navController: NavController, user: User? = null) {
+    val userDao = UserDao()
+    val isUsernameSet = remember { mutableStateOf(true) }
+    userDao.isUsernameSet {
+        isUsernameSet.value = it
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -26,6 +31,12 @@ fun HomePage(navController: NavController, user: User? = null) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val buttonLabels = listOf("Singleplayer", "Multiplayer", "Leaderboards", "Settings", "Profile")
+
+        if(!isUsernameSet.value) {
+            Alert() {
+                isUsernameSet.value = it
+            }
+        }
 
         buttonLabels.forEach { label ->
             Button(

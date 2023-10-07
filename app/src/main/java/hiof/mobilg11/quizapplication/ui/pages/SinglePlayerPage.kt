@@ -34,8 +34,10 @@ fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
     val selectedCategory = remember { mutableStateOf<List<Category>>(emptyList()) }
     val scrollState = rememberScrollState()
 
-    categoryDao.getAll {
-        categories.value = it
+    if(categories.value.isEmpty()) {
+        categoryDao.getAll {
+            categories.value = it
+        }
     }
 
     Column(

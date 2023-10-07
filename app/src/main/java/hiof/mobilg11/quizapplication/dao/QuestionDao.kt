@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.Question
 
 class QuestionDao(private val db: FirebaseFirestore) {
-    fun getQuizByCategoryReference(documentReference: DocumentReference, callback: (List<Question<*>>) -> Unit) {
+    fun getQuestionsByCategoryReference(documentReference: DocumentReference, callback: (List<Question<*>>) -> Unit) {
         val questionList = mutableListOf<Question<*>>()
         db.collection("question")
             .whereEqualTo("category", documentReference)

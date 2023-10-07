@@ -14,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,9 +26,10 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import hiof.mobilg11.quizapplication.dao.UserDao
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.BottomNavBar
-import hiof.mobilg11.quizapplication.ui.pages.HomePage
+import hiof.mobilg11.quizapplication.ui.pages.home.HomePage
 import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
 import hiof.mobilg11.quizapplication.ui.pages.auth.RegisterPage
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                 }
                 composable(R.string.register_page_path.toString()) {
                     RegisterPage() {
-                        userUid = doLogin(navController)
+                        userUid = doRegister(navController)
                     }
                 }
                 composable(R.string.profile_page_path.toString()) {
@@ -112,5 +112,9 @@ class MainActivity : ComponentActivity() {
         Log.d("MainActivity", "User logged in with uid: $uid")
         navController.navigate(R.string.home_page_path.toString())
         return uid ?: ""
+    }
+    private fun doRegister(navController: NavController): String {
+        UserDao().createUser()
+        return doLogin(navController)
     }
 }

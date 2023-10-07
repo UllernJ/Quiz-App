@@ -24,7 +24,7 @@ class CategoryDao(private val db: FirebaseFirestore) {
             .addOnFailureListener { exception ->
                 Log.w(ContentValues.TAG, "Error getting documents.", exception)
             }
-        Log.d(ContentValues.TAG, "$categoryList")
+        Log.d(ContentValues.TAG, "Fetched categories: $categoryList")
     }
 
     fun getCategoryByDocRef(docRef: DocumentReference, callback: (Category?) -> Unit) {
