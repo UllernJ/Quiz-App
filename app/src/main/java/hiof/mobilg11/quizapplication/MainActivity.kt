@@ -34,6 +34,7 @@ import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
 import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 import hiof.mobilg11.quizapplication.ui.pages.auth.RegisterPage
+import hiof.mobilg11.quizapplication.ui.pages.multiplayer.SessionPage
 import hiof.mobilg11.quizapplication.ui.pages.ui.theme.QuizApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -103,6 +104,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable(R.string.quiz_page_path.toString()) {
                     QuizPage(selectedReference)
+                }
+                composable(R.string.session_page_path.toString()) {
+                    SessionPage()
                 }
             }
         }

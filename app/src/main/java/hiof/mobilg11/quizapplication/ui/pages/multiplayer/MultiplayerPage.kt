@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 
 @Composable
 fun MultiplayerPage(navController: NavController) {
@@ -23,7 +24,9 @@ fun MultiplayerPage(navController: NavController) {
     ) {
         buttonsLabels.forEach { label ->
             Button(
-                onClick = { /* TODO */ },
+                onClick = {
+                          navController.navigate(R.string.session_page_path.toString())
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
