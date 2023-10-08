@@ -5,8 +5,8 @@ import java.time.LocalDate
 data class User(
     val uuid: String,
     val username: String,
-    val winPercentage: Double,
-    val dateCreated: LocalDate? = LocalDate.now(),
-    val friendList: List<Friend>
+    val winPercentage: Double? = 0.0,
+    val dateCreated: LocalDate? = null,
+    val friendList: List<Friend>? = listOf()
 ) {
 }

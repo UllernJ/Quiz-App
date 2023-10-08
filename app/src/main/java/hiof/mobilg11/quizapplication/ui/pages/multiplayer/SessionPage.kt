@@ -7,12 +7,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable;
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import hiof.mobilg11.quizapplication.dao.GameSessionDao
 import hiof.mobilg11.quizapplication.model.GameSession
 import hiof.mobilg11.quizapplication.model.UserSession
 import hiof.mobilg11.quizapplication.model.UserState
@@ -25,13 +31,10 @@ fun SessionPage() {
     //todo when all players are ready, the game can be started
 
     val game = GameSession(
-        gameId = 1, // Must be unique
         players = listOf(
             UserSession(
                 User(
                     username = "User 1",
-                    winPercentage = 0.0,
-                    friendList = listOf(),
                     uuid = "1"
                 ),
                 UserState.READY
@@ -39,21 +42,23 @@ fun SessionPage() {
             UserSession(
                 User(
                     username = "User 2",
-                    winPercentage = 0.0,
-                    friendList = listOf(),
                     uuid = "2"
                 )
             ),
         ),
         host = User(
             username = "User 1",
-            winPercentage = 0.0,
-            friendList = listOf(),
             uuid = "1"
         ),
         categoriesPlayed = listOf(),
         questions = listOf()
     )
+    var gameId by remember { mutableStateOf("Creating a game...") }
+    LaunchedEffect(game) {
+        GameSessionDao().createGameSession(game) {
+            gameId = it.toString()
+        }
+    }
 
 
     Column(
@@ -79,7 +84,7 @@ fun SessionPage() {
             )
         )
         Text(
-            text = game.gameId.toString(),
+            text = gameId,
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
