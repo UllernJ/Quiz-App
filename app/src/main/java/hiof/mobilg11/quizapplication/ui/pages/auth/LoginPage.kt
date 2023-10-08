@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
-import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 
 @Composable

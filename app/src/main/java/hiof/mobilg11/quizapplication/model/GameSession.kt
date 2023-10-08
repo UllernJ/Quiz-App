@@ -1,5 +1,6 @@
 package hiof.mobilg11.quizapplication.model
 
+import hiof.mobilg11.quizapplication.model.user.User
 import java.time.LocalDate
 
 data class GameSession(

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.dao.UserDao
-import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.model.user.User
 
 @Composable
 fun HomePage(navController: NavController, user: User? = null) {

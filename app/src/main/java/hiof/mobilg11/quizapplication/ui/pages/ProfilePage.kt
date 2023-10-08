@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
-import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.model.user.User
 
 @Composable
 fun ProfilePage(navController: NavController, user: User? = null) {
