@@ -7,17 +7,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.Question
 
 class QuestionDao(private val db: FirebaseFirestore) {
-    fun getQuestionsByCategoryReference(documentReference: DocumentReference, callback: (List<Question<*>>) -> Unit) {
-        val questionList = mutableListOf<Question<*>>()
+    fun getQuestionsByCategoryReference(documentReference: DocumentReference, callback: (List<Question>) -> Unit) {
+        val questionList = mutableListOf<Question>()
         db.collection("question")
             .whereEqualTo("category", documentReference)
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    val questionText = document.data["question"] as String
-                    val correctAnswer = document.data["correctAnswer"] as String
-                    val choices = document.data["choices"] as List<*>
-                    val question = Question(questionText, choices, correctAnswer)
+                    val question = document.toObject(Question::class.java)
                     questionList.add(question)
                 }
                 callback(questionList)
@@ -28,3 +25,4 @@ class QuestionDao(private val db: FirebaseFirestore) {
 
     }
 }
+

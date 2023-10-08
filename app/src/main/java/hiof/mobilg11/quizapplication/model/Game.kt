@@ -5,7 +5,7 @@ import hiof.mobilg11.quizapplication.model.user.User
 data class Game(
     val players: MutableList<UserSession> = mutableListOf(),
     val categoriesPlayed: MutableList<Category> = mutableListOf(),
-    val questions: MutableList<Question<*>> = mutableListOf(),
+    val questions: MutableList<Question> = mutableListOf(),
     val currentRound: Int = 0,
     val rounds: Int = 3,
     var status: GameSessionStatus = GameSessionStatus.PENDING,

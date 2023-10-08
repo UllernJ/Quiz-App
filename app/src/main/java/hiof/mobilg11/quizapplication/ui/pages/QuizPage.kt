@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun QuizPage(categoryReference: DocumentReference?) {
     val questionDao = QuestionDao(Firebase.firestore)
-    var questions by remember { mutableStateOf(listOf<Question<*>>()) }
+    var questions by remember { mutableStateOf(listOf<Question>()) }
 
     if (categoryReference != null && questions.isEmpty()) {
         questionDao.getQuestionsByCategoryReference(categoryReference) {
@@ -118,7 +118,7 @@ fun QuizPage(categoryReference: DocumentReference?) {
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = choice.toString(),
+                        text = choice,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
