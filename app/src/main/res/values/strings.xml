@@ -8,4 +8,5 @@
     <string name="multiplayer_path">multiplayer</string>
     <string name="quiz_page_path">quiz</string>
     <string name="session_page_path">session</string>
+    <string name="join_page_path">join</string>
 </resources>

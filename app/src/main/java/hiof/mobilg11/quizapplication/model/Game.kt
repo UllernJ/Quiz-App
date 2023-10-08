@@ -2,11 +2,10 @@ package hiof.mobilg11.quizapplication.model
 
 import hiof.mobilg11.quizapplication.model.user.User
 
-data class GameSession(
-    var gameId: Int? = null,
-    val players: List<UserSession>,
-    val categoriesPlayed: List<Category>,
-    val questions: List<Question<*>>,
+data class Game(
+    val players: MutableList<UserSession> = mutableListOf(),
+    val categoriesPlayed: MutableList<Category> = mutableListOf(),
+    val questions: MutableList<Question<*>> = mutableListOf(),
     val currentRound: Int = 0,
     val rounds: Int = 3,
     var status: GameSessionStatus = GameSessionStatus.PENDING,
@@ -19,6 +18,12 @@ data class GameSession(
     fun endGame() {
         status = GameSessionStatus.FINISHED
     }
+    fun addPlayer(user: User) {
+        val player = UserSession(
+            user = user
+        )
+        players.add(player)
+    }
 
 }
 
@@ -29,7 +34,7 @@ enum class GameSessionStatus {
 }
 
 data class UserSession(
-    val user: User,
+    val user: User? = null,
     val state: UserState = UserState.NOT_READY
 )
 

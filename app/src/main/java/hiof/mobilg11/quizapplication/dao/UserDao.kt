@@ -3,6 +3,7 @@ package hiof.mobilg11.quizapplication.dao
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import hiof.mobilg11.quizapplication.model.user.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -79,6 +80,25 @@ class UserDao {
                         if (username == null || username == "") {
                             callback(false)
                         }
+                    }
+                }
+        }
+    }
+
+    fun getUser(callback: (User) -> Unit) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            db.collection(COLLECTION)
+                .document(uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val username = document.data?.get("username")
+                        val user = User(
+                            uuid = uid,
+                            username = username.toString()
+                        )
+                        callback(user)
                     }
                 }
         }

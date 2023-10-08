@@ -19,19 +19,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import hiof.mobilg11.quizapplication.dao.GameSessionDao
-import hiof.mobilg11.quizapplication.model.GameSession
+import hiof.mobilg11.quizapplication.model.Game
 import hiof.mobilg11.quizapplication.model.UserSession
 import hiof.mobilg11.quizapplication.model.UserState
 import hiof.mobilg11.quizapplication.model.user.User
 
 @Composable
 fun SessionPage() {
-    //todo create a game session and save it to the database
-    //todo every 5 seconds, check if new players have joined
-    //todo when all players are ready, the game can be started
 
-    val game = GameSession(
-        players = listOf(
+    var game = Game(
+        players = mutableListOf(
             UserSession(
                 User(
                     username = "User 1",
@@ -50,15 +47,23 @@ fun SessionPage() {
             username = "User 1",
             uuid = "1"
         ),
-        categoriesPlayed = listOf(),
-        questions = listOf()
+        categoriesPlayed = mutableListOf(),
+        questions = mutableListOf()
     )
+
+    //todo create a game session and save it to the database
     var gameId by remember { mutableStateOf("Creating a game...") }
-    LaunchedEffect(game) {
+    LaunchedEffect(Unit) {
         GameSessionDao().createGameSession(game) {
             gameId = it.toString()
         }
     }
+    //todo every 5 seconds, check if new players have joined
+//    timerTask {
+//        GameSessionDao().getGameSession(gameId) {
+//            game = it
+//        }
+//    }
 
 
     Column(
@@ -102,7 +107,7 @@ fun SessionPage() {
 
         for (player in game.players) {
             Text(
-                text = "${player.user.username} - ${transformState(player.state)}",
+                text = "${player.user?.username} - ${transformState(player.state)}",
                 style = TextStyle(
                     fontSize = 16.sp
                 )
@@ -118,6 +123,7 @@ fun SessionPage() {
                 modifier = Modifier.padding(top = 16.dp)
             )
             Button(onClick = { /*TODO start game*/ }, modifier = Modifier.padding(top = 16.dp)) {
+                //todo when all players are ready, the game can be started
                 Text(text = "Start Game")
             }
         } else {

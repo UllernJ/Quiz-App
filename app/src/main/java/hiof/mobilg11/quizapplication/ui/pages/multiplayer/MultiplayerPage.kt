@@ -13,7 +13,8 @@ import hiof.mobilg11.quizapplication.R
 
 @Composable
 fun MultiplayerPage(navController: NavController) {
-    val buttonsLabels = listOf("Create session", "Active sessions", "Browse online", "Join session")
+    val buttonsLabels = listOf(
+        "Create session", "Join session", "Active sessions", "Browse online")
 
     Column(
         modifier = Modifier
@@ -25,7 +26,10 @@ fun MultiplayerPage(navController: NavController) {
         buttonsLabels.forEach { label ->
             Button(
                 onClick = {
-                          navController.navigate(R.string.session_page_path.toString())
+                    when (label) {
+                        "Create session" -> navController.navigate(R.string.session_page_path.toString())
+                        "Join session" -> navController.navigate(R.string.join_page_path.toString())
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
