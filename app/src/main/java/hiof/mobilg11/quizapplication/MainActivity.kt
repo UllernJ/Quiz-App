@@ -58,9 +58,8 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationApp() {
         val navController = rememberNavController()
-        val user: User? by remember { mutableStateOf(null) }
+        var user: User? by remember { mutableStateOf(null) }
         var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
-        var userUid: String? by remember { mutableStateOf(null) }
 
         Scaffold(
             topBar = {
@@ -68,7 +67,7 @@ class MainActivity : ComponentActivity() {
             },
 
             bottomBar = {
-                if (!userUid.isNullOrBlank()) {
+                if (!user?.username.isNullOrBlank()) {
                     BottomNavBar(navController)
                 }
             }
@@ -80,12 +79,18 @@ class MainActivity : ComponentActivity() {
             ) {
                 composable(R.string.login_page_path.toString()) {
                     LoginPage(navController) {
-                        userUid = doLogin(navController)
+                        doLogin(navController)
+                        UserDao().getUser {
+                            user = it
+                        }
                     }
                 }
                 composable(R.string.register_page_path.toString()) {
                     RegisterPage() {
-                        userUid = doRegister(navController)
+                        doRegister(navController)
+                        UserDao().getUser {
+                            user = it
+                        }
                     }
                 }
                 composable(R.string.profile_page_path.toString()) {
@@ -115,13 +120,14 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    private fun doLogin(navController: NavController): String {
+
+    private fun doLogin(navController: NavController) {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         Log.d("MainActivity", "User logged in with uid: $uid")
         navController.navigate(R.string.home_page_path.toString())
-        return uid ?: ""
     }
-    private fun doRegister(navController: NavController): String {
+
+    private fun doRegister(navController: NavController) {
         UserDao().createUser()
         return doLogin(navController)
     }

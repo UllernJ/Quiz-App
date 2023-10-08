@@ -1,5 +1,6 @@
 package hiof.mobilg11.quizapplication.dao
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -86,19 +87,19 @@ class UserDao {
     }
 
     fun getUser(callback: (User) -> Unit) {
+        Log.d("UserDao", "Trying to fetch user...")
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         if (uid != null) {
             db.collection(COLLECTION)
                 .document(uid)
                 .get()
                 .addOnSuccessListener { document ->
+                    Log.d("UserDao", "User fetched successfully")
                     if (document != null) {
-                        val username = document.data?.get("username")
-                        val user = User(
-                            uuid = uid,
-                            username = username.toString()
-                        )
-                        callback(user)
+                        val user = document.toObject(User::class.java)
+                        if (user != null) {
+                            callback(user)
+                        }
                     }
                 }
         }

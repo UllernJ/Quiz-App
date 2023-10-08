@@ -3,13 +3,16 @@ package hiof.mobilg11.quizapplication.ui.pages
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.user.User
 
@@ -22,7 +25,7 @@ fun ProfilePage(navController: NavController, user: User? = null) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Profile Page",
+            text = "Profile",
             style = MaterialTheme.typography.headlineLarge
         )
     }
@@ -39,25 +42,18 @@ fun ProfilePage(navController: NavController, user: User? = null) {
         )
         Text(
             text = if (user != null) "Win percentage: ${user.winPercentage}" else "Win percentage: 0",
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 8.dp)
         )
         Button(
             onClick = {
+                FirebaseAuth.getInstance().signOut()
                 navController.navigate(R.string.login_page_path.toString())
             },
+            modifier = Modifier.padding(top = 8.dp)
         ) {
             Text(
                 text = "Logout",
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-        Button(
-            onClick = {
-                navController.navigate(R.string.home_page_path.toString())
-            },
-        ) {
-            Text(
-                text = "Home",
                 style = MaterialTheme.typography.bodyLarge
             )
         }
