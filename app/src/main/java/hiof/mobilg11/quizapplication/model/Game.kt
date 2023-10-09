@@ -18,12 +18,6 @@ data class Game(
     fun endGame() {
         status = GameSessionStatus.FINISHED
     }
-    fun addPlayer(user: User) {
-        val player = UserSession(
-            user = user
-        )
-        players.add(player)
-    }
 
 }
 
