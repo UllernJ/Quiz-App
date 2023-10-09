@@ -21,7 +21,7 @@ import hiof.mobilg11.quizapplication.dao.GameSessionDao
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JoinPage(navController: NavController) {
+fun JoinPage(callback: (gameId: String) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -42,7 +42,13 @@ fun JoinPage(navController: NavController) {
             singleLine = true,
         )
         Button(
-            onClick = { GameSessionDao().joinSession(value) },
+            onClick = {
+                GameSessionDao().joinSession(value) {
+                    if(it) {
+                        callback(value)
+                    }
+                }
+                      },
             modifier = Modifier.padding(16.dp)
         ) {
             Text(text = "Join")

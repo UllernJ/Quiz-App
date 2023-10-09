@@ -58,8 +58,9 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun NavigationApp() {
         val navController = rememberNavController()
-        var user: User? by remember { mutableStateOf(null) }
+        var user: User? by remember { mutableStateOf(User()) }
         var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
+        var gameId by remember { mutableStateOf<String?>(null) }
 
         Scaffold(
             topBar = {
@@ -112,10 +113,13 @@ class MainActivity : ComponentActivity() {
                     QuizPage(selectedReference)
                 }
                 composable(R.string.session_page_path.toString()) {
-                    SessionPage()
+                    SessionPage(gameId, user)
                 }
                 composable(R.string.join_page_path.toString()) {
-                    JoinPage(navController)
+                    JoinPage {
+                        gameId = it
+                        navController.navigate(R.string.session_page_path.toString())
+                    }
                 }
             }
         }

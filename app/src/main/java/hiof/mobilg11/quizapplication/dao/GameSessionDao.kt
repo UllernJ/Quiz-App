@@ -32,8 +32,7 @@ class GameSessionDao {
             }
     }
 
-    fun joinSession(gameId: String) {
-        var user: User? = null
+    fun joinSession(gameId: String, callback: (Boolean) -> Unit) {
         UserDao().getUser { user ->
             getGameSession(gameId) {
                 val gameSession = it
@@ -44,12 +43,15 @@ class GameSessionDao {
                         .document(gameId)
                         .update("players", gameSession.players)
                         .addOnSuccessListener {
+                            callback(true)
                             Log.d("GameSessionDao", "Successfully joined session")
                         }
                         .addOnFailureListener {
+                            callback(false)
                             Log.d("GameSessionDao", "Failed to join session")
                         }
                 } else {
+                    callback(true)
                     Log.d("GameSessionDao", "Player already in session")
                 }
             }

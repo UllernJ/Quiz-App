@@ -25,39 +25,35 @@ import hiof.mobilg11.quizapplication.model.UserState
 import hiof.mobilg11.quizapplication.model.user.User
 
 @Composable
-fun SessionPage() {
+fun SessionPage(gameId: String? = null, user: User?) {
 
-    var game = Game(
-        players = mutableListOf(
-            UserSession(
-                User(
-                    username = "User 1",
-                    uuid = "1"
+    var game by remember { mutableStateOf(Game()) }
+    var gameNumber by remember { mutableStateOf("Creating a game...") }
+    if(gameId == null) {
+        game = Game(
+            players = mutableListOf(
+                UserSession(
+                    user,
+                    UserState.READY
                 ),
-                UserState.READY
             ),
-            UserSession(
-                User(
-                    username = "User 2",
-                    uuid = "2"
-                )
+            host = User(
+                username = "User 1",
+                uuid = "1"
             ),
-        ),
-        host = User(
-            username = "User 1",
-            uuid = "1"
-        ),
-        categoriesPlayed = mutableListOf(),
-        questions = mutableListOf()
-    )
-
-    //todo create a game session and save it to the database
-    var gameId by remember { mutableStateOf("Creating a game...") }
-    LaunchedEffect(Unit) {
+            categoriesPlayed = mutableListOf(),
+            questions = mutableListOf()
+        )
         GameSessionDao().createGameSession(game) {
-            gameId = it.toString()
+            gameNumber = it.toString()
         }
+    } else {
+        GameSessionDao().getGameSession(gameId) {
+            game = it
+        }
+        gameNumber = gameId
     }
+
     //todo every 5 seconds, check if new players have joined
 //    timerTask {
 //        GameSessionDao().getGameSession(gameId) {
@@ -74,7 +70,7 @@ fun SessionPage() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Game Session Created!",
+            text = "Game Session",
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
@@ -89,7 +85,7 @@ fun SessionPage() {
             )
         )
         Text(
-            text = gameId,
+            text = gameNumber,
             style = TextStyle(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
