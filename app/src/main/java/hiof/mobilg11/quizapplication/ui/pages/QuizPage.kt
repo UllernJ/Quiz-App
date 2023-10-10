@@ -1,17 +1,15 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
-import androidx.compose.foundation.background
+import QuizViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -20,31 +18,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import hiof.mobilg11.quizapplication.dao.QuestionDao
-import hiof.mobilg11.quizapplication.model.Question
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun QuizPage(categoryReference: DocumentReference?) {
-    val questionDao = QuestionDao(Firebase.firestore)
-    var questions by remember { mutableStateOf(listOf<Question>()) }
+    val quizViewModel: QuizViewModel = viewModel()
+    val questions by quizViewModel.questions.collectAsState()
+    val currentQuestionIndex by quizViewModel.currentQuestionIndex.collectAsState()
+    val score by quizViewModel.score.collectAsState()
 
-    if (categoryReference != null && questions.isEmpty()) {
-        questionDao.getQuestionsByCategoryReference(categoryReference) {
-            questions = it.shuffled().subList(0, 3)
-        }
+    if (questions.isEmpty()) {
+        quizViewModel.loadQuestions(categoryReference!!)
     }
 
-
-    var currentQuestionIndex by remember { mutableIntStateOf(0) }
-    var score by remember { mutableIntStateOf(0) }
 
     Column(
         modifier = Modifier
@@ -61,8 +51,7 @@ fun QuizPage(categoryReference: DocumentReference?) {
             )
             Button(
                 onClick = {
-                    currentQuestionIndex = 0
-                    score = 0
+                    quizViewModel.restartQuiz()
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -99,14 +88,14 @@ fun QuizPage(categoryReference: DocumentReference?) {
                     onClick = {
                         clicked = true
                         if (isCorrectAnswer) {
-                            score++
+                            quizViewModel.answerQuestion(true)
                             backgroundColor = Color.Green
                         } else {
+                            quizViewModel.answerQuestion(false)
                             backgroundColor = Color.Red
                         }
                         GlobalScope.launch {
                             delay(1000L)
-                            currentQuestionIndex++
                             clicked = false
                         }
                     },

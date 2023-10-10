@@ -12,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -19,26 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import hiof.mobilg11.quizapplication.dao.CategoryDao
 import hiof.mobilg11.quizapplication.model.Category
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
-    val categoryDao = CategoryDao(Firebase.firestore)
-    val categories = remember { mutableStateOf(listOf<Category>()) }
+    val singlePlayerViewModel: SinglePlayerViewModel = viewModel()
+    val categories = singlePlayerViewModel.categories.collectAsState()
     val searchQuery = remember { mutableStateOf("") }
     val selectedCategory = remember { mutableStateOf<List<Category>>(emptyList()) }
     val scrollState = rememberScrollState()
-
-    if(categories.value.isEmpty()) {
-        categoryDao.getAll {
-            categories.value = it
-        }
-    }
 
     Column(
         modifier = Modifier
