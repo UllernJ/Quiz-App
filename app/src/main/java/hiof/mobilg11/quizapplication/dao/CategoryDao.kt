@@ -5,26 +5,21 @@ import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.Category
+import kotlinx.coroutines.tasks.await
 
-class CategoryDao(private val db: FirebaseFirestore) {
-
-    fun getAll(callback: (List<Category>) -> Unit) {
-        val categoryList = mutableListOf<Category>()
-        db.collection("category")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val name = document.data["name"] as String
-                    val documentReference = document.reference
-                    val category = Category(name, documentReference)
-                    categoryList.add(category)
-                }
-                callback(categoryList)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents.", exception)
-            }
-        Log.d(ContentValues.TAG, "Fetched categories: $categoryList")
+class CategoryDao() {
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val COLLECTION: String = "category"
+    suspend fun getAll(): MutableList<Category> {
+        val categories = mutableListOf<Category>()
+        val querySnapshot = db.collection(COLLECTION).get().await()
+        for (document in querySnapshot.documents) {
+            val name = document.data?.get("name") as String
+            val category = Category(name, document.reference)
+            categories.add(category)
+        }
+        Log.d(ContentValues.TAG, "getAll: $categories")
+        return categories
     }
 
     fun getCategoryByDocRef(docRef: DocumentReference, callback: (Category?) -> Unit) {
