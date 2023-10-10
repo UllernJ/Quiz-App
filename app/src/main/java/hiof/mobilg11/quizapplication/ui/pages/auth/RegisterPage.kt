@@ -25,9 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.ui.theme.registerIcon
+import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
 
 @Composable
-fun RegisterPage(onLogin: () -> Unit) {
+fun RegisterPage(
+    viewModel: RegisterViewModel = RegisterViewModel(),
+    onLogin: () -> Unit
+) {
     var email by remember {
         mutableStateOf(InputType.Email)
     }
@@ -37,7 +41,6 @@ fun RegisterPage(onLogin: () -> Unit) {
     var confirmPassword by remember {
         mutableStateOf(InputType.ConfirmPassword)
     }
-    val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
 
     Column(
@@ -60,16 +63,22 @@ fun RegisterPage(onLogin: () -> Unit) {
         TextInput(confirmPassword)
         Button(
             onClick = {
-                if (password.value == confirmPassword.value) {
-                    auth.createUserWithEmailAndPassword(email.value, password.value)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
-                                onLogin()
-                            } else {
-                                Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
-                            }
+                if (password.value != confirmPassword.value) {
+                    Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.createUserWithEmailAndPassword(
+                        email.value,
+                        password.value,
+                        confirmPassword.value
+                    ) { success ->
+                        if (success) {
+                            Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT)
+                                .show()
+                            onLogin()
+                        } else {
+                            Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
                         }
+                    }
                 }
             },
             modifier = Modifier

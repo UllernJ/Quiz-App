@@ -24,16 +24,20 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
+import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
 
 @Composable
-fun LoginPage(navController: NavController, onLogin: () -> Unit) {
+fun LoginPage(
+    navController: NavController,
+    viewModel: LoginViewModel = LoginViewModel(),
+    onLogin: () -> Unit
+) {
     var password by remember {
         mutableStateOf(InputType.Password)
     }
     var email by remember {
         mutableStateOf(InputType.Email)
     }
-    val auth: FirebaseAuth = FirebaseAuth.getInstance()
     val context = LocalContext.current
 
     Column(
@@ -55,25 +59,12 @@ fun LoginPage(navController: NavController, onLogin: () -> Unit) {
         TextInput(password)
         Button(
             onClick = {
-                if(email.value.isEmpty() || password.value.isEmpty()) {
-                    Toast.makeText(
-                        context,
-                        "Please fill in all fields.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    auth.signInWithEmailAndPassword(email.value, password.value)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                onLogin()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Authentication failed.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+                viewModel.signInWithEmailAndPassword(email.value, password.value) { success ->
+                    if (success) {
+                        onLogin()
+                    } else {
+                        Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
             modifier = Modifier
