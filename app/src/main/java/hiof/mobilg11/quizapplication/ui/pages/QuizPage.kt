@@ -1,6 +1,6 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
-import QuizViewModel
+import hiof.mobilg11.quizapplication.viewmodels.QuizViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults

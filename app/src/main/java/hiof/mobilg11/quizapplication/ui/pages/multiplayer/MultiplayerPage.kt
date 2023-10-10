@@ -25,12 +25,7 @@ fun MultiplayerPage(navController: NavController) {
     ) {
         buttonsLabels.forEach { label ->
             Button(
-                onClick = {
-                    when (label) {
-                        "Create session" -> navController.navigate(R.string.session_page_path.toString())
-                        "Join session" -> navController.navigate(R.string.join_page_path.toString())
-                    }
-                },
+                onClick = {/* TODO */ },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)

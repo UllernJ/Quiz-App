@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.Category
+import hiof.mobilg11.quizapplication.viewmodels.SinglePlayerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

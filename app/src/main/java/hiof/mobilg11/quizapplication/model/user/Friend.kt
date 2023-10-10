@@ -1,9 +1,9 @@
 package hiof.mobilg11.quizapplication.model.user
 
-class Friend (
+data class Friend (
     var user: User,
     var status: FriendStatus
-    ) {
+) {
     constructor(user: User) : this(user, FriendStatus.PENDING) {
         //TODO: Add friend request to database
     }

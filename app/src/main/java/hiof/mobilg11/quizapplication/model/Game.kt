@@ -29,7 +29,7 @@ enum class GameSessionStatus {
 
 data class UserSession(
     val user: User? = null,
-    val state: UserState = UserState.NOT_READY
+    var state: UserState = UserState.NOT_READY
 )
 
 enum class UserState {

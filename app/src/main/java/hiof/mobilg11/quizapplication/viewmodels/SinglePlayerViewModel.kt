@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.pages;
+package hiof.mobilg11.quizapplication.viewmodels;
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
