@@ -23,13 +23,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.model.user.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
-import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
+import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @Composable
 fun LoginPage(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
 ) {
     var password by remember {
         mutableStateOf(InputType.Password)
@@ -38,10 +39,6 @@ fun LoginPage(
         mutableStateOf(InputType.Email)
     }
     val context = LocalContext.current
-
-    if(viewModel.getUser() != null) {
-        navController.navigate(R.string.home_page_path.toString())
-    }
 
     Column(
         modifier = Modifier

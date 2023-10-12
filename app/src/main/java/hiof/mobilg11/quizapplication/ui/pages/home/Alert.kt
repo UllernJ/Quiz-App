@@ -8,11 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.dao.UserDao
+import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Alert(successCallback: (Boolean) -> Unit) {
+fun Alert(viewModel: AuthViewModel = hiltViewModel(), successCallback: (Boolean) -> Unit) {
     var username by remember { mutableStateOf("") }
 
     Column(
@@ -69,6 +71,7 @@ fun Alert(successCallback: (Boolean) -> Unit) {
                 UserDao().setUsername(username) {
                     if (it) {
                         successCallback(true)
+                        viewModel.updateUsername(username)
                     }
                 }
             },

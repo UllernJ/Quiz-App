@@ -13,17 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.user.User
-import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
+import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @Composable
 fun ProfilePage(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
-    val user: User? = viewModel.getUser()
+    val user = viewModel.getUser()
 
     Column(
         modifier = Modifier

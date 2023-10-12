@@ -33,7 +33,7 @@ fun HomePage(navController: NavController, user: User? = null) {
         val buttonLabels = listOf("Singleplayer", "Multiplayer", "Leaderboards", "Settings", "Profile")
 
         if(!isUsernameSet.value) {
-            Alert() {
+            Alert {
                 isUsernameSet.value = it
             }
         }

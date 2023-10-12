@@ -2,7 +2,6 @@ package hiof.mobilg11.quizapplication
 
 import MultiplayerPage
 import NavBar
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -12,13 +11,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import hiof.mobilg11.quizapplication.dao.UserDao
 import hiof.mobilg11.quizapplication.model.user.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
@@ -27,30 +24,33 @@ import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.auth.RegisterPage
 import hiof.mobilg11.quizapplication.ui.pages.home.HomePage
+import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuizApp() {
+fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val navController = rememberNavController()
-    var user: User? by remember { mutableStateOf(User()) }
+    var user: User? = viewModel.getUser()
     var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
-    var gameId by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         topBar = {
             NavBar(navController)
         },
-
         bottomBar = {
-            if (!user?.username.isNullOrBlank() || true) {
+            if (user != null) {
                 BottomNavBar(navController)
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = R.string.login_page_path.toString(),
+            startDestination = if (user == null) {
+                R.string.login_page_path.toString()
+            } else {
+                R.string.home_page_path.toString()
+            },
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(R.string.login_page_path.toString()) {
@@ -72,7 +72,6 @@ fun QuizApp() {
                 }
             }
             composable(R.string.multiplayer_path.toString()) {
-                gameId = null
                 MultiplayerPage(navController)
             }
             composable(R.string.quiz_page_path.toString()) {

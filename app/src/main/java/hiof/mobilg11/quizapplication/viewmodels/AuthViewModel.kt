@@ -13,8 +13,9 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val userCache: UserCache) : ViewModel() {
+class AuthViewModel @Inject constructor(private val userCache: UserCache) : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val userDao = UserDao()
 
     fun signInWithEmailAndPassword(
         email: String,
@@ -40,7 +41,7 @@ class LoginViewModel @Inject constructor(private val userCache: UserCache) : Vie
     }
     private fun saveUser() {
         viewModelScope.launch {
-            val user = UserDao().getUser(FirebaseAuth.getInstance().currentUser?.uid!!)
+            val user = userDao.getUser(auth.currentUser?.uid!!)
             if (user != null) {
                 userCache.saveUser(user)
             }
@@ -56,6 +57,13 @@ class LoginViewModel @Inject constructor(private val userCache: UserCache) : Vie
     fun signOut() {
         userCache.clearUser()
         auth.signOut()
+    }
+    fun updateUsername(username: String) {
+        val user = userCache.getUser()
+        if (user != null) {
+            user.username = username
+            userCache.updateUser(user)
+        }
     }
 
 }

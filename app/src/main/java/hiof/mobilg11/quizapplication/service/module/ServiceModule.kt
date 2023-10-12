@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import hiof.mobilg11.quizapplication.dao.UserDao
 import hiof.mobilg11.quizapplication.service.UserCache
 import hiof.mobilg11.quizapplication.service.impl.UserCacheImpl
 import javax.inject.Singleton
@@ -25,5 +26,10 @@ object ServiceModule {
     @Singleton
     fun provideUserCache(sharedPreferences: SharedPreferences): UserCache {
         return UserCacheImpl(sharedPreferences)
+    }
+    @Provides
+    @Singleton
+    fun provideUserDao(): UserDao {
+        return UserDao()
     }
 }
