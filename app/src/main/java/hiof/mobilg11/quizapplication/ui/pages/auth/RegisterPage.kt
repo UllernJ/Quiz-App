@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.ui.theme.registerIcon
 import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
@@ -30,7 +31,7 @@ import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
 @Composable
 fun RegisterPage(
     viewModel: RegisterViewModel = RegisterViewModel(),
-    onLogin: () -> Unit
+    navController: NavController
 ) {
     var email by remember {
         mutableStateOf(InputType.Email)
@@ -72,9 +73,8 @@ fun RegisterPage(
                         confirmPassword.value
                     ) { success ->
                         if (success) {
-                            Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT)
-                                .show()
-                            onLogin()
+                            Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
+                            navController.navigateUp()
                         } else {
                             Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
                         }

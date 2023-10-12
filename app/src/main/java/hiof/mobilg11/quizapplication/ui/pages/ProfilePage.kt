@@ -11,13 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
 
 @Composable
-fun ProfilePage(navController: NavController, user: User? = null) {
+fun ProfilePage(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+    val user: User? = viewModel.getUser()
 
     Column(
         modifier = Modifier
@@ -47,7 +53,7 @@ fun ProfilePage(navController: NavController, user: User? = null) {
         )
         Button(
             onClick = {
-                FirebaseAuth.getInstance().signOut()
+                viewModel.signOut()
                 navController.navigate(R.string.login_page_path.toString())
             },
             modifier = Modifier.padding(top = 8.dp)

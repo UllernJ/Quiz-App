@@ -11,7 +11,10 @@ class QuestionDao() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val COLLECTION: String = "question"
     suspend fun getQuestionsByCategoryReference(documentReference: DocumentReference): MutableList<Question> =
-        db.collection(COLLECTION).whereEqualTo("category", documentReference).get().await()
+        db.collection(COLLECTION)
+            .whereEqualTo("category", documentReference)
+            .get()
+            .await()
             .toObjects(Question::class.java).toMutableList()
 }
 

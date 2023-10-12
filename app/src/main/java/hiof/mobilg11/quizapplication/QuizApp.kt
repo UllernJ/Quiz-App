@@ -43,7 +43,7 @@ fun QuizApp() {
         },
 
         bottomBar = {
-            if (!user?.username.isNullOrBlank()) {
+            if (!user?.username.isNullOrBlank() || true) {
                 BottomNavBar(navController)
             }
         }
@@ -54,17 +54,13 @@ fun QuizApp() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(R.string.login_page_path.toString()) {
-                LoginPage(navController) {
-                    doLogin(navController)
-                }
+                LoginPage(navController)
             }
             composable(R.string.register_page_path.toString()) {
-                RegisterPage() {
-                    doRegister(navController)
-                }
+                RegisterPage(navController = navController)
             }
             composable(R.string.profile_page_path.toString()) {
-                ProfilePage(navController, user)
+                ProfilePage(navController)
             }
             composable(R.string.home_page_path.toString()) {
                 HomePage(navController, user)
@@ -94,15 +90,4 @@ fun QuizApp() {
 //                }
         }
     }
-}
-
-private fun doLogin(navController: NavController) {
-    val uid = FirebaseAuth.getInstance().currentUser?.uid
-    Log.d("MainActivity", "User logged in with uid: $uid")
-    navController.navigate(R.string.home_page_path.toString())
-}
-
-private fun doRegister(navController: NavController) {
-    UserDao().createUser()
-    return doLogin(navController)
 }

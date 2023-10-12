@@ -13,7 +13,7 @@ class UserDao {
     private val db = FirebaseFirestore.getInstance()
     private val COLLECTION: String = "users"
     val ISO_8601_FORMATTER = DateTimeFormatter.ISO_DATE_TIME
-    fun createUser() {
+    suspend fun createUser() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val user = hashMapOf(
             "username" to "",
@@ -27,12 +27,7 @@ class UserDao {
             db.collection(COLLECTION)
                 .document(uid)
                 .set(user)
-                .addOnSuccessListener {
-                    println("User successfully created")
-                }
-                .addOnFailureListener { e ->
-                    println("Error creating user: $e")
-                }
+                .await()
         }
     }
 

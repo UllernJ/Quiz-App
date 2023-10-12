@@ -29,8 +29,7 @@ import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
 @Composable
 fun LoginPage(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel(),
-    onLogin: () -> Unit
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     var password by remember {
         mutableStateOf(InputType.Password)
@@ -39,6 +38,10 @@ fun LoginPage(
         mutableStateOf(InputType.Email)
     }
     val context = LocalContext.current
+
+    if(viewModel.getUser() != null) {
+        navController.navigate(R.string.home_page_path.toString())
+    }
 
     Column(
         modifier = Modifier
@@ -61,7 +64,7 @@ fun LoginPage(
             onClick = {
                 viewModel.signInWithEmailAndPassword(email.value, password.value) { success ->
                     if (success) {
-                        onLogin()
+                        navController.navigate(R.string.home_page_path.toString())
                     } else {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }

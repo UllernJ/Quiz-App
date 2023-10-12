@@ -8,7 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import hiof.mobilg11.quizapplication.service.UserCache
-import hiof.mobilg11.quizapplication.service.UserCacheImpl
+import hiof.mobilg11.quizapplication.service.impl.UserCacheImpl
 import javax.inject.Singleton
 
 @Module
@@ -18,7 +18,7 @@ object ServiceModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("GET", Context.MODE_PRIVATE)
+        return context.getSharedPreferences("user", Context.MODE_PRIVATE)
     }
 
     @Provides

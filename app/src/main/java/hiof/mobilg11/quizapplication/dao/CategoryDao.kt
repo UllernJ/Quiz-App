@@ -12,7 +12,11 @@ class CategoryDao() {
     private val COLLECTION: String = "category"
     suspend fun getAll(): MutableList<Category> {
         Log.d(ContentValues.TAG, "getAll fetches all categories from firestore...")
-        return db.collection(COLLECTION).get().await().toObjects(Category::class.java).toMutableList()
+        return db.collection(COLLECTION)
+            .get()
+            .await()
+            .toObjects(Category::class.java)
+            .toMutableList()
     }
 
     fun getCategoryByDocRef(docRef: DocumentReference, callback: (Category?) -> Unit) {
