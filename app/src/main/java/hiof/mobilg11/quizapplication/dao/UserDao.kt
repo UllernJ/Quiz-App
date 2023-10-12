@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.user.User
+import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -86,23 +87,9 @@ class UserDao {
         }
     }
 
-    fun getUser(callback: (User) -> Unit) {
+    suspend fun getUser(uid: String): User? {
         Log.d("UserDao", "Trying to fetch user...")
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if (uid != null) {
-            db.collection(COLLECTION)
-                .document(uid)
-                .get()
-                .addOnSuccessListener { document ->
-                    Log.d("UserDao", "User fetched successfully")
-                    if (document != null) {
-                        val user = document.toObject(User::class.java)
-                        if (user != null) {
-                            callback(user)
-                        }
-                    }
-                }
-        }
+        return db.collection(COLLECTION).document(uid).get().await().toObject(User::class.java)
     }
 
 }

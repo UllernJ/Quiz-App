@@ -11,15 +11,8 @@ class CategoryDao() {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val COLLECTION: String = "category"
     suspend fun getAll(): MutableList<Category> {
-        val categories = mutableListOf<Category>()
-        val querySnapshot = db.collection(COLLECTION).get().await()
-        for (document in querySnapshot.documents) {
-            val name = document.data?.get("name") as String
-            val category = Category(name, document.reference)
-            categories.add(category)
-        }
-        Log.d(ContentValues.TAG, "getAll: $categories")
-        return categories
+        Log.d(ContentValues.TAG, "getAll fetches all categories from firestore...")
+        return db.collection(COLLECTION).get().await().toObjects(Category::class.java).toMutableList()
     }
 
     fun getCategoryByDocRef(docRef: DocumentReference, callback: (Category?) -> Unit) {

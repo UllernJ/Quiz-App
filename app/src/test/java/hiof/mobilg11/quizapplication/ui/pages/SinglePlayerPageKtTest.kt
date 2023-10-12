@@ -6,17 +6,16 @@ import org.junit.Test
 class SinglePlayerPageKtTest {
 
     private var categories: List<Category> = listOf(
-        Category("General Knowledge", "General Knowledge"),
-        Category("Books", "Entertainment: Books"),
-        Category("Film", "Entertainment: Film"),
-        Category("Music", "Entertainment: Music"),
-        Category("Musicals & Theatres", "Entertainment: Musicals & Theatres"),
-        Category("Television", "Entertainment: Television"),
-        Category("Video Games", "Entertainment: Video Games"),
-        Category("Board Games", "Entertainment: Board Games"),
-        Category("Science & Nature", "Science & Nature"),
-        Category("Computers", "Science: Computers"),
-        Category("Mathematics", "Science: Mathematics"),
+        Category("General Knowledge"),
+        Category("Books"),
+        Category("Film"),
+        Category("Music"),
+        Category("Musicals & Theatres"),
+        Category("Television"),
+        Category("Video Games"),
+        Category("Board Games"),
+        Category("Science & Nature"),
+        Category("Computers"),
     )
     @Test
     fun testSearchForGeneralKnowledgeAndBeSizeOne() {

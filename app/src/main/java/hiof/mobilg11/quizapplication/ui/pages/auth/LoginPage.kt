@@ -20,8 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
@@ -29,7 +29,7 @@ import hiof.mobilg11.quizapplication.viewmodels.LoginViewModel
 @Composable
 fun LoginPage(
     navController: NavController,
-    viewModel: LoginViewModel = LoginViewModel(),
+    viewModel: LoginViewModel = hiltViewModel(),
     onLogin: () -> Unit
 ) {
     var password by remember {
