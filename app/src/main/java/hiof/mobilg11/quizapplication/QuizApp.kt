@@ -31,8 +31,12 @@ import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 @Composable
 fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val navController = rememberNavController()
-    var user: User? = viewModel.getUser()
+    var user: User? by remember { mutableStateOf(null) }
     var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
+    val fetchedUser = viewModel.getUser()
+    if (fetchedUser != null) {
+        user = fetchedUser
+    }
 
     Scaffold(
         topBar = {
@@ -54,7 +58,9 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(R.string.login_page_path.toString()) {
-                LoginPage(navController)
+                LoginPage(navController) {
+                    user = it
+                }
             }
             composable(R.string.register_page_path.toString()) {
                 RegisterPage(navController = navController)

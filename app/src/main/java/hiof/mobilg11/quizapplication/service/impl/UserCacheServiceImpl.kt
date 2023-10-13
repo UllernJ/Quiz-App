@@ -4,11 +4,11 @@ import android.content.SharedPreferences
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import hiof.mobilg11.quizapplication.model.user.User
-import hiof.mobilg11.quizapplication.service.UserCache
+import hiof.mobilg11.quizapplication.service.UserCacheService
 import javax.inject.Inject
 
-class UserCacheImpl @Inject constructor(private val sharedPreferences: SharedPreferences) :
-    UserCache {
+class UserCacheServiceImpl @Inject constructor(private val sharedPreferences: SharedPreferences) :
+    UserCacheService {
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
