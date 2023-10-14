@@ -20,7 +20,8 @@ import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 @Composable
 fun ProfilePage(
     navController: NavController,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    callback: () -> Unit
 ) {
     val user = viewModel.getUser()
 
@@ -53,6 +54,7 @@ fun ProfilePage(
         Button(
             onClick = {
                 viewModel.signOut()
+                callback()
                 navController.navigate(R.string.login_page_path.toString())
             },
             modifier = Modifier.padding(top = 8.dp)

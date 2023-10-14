@@ -66,7 +66,9 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
                 RegisterPage(navController = navController)
             }
             composable(R.string.profile_page_path.toString()) {
-                ProfilePage(navController)
+                ProfilePage(navController) {
+                    user = null
+                }
             }
             composable(R.string.home_page_path.toString()) {
                 HomePage(navController, user)

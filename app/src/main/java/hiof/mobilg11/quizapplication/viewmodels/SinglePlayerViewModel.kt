@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hiof.mobilg11.quizapplication.dao.CategoryDao
 import hiof.mobilg11.quizapplication.model.Category
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +21,7 @@ class SinglePlayerViewModel: ViewModel() {
 
     fun getCategories() {
         viewModelScope.launch {
+            delay(1500L)
             _categories.value = categoryDao.getAll()
         }
     }
