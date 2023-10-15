@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(private val userService: UserService) : 
     }
 
     suspend fun createUser() {
-        userService.createUser()
+        userService.create()
     }
 
     suspend fun isUsernameSet() {
