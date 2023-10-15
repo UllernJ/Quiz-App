@@ -24,7 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
@@ -33,7 +33,7 @@ import hiof.mobilg11.quizapplication.viewmodels.SinglePlayerViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
-    val singlePlayerViewModel: SinglePlayerViewModel = viewModel()
+    val singlePlayerViewModel: SinglePlayerViewModel = hiltViewModel()
     val categories = singlePlayerViewModel.categories.collectAsState()
     val searchQuery = remember { mutableStateOf("") }
     val selectedCategory = remember { mutableStateOf<List<Category>>(emptyList()) }
@@ -69,7 +69,8 @@ fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
         ShimmerListItem(
             modifier = Modifier
                 .height(40.dp)
-                .clip(MaterialTheme.shapes.medium),
+                 .fillMaxWidth()
+                .clip(MaterialTheme.shapes.large),
             isLoading = selectedCategory.value.isEmpty(), contentAfterLoading = {
                 CategoryButton(selectedCategory, callback)
             },

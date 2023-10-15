@@ -5,8 +5,12 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import hiof.mobilg11.quizapplication.service.AccountService
+import hiof.mobilg11.quizapplication.service.CategoryService
+import hiof.mobilg11.quizapplication.service.QuestionService
 import hiof.mobilg11.quizapplication.service.UserCacheService
 import hiof.mobilg11.quizapplication.service.impl.AccountServiceImpl
+import hiof.mobilg11.quizapplication.service.impl.CategoryServiceImpl
+import hiof.mobilg11.quizapplication.service.impl.QuestionServiceImpl
 import hiof.mobilg11.quizapplication.service.impl.UserCacheServiceImpl
 
 @Module
@@ -17,4 +21,10 @@ abstract class ServiceModule {
 
     @Binds
     abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
+
+    @Binds
+    abstract fun provideCategoryService(impl: CategoryServiceImpl): CategoryService
+
+    @Binds
+    abstract fun provideQuestionService(impl: QuestionServiceImpl): QuestionService
 }

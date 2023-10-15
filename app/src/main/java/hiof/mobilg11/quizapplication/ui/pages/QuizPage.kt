@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.firebase.firestore.DocumentReference
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun QuizPage(categoryReference: DocumentReference?) {
-    val quizViewModel: QuizViewModel = viewModel()
+    val quizViewModel: QuizViewModel = hiltViewModel()
     val questions by quizViewModel.questions.collectAsState()
     val currentQuestionIndex by quizViewModel.currentQuestionIndex.collectAsState()
     val score by quizViewModel.score.collectAsState()

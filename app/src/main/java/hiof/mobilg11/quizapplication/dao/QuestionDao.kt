@@ -6,12 +6,12 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.Question
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class QuestionDao() {
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+class QuestionDao @Inject constructor(private val firestore: FirebaseFirestore) {
     private val COLLECTION: String = "question"
     suspend fun getQuestionsByCategoryReference(documentReference: DocumentReference): MutableList<Question> =
-        db.collection(COLLECTION)
+        firestore.collection(COLLECTION)
             .whereEqualTo("category", documentReference)
             .get()
             .await()
