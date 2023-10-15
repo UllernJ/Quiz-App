@@ -1,5 +1,6 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
+import android.util.Log
 import hiof.mobilg11.quizapplication.viewmodels.QuizViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -79,6 +80,7 @@ fun QuizPage(categoryReference: DocumentReference?) {
 
             val choices = currentQuestion.choices
             var clicked by remember { mutableStateOf(false) }
+            var alreadyGuessed by remember { mutableStateOf(false) }
             choices.forEach { choice ->
                 val isCorrectAnswer = choice == currentQuestion.correctAnswer
                 val defaultColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -86,17 +88,17 @@ fun QuizPage(categoryReference: DocumentReference?) {
 
                 Button(
                     onClick = {
+                        if(alreadyGuessed) return@Button
+                        alreadyGuessed = true
+
                         clicked = true
-                        if (isCorrectAnswer) {
-                            quizViewModel.answerQuestion(true)
-                            backgroundColor = Color.Green
-                        } else {
-                            quizViewModel.answerQuestion(false)
-                            backgroundColor = Color.Red
-                        }
+                        backgroundColor = if(isCorrectAnswer) Color.Green else Color.Red
+                        quizViewModel.answerQuestion(isCorrectAnswer)
+
                         GlobalScope.launch {
                             delay(1000L)
                             clicked = false
+                            alreadyGuessed = false
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
