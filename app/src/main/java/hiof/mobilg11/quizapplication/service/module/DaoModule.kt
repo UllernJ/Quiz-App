@@ -1,5 +1,6 @@
 package hiof.mobilg11.quizapplication.service.module
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,8 @@ object DaoModule {
     }
 
     @Provides
-    fun provideUserDao(): UserDao = UserDao()
+    fun provideUserDao(firestore: FirebaseFirestore, auth: FirebaseAuth): UserDao {
+        return UserDao(firestore, auth)
+    }
 
 }

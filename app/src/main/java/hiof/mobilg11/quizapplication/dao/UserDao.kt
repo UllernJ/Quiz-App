@@ -8,83 +8,87 @@ import hiof.mobilg11.quizapplication.model.user.User
 import kotlinx.coroutines.tasks.await
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class UserDao {
-    private val db = FirebaseFirestore.getInstance()
+class UserDao @Inject constructor(
+    private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth
+) {
     private val COLLECTION: String = "users"
-    val ISO_8601_FORMATTER = DateTimeFormatter.ISO_DATE_TIME
+
+    //    val ISO_8601_FORMATTER = DateTimeFormatter.ISO_DATE_TIME
     suspend fun createUser() {
+        Log.d("UserDao", "Trying to create user...")
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val user = hashMapOf(
             "username" to "",
             "games" to mutableListOf<DocumentReference>(),
-            "created" to ISO_8601_FORMATTER.format(LocalDateTime.now()),
-            "lastLogin" to ISO_8601_FORMATTER.format(LocalDateTime.now()),
+//            "created" to ISO_8601_FORMATTER.format(LocalDateTime.now()),
+//            "lastLogin" to ISO_8601_FORMATTER.format(LocalDateTime.now()),
             "friends" to mutableListOf<DocumentReference>(),
             "onlineGameSessions" to mutableListOf<DocumentReference>(),
         )
         if (uid != null) {
-            db.collection(COLLECTION)
+            firestore.collection(COLLECTION)
                 .document(uid)
                 .set(user)
                 .await()
         }
     }
 
-    fun setUsername(username: String, callback: (Boolean) -> Unit) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
+    suspend fun setUsername(username: String): Boolean {
+        val uid = auth.currentUser?.uid
         val isValid = usernameIsValid(username)
         if (uid != null && isValid) {
-            db.collection(COLLECTION)
-                .document(uid)
-                .update("username", username)
-                .addOnSuccessListener {
-                    println("Username successfully updated")
-                    callback(true)
-                }
-                .addOnFailureListener { e ->
-                    println("Error updating username: $e")
-                    callback(false)
-                }
+            try {
+                firestore.collection(COLLECTION)
+                    .document(uid)
+                    .update("username", username)
+                    .await()
+                println("Username successfully updated")
+                return true
+            } catch (e: Exception) {
+                println("Error updating username: $e")
+            }
         }
+        return false
     }
 
-    private fun usernameIsValid(username: String): Boolean {
-        var valid = true
-        db.collection(COLLECTION)
-            .whereEqualTo("username", username)
-            .get()
-            .addOnSuccessListener { result ->
-                if (result.size() > 0) {
-                    valid = false
-                }
-            }
-            .addOnFailureListener { exception ->
-                println("Error getting documents: $exception")
-            }
-        return valid
-    }
-
-    fun isUsernameSet(callback: (Boolean) -> Unit) {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if (uid != null) {
-            db.collection(COLLECTION)
-                .document(uid)
+    private suspend fun usernameIsValid(username: String): Boolean {
+        val querySnapshot = try {
+            firestore.collection(COLLECTION)
+                .whereEqualTo("username", username)
                 .get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val username = document.data?.get("username")
-                        if (username == null || username == "") {
-                            callback(false)
-                        }
-                    }
-                }
+                .await()
+        } catch (e: Exception) {
+            println("Error getting documents: $e")
+            return false
         }
+        return querySnapshot.isEmpty
     }
 
-    suspend fun getUser(uid: String): User? {
+    suspend fun isUsernameSet(): Boolean {
+        val uid = auth.currentUser?.uid
+        if (uid != null) {
+            try {
+                val document = firestore.collection(COLLECTION)
+                    .document(uid)
+                    .get()
+                    .await()
+                val username = document.data?.get("username") as String?
+                return !username.isNullOrEmpty()
+            } catch (e: Exception) {
+                println("Error checking if username is set: $e")
+            }
+        }
+        return false
+    }
+
+    suspend fun getUser(): User? {
         Log.d("UserDao", "Trying to fetch user...")
-        return db.collection(COLLECTION).document(uid).get().await().toObject(User::class.java)
+        val uid = auth.currentUser?.uid!!
+        return firestore.collection(COLLECTION).document(uid).get().await()
+            .toObject(User::class.java)
     }
 
 }

@@ -10,18 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
-import hiof.mobilg11.quizapplication.dao.UserDao
 import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.viewmodels.MainViewModel
 
 @Composable
-fun HomePage(navController: NavController, user: User? = null) {
-    val userDao = UserDao()
-    val isUsernameSet = remember { mutableStateOf(true) }
-    userDao.isUsernameSet {
-        isUsernameSet.value = it
-    }
+fun HomePage(
+    viewModel: MainViewModel = hiltViewModel(),
+    navController: NavController,
+    user: User? = null
+) {
+    val isUsernameSet = viewModel.isSet.collectAsState()
 
     Column(
         modifier = Modifier
@@ -30,22 +31,23 @@ fun HomePage(navController: NavController, user: User? = null) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val buttonLabels = listOf("Singleplayer", "Multiplayer", "Leaderboards", "Settings", "Profile")
+        val buttonLabels =
+            listOf("Singleplayer", "Multiplayer", "Leaderboards", "Settings", "Profile")
 
-        if(!isUsernameSet.value) {
+        if (!isUsernameSet.value!!) {
             Alert {
-                isUsernameSet.value = it
+               viewModel.setIsSet(true)
             }
         }
 
         buttonLabels.forEach { label ->
             Button(
                 onClick = {
-                    when(label) {
+                    when (label) {
                         "Singleplayer" -> navController.navigate(R.string.single_player_path.toString())
                         "Multiplayer" -> navController.navigate(R.string.multiplayer_path.toString())
-                        "Leaderboards" -> Log.i("INFO","Not implemented.");
-                        "Settings" -> Log.i("INFO","Not implemented.");
+                        "Leaderboards" -> Log.i("INFO", "Not implemented.");
+                        "Settings" -> Log.i("INFO", "Not implemented.");
                         "Profile" -> navController.navigate(R.string.profile_page_path.toString());
                     }
                 },

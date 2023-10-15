@@ -1,13 +1,12 @@
 package hiof.mobilg11.quizapplication.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hiof.mobilg11.quizapplication.dao.UserDao
 import hiof.mobilg11.quizapplication.model.user.User
 import hiof.mobilg11.quizapplication.service.AccountService
 import hiof.mobilg11.quizapplication.service.UserCacheService
+import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,10 +14,14 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor(
     private val userCache: UserCacheService,
     private val accountService: AccountService,
-    private val userDao: UserDao
+    private val userService: UserService
 ) : ViewModel() {
 
-    private var user: User? = userCache.getUser()
+    private var user: User? = null
+
+    init {
+        user = userCache.getUser()
+    }
 
     fun signInWithEmailAndPassword(
         email: String,
@@ -29,7 +32,7 @@ class AuthViewModel @Inject constructor(
             val result = accountService.signInWithEmailAndPassword(email, password)
             if (result) {
                 saveUser()
-                user = userDao.getUser(accountService.currentUserUid)
+                user = userService.getUser()
                 onLoginResult(true)
             } else {
                 onLoginResult(false)
@@ -39,7 +42,7 @@ class AuthViewModel @Inject constructor(
 
     private fun saveUser() {
         viewModelScope.launch {
-            val user = userDao.getUser(accountService.currentUserUid)
+            val user = userService.getUser()
             if (user != null) {
                 userCache.saveUser(user)
             }
@@ -54,14 +57,6 @@ class AuthViewModel @Inject constructor(
         userCache.clearUser()
         viewModelScope.launch {
             accountService.signOut()
-        }
-    }
-
-    fun updateUsername(username: String) {
-        val user = userCache.getUser()
-        if (user != null) {
-            user.username = username
-            userCache.updateUser(user)
         }
     }
 

@@ -3,12 +3,17 @@ package hiof.mobilg11.quizapplication.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import hiof.mobilg11.quizapplication.dao.UserDao
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel() {
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val userService: UserService,
+    private val auth: FirebaseAuth
+) : ViewModel() {
 
     fun createUserWithEmailAndPassword(
         email: String,
@@ -20,9 +25,9 @@ class RegisterViewModel : ViewModel() {
             viewModelScope.launch {
                 try {
                     val result = auth.createUserWithEmailAndPassword(email, password).await()
-                    if(result.user != null) {
+                    if (result.user != null) {
                         onRegisterResult(true)
-                        UserDao().createUser()
+                        userService.createUser()
                     }
                 } catch (e: Exception) {
                     onRegisterResult(false)

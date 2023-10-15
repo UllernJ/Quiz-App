@@ -23,14 +23,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
 import hiof.mobilg11.quizapplication.ui.theme.registerIcon
 import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
 
 @Composable
 fun RegisterPage(
-    viewModel: RegisterViewModel = RegisterViewModel(),
+    viewModel: RegisterViewModel = hiltViewModel(),
     navController: NavController
 ) {
     var email by remember {

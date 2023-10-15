@@ -9,7 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import hiof.mobilg11.quizapplication.R
+
 
 @Composable
 fun MultiplayerPage(navController: NavController) {
