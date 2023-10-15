@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.pages
+package hiof.mobilg11.quizapplication.ui
 
 import android.util.Log
 import hiof.mobilg11.quizapplication.viewmodels.QuizViewModel

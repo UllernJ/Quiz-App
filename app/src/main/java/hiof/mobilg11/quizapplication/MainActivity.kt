@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.AndroidEntryPoint
-import hiof.mobilg11.quizapplication.ui.pages.ui.theme.QuizApplicationTheme
+import hiof.mobilg11.quizapplication.ui.theme.QuizApplicationTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

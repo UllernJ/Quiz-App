@@ -14,7 +14,8 @@ import androidx.navigation.NavController
 @Composable
 fun MultiplayerPage(navController: NavController) {
     val buttonsLabels = listOf(
-        "Create session", "Join session", "Active sessions", "Browse online")
+        "Challenge a friend")
+
 
     Column(
         modifier = Modifier
