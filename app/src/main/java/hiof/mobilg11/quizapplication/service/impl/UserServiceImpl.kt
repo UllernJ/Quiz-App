@@ -1,7 +1,7 @@
 package hiof.mobilg11.quizapplication.service.impl
 
 import hiof.mobilg11.quizapplication.dao.UserDao
-import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.service.UserService
 import javax.inject.Inject
 

@@ -16,7 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.firestore.DocumentReference
-import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
 import hiof.mobilg11.quizapplication.ui.pages.QuizPage

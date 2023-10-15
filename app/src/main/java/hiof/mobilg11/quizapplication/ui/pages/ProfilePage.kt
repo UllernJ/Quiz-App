@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
-import hiof.mobilg11.quizapplication.model.user.User
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @Composable

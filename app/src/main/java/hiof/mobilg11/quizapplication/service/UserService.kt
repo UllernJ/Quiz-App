@@ -1,6 +1,6 @@
 package hiof.mobilg11.quizapplication.service
 
-import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.model.User
 
 interface UserService {
     suspend fun createUser()

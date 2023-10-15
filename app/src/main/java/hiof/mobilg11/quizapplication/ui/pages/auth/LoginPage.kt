@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
-import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 

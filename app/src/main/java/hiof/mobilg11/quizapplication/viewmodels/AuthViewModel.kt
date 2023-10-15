@@ -3,7 +3,7 @@ package hiof.mobilg11.quizapplication.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.service.AccountService
 import hiof.mobilg11.quizapplication.service.UserCacheService
 import hiof.mobilg11.quizapplication.service.UserService

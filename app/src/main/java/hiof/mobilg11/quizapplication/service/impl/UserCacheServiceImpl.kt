@@ -3,7 +3,7 @@ package hiof.mobilg11.quizapplication.service.impl
 import android.content.SharedPreferences
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import hiof.mobilg11.quizapplication.model.user.User
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.service.UserCacheService
 import javax.inject.Inject
 
