@@ -24,7 +24,7 @@ class AlertViewModel @Inject constructor(
         viewModelScope.launch {
             _isSet.value = userService.setUsername(username)
             if (_isSet.value) {
-                val user: User? = userService.getUser()
+                val user: User? = userService.get()
                 user?.username = username
                 if (user != null) {
                     userCacheService.updateUser(user)

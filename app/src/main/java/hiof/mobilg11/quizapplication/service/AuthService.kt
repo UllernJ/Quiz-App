@@ -1,6 +1,6 @@
 package hiof.mobilg11.quizapplication.service
 
-interface AccountService {
+interface AuthService {
     val currentUserUid: String
 
     suspend fun signInWithEmailAndPassword(email: String, password: String): Boolean
