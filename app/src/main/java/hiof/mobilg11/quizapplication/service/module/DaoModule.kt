@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import hiof.mobilg11.quizapplication.dao.CategoryDao
+import hiof.mobilg11.quizapplication.dao.GameDao
 import hiof.mobilg11.quizapplication.dao.QuestionDao
 import hiof.mobilg11.quizapplication.dao.UserDao
 
@@ -27,6 +28,11 @@ object DaoModule {
     @Provides
     fun provideUserDao(firestore: FirebaseFirestore, auth: FirebaseAuth): UserDao {
         return UserDao(firestore, auth)
+    }
+
+    @Provides
+    fun provideGameDao(firestore: FirebaseFirestore): GameDao {
+        return GameDao(firestore)
     }
 
 }
