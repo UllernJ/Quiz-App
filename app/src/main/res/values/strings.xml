@@ -6,6 +6,7 @@
     <string name="home_page_path">home</string>
     <string name="single_player_path">single-player</string>
     <string name="multiplayer_path">multiplayer</string>
+    <string name="multiplayer_game_lobby_path">multiplayer-game-lobby</string>
     <string name="quiz_page_path">quiz</string>
     <string name="session_page_path">session</string>
     <string name="join_page_path">join</string>

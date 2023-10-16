@@ -15,9 +15,11 @@ data class MultiplayerGame(
     var hostScore: Int = 0,
     var opponentScore: Int = 0,
 
+    var numberOfRounds: Int = 0,
     var roundQuestionsReferences: List<String> = listOf(),
     var roundIndex: Int = 0,
 
     var categoriesPlayedReferences: List<String> = listOf(),
 
+    var lastUpdated: Long = System.currentTimeMillis()
     )
