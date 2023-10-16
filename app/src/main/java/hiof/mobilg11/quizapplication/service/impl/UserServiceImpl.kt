@@ -10,7 +10,7 @@ class UserServiceImpl @Inject constructor(private val userDao: UserDao): UserSer
         return userDao.setUsername(username)
     }
 
-    override suspend fun createUser() {
+    override suspend fun create() {
         userDao.createUser()
     }
 
@@ -18,8 +18,12 @@ class UserServiceImpl @Inject constructor(private val userDao: UserDao): UserSer
         return userDao.isUsernameSet()
     }
 
-    override suspend fun getUser(): User? {
+    override suspend fun get(): User? {
         return userDao.getUser()
+    }
+
+    override suspend fun find(username: String): List<User?> {
+        return userDao.findUser(username)
     }
 
 }

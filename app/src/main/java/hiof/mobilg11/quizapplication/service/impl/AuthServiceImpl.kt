@@ -1,13 +1,13 @@
 package hiof.mobilg11.quizapplication.service.impl
 
 import com.google.firebase.auth.FirebaseAuth
-import hiof.mobilg11.quizapplication.service.AccountService
+import hiof.mobilg11.quizapplication.service.AuthService
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class AccountServiceImpl @Inject constructor(
+class AuthServiceImpl @Inject constructor(
     private val auth: FirebaseAuth
-) : AccountService {
+) : AuthService {
     override val currentUserUid: String
         get() = auth.currentUser?.uid.orEmpty()
 

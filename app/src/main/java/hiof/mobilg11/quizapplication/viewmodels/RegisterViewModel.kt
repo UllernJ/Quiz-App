@@ -27,7 +27,7 @@ class RegisterViewModel @Inject constructor(
                     val result = auth.createUserWithEmailAndPassword(email, password).await()
                     if (result.user != null) {
                         onRegisterResult(true)
-                        userService.createUser()
+                        userService.create()
                     }
                 } catch (e: Exception) {
                     onRegisterResult(false)

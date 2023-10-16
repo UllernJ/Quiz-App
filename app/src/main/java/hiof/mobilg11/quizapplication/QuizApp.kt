@@ -85,16 +85,6 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
             composable(R.string.quiz_page_path.toString()) {
                 QuizPage(selectedReference)
             }
-            //todo check if this is needed
-//                composable(R.string.session_page_path.toString()) {
-//                    SessionPage(gameId, user)
-//                }
-//                composable(R.string.join_page_path.toString()) {
-//                    JoinPage {
-//                        gameId = it
-//                        navController.navigate(R.string.session_page_path.toString())
-//                    }
-//                }
         }
     }
 }
