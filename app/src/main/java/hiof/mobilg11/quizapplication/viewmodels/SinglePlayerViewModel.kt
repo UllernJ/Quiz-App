@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.service.CategoryService
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -22,7 +21,6 @@ class SinglePlayerViewModel @Inject constructor(private val categoryService: Cat
 
     fun getCategories() {
         viewModelScope.launch {
-            delay(1500L)
             _categories.value = categoryService.getAllCategories()
         }
     }

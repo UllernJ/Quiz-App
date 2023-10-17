@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
@@ -62,7 +63,7 @@ fun LoginPage(
             onClick = {
                 viewModel.signInWithEmailAndPassword(email.value, password.value) { success ->
                     if (success) {
-                        navController.navigate(R.string.home_page_path.toString())
+                        navController.navigate(Screen.Home.route)
                         callback(viewModel.getUser())
                     } else {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()

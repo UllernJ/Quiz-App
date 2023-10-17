@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.viewmodels.MainViewModel
 
@@ -44,11 +44,11 @@ fun HomePage(
             Button(
                 onClick = {
                     when (label) {
-                        "Singleplayer" -> navController.navigate(R.string.single_player_path.toString())
-                        "Multiplayer" -> navController.navigate(R.string.multiplayer_path.toString())
+                        "Singleplayer" -> navController.navigate(Screen.SinglePlayer.route)
+                        "Multiplayer" -> navController.navigate(Screen.Multiplayer.route)
                         "Leaderboards" -> Log.i("INFO", "Not implemented.");
                         "Settings" -> Log.i("INFO", "Not implemented.");
-                        "Profile" -> navController.navigate(R.string.profile_page_path.toString());
+                        "Profile" -> navController.navigate(Screen.Profile.route);
                     }
                 },
                 modifier = Modifier

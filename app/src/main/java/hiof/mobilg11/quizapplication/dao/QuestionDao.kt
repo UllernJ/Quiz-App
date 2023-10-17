@@ -1,7 +1,5 @@
 package hiof.mobilg11.quizapplication.dao
 
-import android.content.ContentValues
-import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.Question
@@ -10,11 +8,22 @@ import javax.inject.Inject
 
 class QuestionDao @Inject constructor(private val firestore: FirebaseFirestore) {
     private val COLLECTION: String = "question"
-    suspend fun getQuestionsByCategoryReference(documentReference: DocumentReference): MutableList<Question> =
-        firestore.collection(COLLECTION)
-            .whereEqualTo("category", documentReference)
+    suspend fun getQuestionsByCategoryName(name: String): MutableList<Question> {
+        val reference = getDocumentReferenceByCategoryName(name)
+        return firestore.collection(COLLECTION)
+            .whereEqualTo("category", reference)
             .get()
             .await()
-            .toObjects(Question::class.java).toMutableList()
+            .toObjects(Question::class.java)
+    }
+
+
+    private suspend fun getDocumentReferenceByCategoryName(categoryName: String): DocumentReference  = firestore.collection("category")
+            .whereEqualTo("name", categoryName)
+            .get()
+            .await()
+            .documents[0]
+            .reference
+
 }
 

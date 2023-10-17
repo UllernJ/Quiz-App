@@ -69,7 +69,9 @@ fun QuestionDisplay(question: Question, onAnswerSelected: (Boolean) -> Unit) {
                     containerColor = backgroundColor,
                     contentColor = Color.Black
                 ),
-                modifier = Modifier.fillMaxWidth().padding(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
             ) {
                 Text(
                     text = choice,

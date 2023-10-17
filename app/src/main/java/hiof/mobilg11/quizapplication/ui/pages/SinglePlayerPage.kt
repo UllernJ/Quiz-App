@@ -25,14 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.firebase.firestore.DocumentReference
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
 import hiof.mobilg11.quizapplication.viewmodels.SinglePlayerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
+fun SinglePlayerPage(callback: (String) -> Unit) {
     val singlePlayerViewModel: SinglePlayerViewModel = hiltViewModel()
     val categories = singlePlayerViewModel.categories.collectAsState()
     val searchQuery = remember { mutableStateOf("") }
@@ -83,12 +82,12 @@ fun SinglePlayerPage(callback: (DocumentReference) -> Unit) {
 @Composable
 private fun CategoryButton(
     categories: MutableState<List<Category>>,
-    callback: (DocumentReference) -> Unit
+    callback: (String) -> Unit
 ) {
     categories.value.forEach { category ->
         Button(
             onClick = {
-                category.documentReference?.let { callback(it) }
+                callback(category.name)
             },
             modifier = Modifier
                 .fillMaxWidth()

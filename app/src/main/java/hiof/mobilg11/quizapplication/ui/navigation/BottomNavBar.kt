@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.Screen
 
 @Composable
 fun BottomNavBar(navController: NavController) {
@@ -69,21 +69,21 @@ sealed class BottomNavBarItem(
     val notifications: Int? = null
 ) {
     object Home : BottomNavBarItem(
-        route = R.string.home_page_path.toString(),
+        route = Screen.Home.route,
         title = "Home",
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home
     )
 
     object Play : BottomNavBarItem(
-        route = R.string.single_player_path.toString(),
+        route = Screen.SinglePlayer.route,
         title = "Play",
         selectedIcon = Icons.Filled.PlayArrow,
         unselectedIcon = Icons.Outlined.PlayArrow,
     )
 
     object Profile : BottomNavBarItem(
-        route = R.string.profile_page_path.toString(),
+        route = Screen.Profile.route,
         title = "Profile",
         selectedIcon = Icons.Filled.Person,
         unselectedIcon = Icons.Outlined.Person

@@ -15,9 +15,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.firestore.DocumentReference
+import androidx.navigation.navArgument
 import hiof.mobilg11.quizapplication.model.User
-import hiof.mobilg11.quizapplication.ui.QuizPage
+import hiof.mobilg11.quizapplication.ui.pages.QuizPage
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
 import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
@@ -32,7 +32,6 @@ import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     var user: User? by remember { mutableStateOf(null) }
-    var selectedReference by remember { mutableStateOf<DocumentReference?>(null) }
     val fetchedUser = viewModel.getUser()
     if (fetchedUser != null) {
         user = fetchedUser
@@ -51,39 +50,45 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
         NavHost(
             navController = navController,
             startDestination = if (user == null) {
-                R.string.login_page_path.toString()
+                Screen.Login.route
             } else {
-                R.string.home_page_path.toString()
+                Screen.Home.route
             },
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(R.string.login_page_path.toString()) {
+            composable(Screen.Login.route) {
                 LoginPage(navController) {
                     user = it
                 }
             }
-            composable(R.string.register_page_path.toString()) {
+            composable(Screen.Register.route) {
                 RegisterPage(navController = navController)
             }
-            composable(R.string.profile_page_path.toString()) {
+            composable(Screen.Profile.route) {
                 ProfilePage(navController) {
                     user = null
                 }
             }
-            composable(R.string.home_page_path.toString()) {
+            composable(Screen.Home.route) {
                 HomePage(navController = navController)
             }
-            composable(R.string.single_player_path.toString()) {
+            composable(Screen.SinglePlayer.route) {
                 SinglePlayerPage {
-                    selectedReference = it
-                    navController.navigate(R.string.quiz_page_path.toString())
+                    val route = Screen.Quiz.createRoute(it)
+                    navController.navigate(route)
                 }
             }
-            composable(R.string.multiplayer_path.toString()) {
+            composable(Screen.Multiplayer.route) {
                 MultiplayerPage(navController)
             }
-            composable(R.string.quiz_page_path.toString()) {
-                QuizPage(selectedReference)
+            composable(
+                route = Screen.Quiz.route,
+                arguments = listOf(
+                    navArgument(QUIZ_ARGUMENT_KEY) {
+                        nullable = false
+                    })
+            ) {
+                QuizPage()
             }
         }
     }

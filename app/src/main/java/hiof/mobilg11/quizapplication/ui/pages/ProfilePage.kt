@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @Composable
@@ -54,7 +54,7 @@ fun ProfilePage(
             onClick = {
                 viewModel.signOut()
                 callback()
-                navController.navigate(R.string.login_page_path.toString())
+                navController.navigate(Screen.Login.route)
             },
             modifier = Modifier.padding(top = 8.dp)
         ) {
