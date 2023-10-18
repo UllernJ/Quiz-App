@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication
 
 const val QUIZ_ARGUMENT_KEY = "categoryName"
+const val LOBBY_ARGUMENT_KEY = "lobbyId"
 
 sealed class Screen(val route: String) {
     data object Home : Screen("home")
@@ -13,5 +14,10 @@ sealed class Screen(val route: String) {
         }
     }
     data object Multiplayer : Screen("multiplayer")
+    data object MultiplayerLobby : Screen("multiplayer/{$LOBBY_ARGUMENT_KEY}") {
+        fun createRoute(lobbyId: String): String {
+            return this.route.replace("{$LOBBY_ARGUMENT_KEY}", lobbyId)
+        }
+    }
     data object SinglePlayer : Screen("singleplayer")
 }

@@ -15,14 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import hiof.mobilg11.quizapplication.R
+import hiof.mobilg11.quizapplication.Screen
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,7 +90,7 @@ fun MultiplayerPage(navController: NavController) {
                     Button(
                         onClick = {
                             Log.d("MultiplayerPage", "Clicked on ${startedGames[index]}")
-                            navController.navigate(R.string.multiplayer_game_lobby_path.toString())
+                            navController.navigate(Screen.MultiplayerLobby.createRoute(index.toString()))
                         },
                         modifier = Modifier
                             .fillMaxWidth()

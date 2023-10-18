@@ -83,17 +83,6 @@ fun QuizPage(quizViewModel: QuizViewModel = hiltViewModel()) {
                         .height(40.dp)
                         .clip(MaterialTheme.shapes.large)
                 )
-//                if (currentQuestion != null) {
-//                    QuestionDisplay(currentQuestion) { isCorrectAnswer ->
-//                        quizViewModel.answerQuestion(isCorrectAnswer)
-//                    }
-//                } else {
-//                    Text(
-//                        text = "No more questions.",
-//                        fontSize = 24.sp,
-//                        fontWeight = FontWeight.Bold
-//                    )
-//                }
             }
         }
     }

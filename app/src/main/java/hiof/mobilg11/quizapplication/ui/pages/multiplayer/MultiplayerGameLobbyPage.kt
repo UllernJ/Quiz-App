@@ -1,18 +1,20 @@
 package hiof.mobilg11.quizapplication.ui.pages.multiplayer
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyScreen
 
 @Composable
-fun MultiplayerGameLobbyPage() {
+fun MultiplayerGameLobbyPage(viewModel: MultiplayerGameLobbyScreen = hiltViewModel()) {
+    val gameId = viewModel.gameId.collectAsState()
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -23,6 +25,10 @@ fun MultiplayerGameLobbyPage() {
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text(
+                text = "Game ID: ${gameId.value}",
+                fontSize = 20.sp
+            )
             Text(
                 text = "Opponent",
                 fontSize = 20.sp

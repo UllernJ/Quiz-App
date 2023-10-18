@@ -20,6 +20,7 @@ import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
 import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
 import hiof.mobilg11.quizapplication.ui.pages.auth.RegisterPage
 import hiof.mobilg11.quizapplication.ui.pages.home.HomePage
+import hiof.mobilg11.quizapplication.ui.pages.multiplayer.MultiplayerGameLobbyPage
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 
@@ -73,6 +74,15 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
             }
             composable(Screen.Multiplayer.route) {
                 MultiplayerPage(navController)
+            }
+            composable(
+                route = Screen.MultiplayerLobby.route,
+                arguments = listOf(
+                    navArgument(LOBBY_ARGUMENT_KEY) {
+                        nullable = false
+                    })
+            ) {
+                MultiplayerGameLobbyPage()
             }
             composable(
                 route = Screen.Quiz.route,
