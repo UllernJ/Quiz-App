@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyScreen
+import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyViewModel
 
 @Composable
-fun MultiplayerGameLobbyPage(viewModel: MultiplayerGameLobbyScreen = hiltViewModel()) {
+fun MultiplayerGameLobbyPage(viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()) {
     val gameId = viewModel.gameId.collectAsState()
     Box(
         modifier = Modifier.fillMaxSize(),

@@ -93,11 +93,12 @@ class UserDao @Inject constructor(
 
     suspend fun findUser(username: String): List<User?> {
         return firestore.collection(COLLECTION)
-            .whereGreaterThanOrEqualTo("username", username)
-            .whereLessThanOrEqualTo("username", "$username\uF7FF")
             .get()
             .await()
             .toObjects(User::class.java)
+            .filter { user ->
+                user.username.contains(username, ignoreCase = true)
+            }
     }
 
 }

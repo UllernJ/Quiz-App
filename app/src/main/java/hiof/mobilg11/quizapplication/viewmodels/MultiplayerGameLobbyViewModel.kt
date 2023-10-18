@@ -3,14 +3,14 @@ package hiof.mobilg11.quizapplication.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import hiof.mobilg11.quizapplication.service.GameService
+import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MultiplayerGameLobbyScreen @Inject constructor(
+class MultiplayerGameLobbyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val gameService: GameService
+    private val userService: UserService
 ) : ViewModel() {
     private val _gameId: MutableStateFlow<String> = MutableStateFlow("")
     val gameId: MutableStateFlow<String> = _gameId

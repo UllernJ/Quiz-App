@@ -31,9 +31,9 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val user = viewModel.user.collectAsState()
 
     Scaffold(
-        topBar = {
-            NavBar(navController)
-        },
+//        topBar = {
+//            NavBar(navController)
+//        },
         bottomBar = {
             if (user.value != null) {
                 BottomNavBar(navController)
