@@ -84,9 +84,11 @@ class UserDao @Inject constructor(
 
     suspend fun getUser(): User? {
         Log.d("UserDao", "Trying to fetch user...")
-        val uid = auth.currentUser?.uid!!
-        return firestore.collection(COLLECTION).document(uid).get().await()
-            .toObject(User::class.java)
+        auth.currentUser?.uid?.let {
+            return firestore.collection(COLLECTION).document(it).get().await()
+                .toObject(User::class.java)
+        }
+        return null
     }
 
     suspend fun findUser(username: String): List<User?> {

@@ -9,7 +9,7 @@ sealed class Screen(val route: String) {
     data object Profile : Screen("profile")
     data object Quiz : Screen("quiz/{$QUIZ_ARGUMENT_KEY}") {
         fun createRoute(categoryName: String): String {
-            return "quiz/$categoryName"
+            return this.route.replace("{$QUIZ_ARGUMENT_KEY}", categoryName)
         }
     }
     data object Multiplayer : Screen("multiplayer")

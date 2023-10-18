@@ -7,6 +7,8 @@ import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.service.AuthService
 import hiof.mobilg11.quizapplication.service.UserCacheService
 import hiof.mobilg11.quizapplication.service.UserService
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,11 +18,11 @@ class AuthViewModel @Inject constructor(
     private val accountService: AuthService,
     private val userService: UserService
 ) : ViewModel() {
-
-    private var user: User? = null
+    private val _user: MutableStateFlow<User?> = MutableStateFlow(null)
+    var user: StateFlow<User?> = _user
 
     init {
-        user = userCache.getUser()
+        getUser()
     }
 
     fun signInWithEmailAndPassword(
@@ -32,7 +34,7 @@ class AuthViewModel @Inject constructor(
             val result = accountService.signInWithEmailAndPassword(email, password)
             if (result) {
                 saveUser()
-                user = userService.get()
+                _user.value = userService.get()
                 onLoginResult(true)
             } else {
                 onLoginResult(false)
@@ -49,14 +51,17 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun getUser(): User? {
-        return user
+    fun getUser() {
+        viewModelScope.launch {
+            _user.value = userService.get()
+        }
     }
 
     fun signOut() {
         userCache.clearUser()
         viewModelScope.launch {
             accountService.signOut()
+            _user.value = null
         }
     }
 

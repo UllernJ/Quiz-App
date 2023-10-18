@@ -32,7 +32,7 @@ import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 fun LoginPage(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel(),
-    callback: (User?) -> Unit
+    callback: () -> Unit
 ) {
     var password by remember {
         mutableStateOf(InputType.Password)
@@ -64,7 +64,7 @@ fun LoginPage(
                 viewModel.signInWithEmailAndPassword(email.value, password.value) { success ->
                     if (success) {
                         navController.navigate(Screen.Home.route)
-                        callback(viewModel.getUser())
+                        callback()
                     } else {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }
@@ -89,7 +89,7 @@ fun LoginPage(
             Text(text = "Don't have an account?")
             TextButton(
                 onClick = {
-                    navController.navigate(R.string.register_page_path.toString())
+                    navController.navigate(Screen.Register.route)
                 },
             ) {
                 Text("SIGN UP")

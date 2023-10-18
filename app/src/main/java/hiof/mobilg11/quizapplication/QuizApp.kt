@@ -6,17 +6,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.pages.QuizPage
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
@@ -31,25 +27,21 @@ import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 @Composable
 fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val navController = rememberNavController()
-    var user: User? by remember { mutableStateOf(null) }
-    val fetchedUser = viewModel.getUser()
-    if (fetchedUser != null) {
-        user = fetchedUser
-    }
+    val user = viewModel.user.collectAsState()
 
     Scaffold(
         topBar = {
             NavBar(navController)
         },
         bottomBar = {
-            if (user != null) {
+            if (user.value != null) {
                 BottomNavBar(navController)
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = if (user == null) {
+            startDestination = if (user.value == null) {
                 Screen.Login.route
             } else {
                 Screen.Home.route
@@ -58,15 +50,16 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
         ) {
             composable(Screen.Login.route) {
                 LoginPage(navController) {
-                    user = it
+                    viewModel.getUser()
                 }
             }
             composable(Screen.Register.route) {
                 RegisterPage(navController = navController)
             }
             composable(Screen.Profile.route) {
-                ProfilePage(navController) {
-                    user = null
+                ProfilePage {
+                    viewModel.signOut()
+                    navController.navigate(Screen.Login.route)
                 }
             }
             composable(Screen.Home.route) {

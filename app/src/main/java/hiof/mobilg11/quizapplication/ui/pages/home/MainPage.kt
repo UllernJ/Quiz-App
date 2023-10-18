@@ -13,14 +13,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.Screen
-import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.viewmodels.MainViewModel
 
 @Composable
 fun HomePage(
     viewModel: MainViewModel = hiltViewModel(),
-    navController: NavController,
-    user: User? = null
+    navController: NavController
 ) {
     val isUsernameSet = viewModel.isSet.collectAsState()
 
@@ -34,7 +32,7 @@ fun HomePage(
         val buttonLabels =
             listOf("Singleplayer", "Multiplayer", "Leaderboards", "Settings", "Profile")
 
-        if (!isUsernameSet.value!!) {
+        if (!isUsernameSet.value) {
             Alert {
                viewModel.setIsSet(true)
             }
