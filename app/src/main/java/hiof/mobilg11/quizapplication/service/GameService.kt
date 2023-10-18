@@ -8,4 +8,5 @@ interface GameService {
     suspend fun update(game: MultiplayerGame)
     suspend fun end(game: MultiplayerGame)
     suspend fun delete(uuid: String)
+    suspend fun notifications(username: String): Int
 }

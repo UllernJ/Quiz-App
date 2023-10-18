@@ -37,8 +37,8 @@ class MultiplayerViewModel @Inject constructor(
         val uuid = (100000..999999).random().toString()
         return MultiplayerGame(
             uuid = uuid,
-            host = host,
-            opponent = opponent
+            host = host.username,
+            opponent = opponent.username
         )
     }
 

@@ -51,4 +51,14 @@ class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
             .delete()
             .await()
     }
+
+    suspend fun getGamesNotifications(username: String): Int {
+        return firebase.collection(COLLECTION)
+            .whereEqualTo("opponent", username)
+            .whereEqualTo("gameState", GameState.REQUESTING_GAME)
+            .get()
+            .await()
+            .toObjects(MultiplayerGame::class.java)
+            .size
+    }
 }
