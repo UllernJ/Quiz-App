@@ -97,7 +97,7 @@ fun MultiplayerPage(
             }
             Spacer(modifier = Modifier.height(16.dp))
             if (searchUserList.value.isNotEmpty()) {
-                DisplayUsers(searchUserList.value)
+                DisplayUsers(searchUserList.value, viewModel)
             }
         } else {
             Button(
@@ -139,7 +139,10 @@ fun MultiplayerPage(
 }
 
 @Composable
-private fun DisplayUsers(users: List<User?>) {
+private fun DisplayUsers(
+    users: List<User?>,
+    viewModel: MultiplayerViewModel
+) {
     LazyColumn(
         content = {
             items(users.size) { index ->
@@ -166,7 +169,13 @@ private fun DisplayUsers(users: List<User?>) {
                         contentDescription = "Challenge Icon",
                         tint = Color.Blue,
                         modifier = Modifier
-                            .clickable { /* TODO create instance */ }
+                            .clickable {
+                                users[index].let {
+                                    if (it != null) {
+                                        viewModel.createGame(it)
+                                    }
+                                }
+                            }
                             .padding(16.dp)
                     )
                 }
