@@ -27,4 +27,8 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
     override suspend fun notifications(username: String): Int {
         return gameDao.getGamesNotifications(username)
     }
+
+    override suspend fun getGames(username: String): List<MultiplayerGame> {
+        return gameDao.getAllActiveGamesByUsername(username)
+    }
 }

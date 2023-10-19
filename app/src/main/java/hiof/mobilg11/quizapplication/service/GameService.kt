@@ -9,4 +9,5 @@ interface GameService {
     suspend fun end(game: MultiplayerGame)
     suspend fun delete(uuid: String)
     suspend fun notifications(username: String): Int
+    suspend fun getGames(username: String): List<MultiplayerGame>
 }

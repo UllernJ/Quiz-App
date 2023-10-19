@@ -61,4 +61,25 @@ class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
             .toObjects(MultiplayerGame::class.java)
             .size
     }
+
+    suspend fun getAllActiveGamesByUsername(username: String): List<MultiplayerGame> {
+        val hostedGames = firebase.collection(COLLECTION)
+            .whereEqualTo("host", username)
+            .get()
+            .await()
+            .toObjects(MultiplayerGame::class.java)
+        val opponentGames = firebase.collection(COLLECTION)
+            .whereEqualTo("opponent", username)
+            .get()
+            .await()
+            .toObjects(MultiplayerGame::class.java)
+        return getAllActiveGamesFilter(hostedGames + opponentGames)
+    }
+
+    private fun getAllActiveGamesFilter(games: List<MultiplayerGame>): List<MultiplayerGame> {
+        return games.filter { game ->
+            game.gameState != GameState.FINISHED && game.gameState != GameState.REQUESTING_GAME
+        }
+    }
+
 }
