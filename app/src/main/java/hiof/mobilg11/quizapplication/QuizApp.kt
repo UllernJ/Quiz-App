@@ -31,9 +31,6 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val user = viewModel.user.collectAsState()
 
     Scaffold(
-//        topBar = {
-//            NavBar(navController)
-//        },
         bottomBar = {
             if (user.value != null) {
                 BottomNavBar(navController)
@@ -42,11 +39,7 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = if (user.value == null) {
-                Screen.Login.route
-            } else {
-                Screen.Home.route
-            },
+            startDestination = Screen.Loading.route,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Login.route) {
@@ -93,6 +86,17 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
             ) {
                 QuizPage()
             }
+            composable(Screen.Loading.route) {
+                LoadingScreen {
+                    if (user.value != null) {
+                        navController.navigate(Screen.Home.route)
+                    } else {
+                        navController.navigate(Screen.Login.route)
+                    }
+                }
+            }
+
+
         }
     }
 }

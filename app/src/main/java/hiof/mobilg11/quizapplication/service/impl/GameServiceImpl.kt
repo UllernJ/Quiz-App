@@ -7,6 +7,12 @@ import javax.inject.Inject
 
 class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameService {
     override suspend fun create(game: MultiplayerGame) {
+        if(game.host == game.opponent) {
+            throw IllegalArgumentException("Host and opponent cannot be the same")
+        }
+        if(game.host.isBlank() || game.opponent.isBlank()) {
+            throw IllegalArgumentException("Host and opponent cannot be blank")
+        }
         gameDao.createGame(game)
     }
 
