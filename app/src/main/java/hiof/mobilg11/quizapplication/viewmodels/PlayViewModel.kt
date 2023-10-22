@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class PlayViewModel @Inject constructor(
     private val userService: UserService,
     userCacheService: UserCacheService,
     private val gameService: GameService
 ) : ViewModel() {
-    private val _isSet = MutableStateFlow(true)
+    private val _isSet: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isSet: StateFlow<Boolean> = _isSet
 
     val username: String? = userCacheService.getUser().let { user ->

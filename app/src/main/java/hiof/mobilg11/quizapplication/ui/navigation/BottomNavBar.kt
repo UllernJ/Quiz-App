@@ -18,33 +18,30 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import hiof.mobilg11.quizapplication.Screen
-import hiof.mobilg11.quizapplication.viewmodels.BottomNavBarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavBar(
     navController: NavController,
-    viewModel: BottomNavBarViewModel = hiltViewModel()
+    gameNotifications: Int
+
 ) {
-    val gameNotifications = viewModel.gameNotifications.collectAsState()
 
     val items = listOf(
         BottomNavBarItem.Play,
         BottomNavBarItem.Profile
     )
-    if (gameNotifications.value > 0) {
-        items[0].notifications = gameNotifications.value
+    if (gameNotifications > 0) {
+        items[0].notifications = gameNotifications
     }
     val selectedItem = remember { mutableStateOf(items[0]) }
 

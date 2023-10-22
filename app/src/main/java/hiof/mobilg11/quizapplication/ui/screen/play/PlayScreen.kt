@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Badge
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,12 +43,13 @@ import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.ui.theme.LightBlue
 import hiof.mobilg11.quizapplication.ui.theme.LightGreen1
 import hiof.mobilg11.quizapplication.ui.theme.OrangeYellow2
-import hiof.mobilg11.quizapplication.viewmodels.MainViewModel
+import hiof.mobilg11.quizapplication.viewmodels.PlayViewModel
 
 @Composable
 fun PlayScreen(
-    viewModel: MainViewModel = hiltViewModel(),
-    navController: NavController
+    viewModel: PlayViewModel = hiltViewModel(),
+    navController: NavController,
+    gameNotifications: Int
 ) {
     val isUsernameSet = viewModel.isSet.collectAsState()
     val games = viewModel.games.collectAsState()
@@ -63,7 +67,7 @@ fun PlayScreen(
             }
         }
         if (viewModel.username != null && isUsernameSet.value) {
-            TitleSection(viewModel.username, navController)
+            TitleSection(viewModel.username, navController, gameNotifications)
             GameCard(
                 "Multiplayer",
                 "Play with friends or strangers!",
@@ -84,8 +88,9 @@ fun PlayScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TitleSection(username: String, navController: NavController) {
+fun TitleSection(username: String, navController: NavController, gameNotifications: Int) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -113,6 +118,12 @@ fun TitleSection(username: String, navController: NavController) {
                     modifier = Modifier.size(24.dp),
                     contentDescription = null,
                     tint = Color.White
+                )
+                Badge(
+                    content = {
+                        Text(text = gameNotifications.toString())
+                    },
+                    modifier = Modifier.offset(x = 12.dp, y = (-8).dp)
                 )
             }
         }
@@ -207,7 +218,7 @@ fun Games(games: List<MultiplayerGame>) {
 @Composable
 fun GameCard(
     game: MultiplayerGame,
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: PlayViewModel = hiltViewModel()
 ) {
     Box(
         modifier = Modifier

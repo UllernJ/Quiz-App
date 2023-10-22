@@ -25,26 +25,33 @@ import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyScreen
 import hiof.mobilg11.quizapplication.ui.screen.play.NotificationScreen
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
+import hiof.mobilg11.quizapplication.viewmodels.QuizAppViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
+fun QuizApp(
+    auth: AuthViewModel = hiltViewModel(),
+    appModel: QuizAppViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
-    val user = viewModel.user.collectAsState()
+    val user = auth.user.collectAsState()
     val currentRoute by navController.currentBackStackEntryAsState()
+    val gameNotifications by appModel.gameNotifications.collectAsState()
+
 
     Scaffold(
         topBar = {
-            if(currentRoute?.destination?.route == Screen.Quiz.route) {
+            if (currentRoute?.destination?.route == Screen.Quiz.route) {
                 NavBar(navController)
             }
         },
         bottomBar = {
             if (user.value != null
                 && currentRoute?.destination?.route != Screen.Loading.route
-                && currentRoute?.destination?.route != Screen.Quiz.route) {
-                BottomNavBar(navController)
+                && currentRoute?.destination?.route != Screen.Quiz.route
+            ) {
+                BottomNavBar(navController, gameNotifications)
             }
         }
     ) { innerPadding ->
@@ -55,7 +62,7 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
         ) {
             composable(Screen.Login.route) {
                 LoginScreen(navController) {
-                    viewModel.getUser()
+                    auth.getUser()
                 }
             }
             composable(Screen.Register.route) {
@@ -63,12 +70,12 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
             }
             composable(Screen.Profile.route) {
                 ProfileScreen {
-                    viewModel.signOut()
+                    auth.signOut()
                     navController.navigate(Screen.Login.route)
                 }
             }
             composable(Screen.Home.route) {
-                PlayScreen(navController = navController)
+                PlayScreen(navController = navController, gameNotifications = gameNotifications)
             }
             composable(Screen.SinglePlayer.route) {
                 SinglePlayerScreen {
