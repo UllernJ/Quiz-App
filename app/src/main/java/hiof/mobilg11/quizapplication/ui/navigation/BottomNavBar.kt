@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
@@ -18,6 +19,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,6 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.viewmodels.BottomNavBarViewModel
 
@@ -37,7 +40,6 @@ fun BottomNavBar(
     val gameNotifications = viewModel.gameNotifications.collectAsState()
 
     val items = listOf(
-        BottomNavBarItem.Home,
         BottomNavBarItem.Play,
         BottomNavBarItem.Profile
     )
@@ -46,7 +48,19 @@ fun BottomNavBar(
     }
     val selectedItem = remember { mutableStateOf(items[0]) }
 
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+
     NavigationBar {
+        if (currentBackStackEntry?.destination?.route != Screen.Home.route
+            && currentBackStackEntry?.destination?.route != Screen.Loading.route
+        ) {
+            NavigationBarItem(
+                selected = false,
+                onClick = { navController.navigateUp() },
+                icon = { Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null) },
+                label = { Text(text = "Back") }
+            )
+        }
         for (item in items) {
             val isSelected = selectedItem.value == item
 
@@ -104,7 +118,7 @@ sealed class BottomNavBarItem(
     )
 
     object Play : BottomNavBarItem(
-        route = Screen.SinglePlayer.route,
+        route = Screen.Home.route,
         title = "Play",
         selectedIcon = Icons.Filled.PlayArrow,
         unselectedIcon = Icons.Outlined.PlayArrow,
