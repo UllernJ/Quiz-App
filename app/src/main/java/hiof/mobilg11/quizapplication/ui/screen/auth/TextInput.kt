@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.pages.auth
+package hiof.mobilg11.quizapplication.ui.screen.auth
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions

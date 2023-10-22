@@ -1,9 +1,10 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
 import hiof.mobilg11.quizapplication.model.Category
+import hiof.mobilg11.quizapplication.ui.screen.filterCategories
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
-class SinglePlayerPageKtTest {
+class SinglePlayerScreenKtTest {
 
     private var categories: List<Category> = listOf(
         Category("General Knowledge"),

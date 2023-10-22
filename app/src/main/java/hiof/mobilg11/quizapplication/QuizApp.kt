@@ -13,14 +13,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hiof.mobilg11.quizapplication.ui.pages.QuizPage
+import hiof.mobilg11.quizapplication.ui.screen.QuizPage
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
-import hiof.mobilg11.quizapplication.ui.pages.ProfilePage
-import hiof.mobilg11.quizapplication.ui.pages.SinglePlayerPage
-import hiof.mobilg11.quizapplication.ui.pages.auth.LoginPage
-import hiof.mobilg11.quizapplication.ui.pages.auth.RegisterPage
-import hiof.mobilg11.quizapplication.ui.pages.home.HomePage
-import hiof.mobilg11.quizapplication.ui.pages.multiplayer.MultiplayerGameLobbyPage
+import hiof.mobilg11.quizapplication.ui.screen.ProfilePage
+import hiof.mobilg11.quizapplication.ui.screen.SinglePlayerPage
+import hiof.mobilg11.quizapplication.ui.screen.auth.LoginPage
+import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterPage
+import hiof.mobilg11.quizapplication.ui.screen.home.HomePage
+import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyPage
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 

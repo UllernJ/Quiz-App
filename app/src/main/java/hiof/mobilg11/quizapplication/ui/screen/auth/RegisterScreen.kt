@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.pages.auth
+package hiof.mobilg11.quizapplication.ui.screen.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.Image

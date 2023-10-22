@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.pages.auth
+package hiof.mobilg11.quizapplication.ui.screen.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -22,9 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.Screen
-import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 

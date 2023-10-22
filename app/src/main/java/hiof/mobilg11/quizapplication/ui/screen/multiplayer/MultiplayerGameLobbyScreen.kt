@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.pages.multiplayer
+package hiof.mobilg11.quizapplication.ui.screen.multiplayer
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
