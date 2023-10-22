@@ -30,7 +30,7 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
         gameDao.deleteGame(MultiplayerGame(uuid))
     }
 
-    override suspend fun notifications(username: String): Int {
+    override suspend fun notifications(username: String): List<MultiplayerGame> {
         return gameDao.getGamesNotifications(username)
     }
 

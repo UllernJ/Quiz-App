@@ -44,7 +44,7 @@ fun BottomNavBar(
         BottomNavBarItem.Profile
     )
     if (gameNotifications.value > 0) {
-        items[1].notifications = gameNotifications.value
+        items[0].notifications = gameNotifications.value
     }
     val selectedItem = remember { mutableStateOf(items[0]) }
 
@@ -53,6 +53,7 @@ fun BottomNavBar(
     NavigationBar {
         if (currentBackStackEntry?.destination?.route != Screen.Home.route
             && currentBackStackEntry?.destination?.route != Screen.Loading.route
+            && currentBackStackEntry?.destination?.route != Screen.Profile.route
         ) {
             NavigationBarItem(
                 selected = false,

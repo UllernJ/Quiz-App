@@ -21,4 +21,5 @@ sealed class Screen(val route: String) {
     }
     data object SinglePlayer : Screen("singleplayer")
     data object Loading : Screen("loading")
+    data object Notifications : Screen("notifications")
 }

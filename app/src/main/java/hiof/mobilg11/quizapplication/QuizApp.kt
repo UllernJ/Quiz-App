@@ -1,15 +1,18 @@
 package hiof.mobilg11.quizapplication
 
 import MultiplayerScreen
+import NavBar
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import hiof.mobilg11.quizapplication.ui.screen.QuizScreen
@@ -18,8 +21,9 @@ import hiof.mobilg11.quizapplication.ui.screen.ProfileScreen
 import hiof.mobilg11.quizapplication.ui.screen.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.screen.auth.LoginScreen
 import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterScreen
-import hiof.mobilg11.quizapplication.ui.screen.home.HomeScreen
+import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyScreen
+import hiof.mobilg11.quizapplication.ui.screen.play.NotificationScreen
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 
@@ -28,10 +32,18 @@ import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
     val navController = rememberNavController()
     val user = viewModel.user.collectAsState()
+    val currentRoute by navController.currentBackStackEntryAsState()
 
     Scaffold(
+        topBar = {
+            if(currentRoute?.destination?.route == Screen.Quiz.route) {
+                NavBar(navController)
+            }
+        },
         bottomBar = {
-            if (user.value != null) {
+            if (user.value != null
+                && currentRoute?.destination?.route != Screen.Loading.route
+                && currentRoute?.destination?.route != Screen.Quiz.route) {
                 BottomNavBar(navController)
             }
         }
@@ -56,7 +68,7 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
                 }
             }
             composable(Screen.Home.route) {
-                HomeScreen(navController = navController)
+                PlayScreen(navController = navController)
             }
             composable(Screen.SinglePlayer.route) {
                 SinglePlayerScreen {
@@ -83,7 +95,7 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
                         nullable = false
                     })
             ) {
-                QuizScreen()
+                QuizScreen(navController)
             }
             composable(Screen.Loading.route) {
                 LoadingScreen {
@@ -95,6 +107,9 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
                 }
             }
 
+            composable(Screen.Notifications.route) {
+                NotificationScreen()
+            }
 
         }
     }

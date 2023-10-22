@@ -16,12 +16,12 @@ class BottomNavBarViewModel @Inject constructor(
     userCacheService: UserCacheService
 ) :
     ViewModel() {
-    val _gameNotifications: MutableStateFlow<Int> = MutableStateFlow(0)
+    private val _gameNotifications: MutableStateFlow<Int> = MutableStateFlow(0)
     val gameNotifications: StateFlow<Int> = _gameNotifications
     val username: String = userCacheService.getUser()!!.username
     init {
         viewModelScope.launch {
-            _gameNotifications.value = getGameNotifications(username)
+            _gameNotifications.value = getGameNotifications(username).size
         }
     }
 

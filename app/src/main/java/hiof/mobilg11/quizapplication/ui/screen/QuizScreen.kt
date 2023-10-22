@@ -14,11 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.shared.QuestionDisplay
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
 
 @Composable
-fun QuizScreen(quizViewModel: QuizViewModel = hiltViewModel()) {
+fun QuizScreen(navController: NavController, quizViewModel: QuizViewModel = hiltViewModel()) {
     val questions by quizViewModel.questions.collectAsState()
     val currentQuestionIndex by quizViewModel.currentQuestionIndex.collectAsState()
     val score by quizViewModel.score.collectAsState()
@@ -46,14 +47,14 @@ fun QuizScreen(quizViewModel: QuizViewModel = hiltViewModel()) {
                 )
                 Button(
                     onClick = {
-                        quizViewModel.restartQuiz()
+                        navController.navigateUp()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = "Restart",
+                        text = "Back",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
