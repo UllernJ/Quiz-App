@@ -31,7 +31,7 @@ import hiof.mobilg11.quizapplication.viewmodels.SinglePlayerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SinglePlayerPage(callback: (String) -> Unit) {
+fun SinglePlayerScreen(callback: (String) -> Unit) {
     val singlePlayerViewModel: SinglePlayerViewModel = hiltViewModel()
     val categories = singlePlayerViewModel.categories.collectAsState()
     val searchQuery = remember { mutableStateOf("") }

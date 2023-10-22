@@ -43,7 +43,7 @@ import hiof.mobilg11.quizapplication.ui.theme.OrangeYellow2
 import hiof.mobilg11.quizapplication.viewmodels.MainViewModel
 
 @Composable
-fun HomePage(
+fun HomeScreen(
     viewModel: MainViewModel = hiltViewModel(),
     navController: NavController
 ) {

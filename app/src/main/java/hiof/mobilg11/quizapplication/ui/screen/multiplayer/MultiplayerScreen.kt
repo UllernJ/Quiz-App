@@ -39,7 +39,7 @@ import hiof.mobilg11.quizapplication.viewmodels.MultiplayerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MultiplayerPage(
+fun MultiplayerScreen(
     navController: NavController,
     viewModel: MultiplayerViewModel = hiltViewModel()
 ) {

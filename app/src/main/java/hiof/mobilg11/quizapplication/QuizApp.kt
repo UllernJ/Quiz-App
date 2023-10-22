@@ -1,7 +1,6 @@
 package hiof.mobilg11.quizapplication
 
-import MultiplayerPage
-import NavBar
+import MultiplayerScreen
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -13,14 +12,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hiof.mobilg11.quizapplication.ui.screen.QuizPage
+import hiof.mobilg11.quizapplication.ui.screen.QuizScreen
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
-import hiof.mobilg11.quizapplication.ui.screen.ProfilePage
-import hiof.mobilg11.quizapplication.ui.screen.SinglePlayerPage
-import hiof.mobilg11.quizapplication.ui.screen.auth.LoginPage
-import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterPage
-import hiof.mobilg11.quizapplication.ui.screen.home.HomePage
-import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyPage
+import hiof.mobilg11.quizapplication.ui.screen.ProfileScreen
+import hiof.mobilg11.quizapplication.ui.screen.SinglePlayerScreen
+import hiof.mobilg11.quizapplication.ui.screen.auth.LoginScreen
+import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterScreen
+import hiof.mobilg11.quizapplication.ui.screen.home.HomeScreen
+import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyScreen
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 
@@ -43,30 +42,30 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Login.route) {
-                LoginPage(navController) {
+                LoginScreen(navController) {
                     viewModel.getUser()
                 }
             }
             composable(Screen.Register.route) {
-                RegisterPage(navController = navController)
+                RegisterScreen(navController = navController)
             }
             composable(Screen.Profile.route) {
-                ProfilePage {
+                ProfileScreen {
                     viewModel.signOut()
                     navController.navigate(Screen.Login.route)
                 }
             }
             composable(Screen.Home.route) {
-                HomePage(navController = navController)
+                HomeScreen(navController = navController)
             }
             composable(Screen.SinglePlayer.route) {
-                SinglePlayerPage {
+                SinglePlayerScreen {
                     val route = Screen.Quiz.createRoute(it)
                     navController.navigate(route)
                 }
             }
             composable(Screen.Multiplayer.route) {
-                MultiplayerPage(navController)
+                MultiplayerScreen(navController)
             }
             composable(
                 route = Screen.MultiplayerLobby.route,
@@ -75,7 +74,7 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
                         nullable = false
                     })
             ) {
-                MultiplayerGameLobbyPage()
+                MultiplayerGameLobbyScreen()
             }
             composable(
                 route = Screen.Quiz.route,
@@ -84,7 +83,7 @@ fun QuizApp(viewModel: AuthViewModel = hiltViewModel()) {
                         nullable = false
                     })
             ) {
-                QuizPage()
+                QuizScreen()
             }
             composable(Screen.Loading.route) {
                 LoadingScreen {

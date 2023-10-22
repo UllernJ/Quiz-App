@@ -29,7 +29,7 @@ import hiof.mobilg11.quizapplication.ui.theme.registerIcon
 import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
 
 @Composable
-fun RegisterPage(
+fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
     navController: NavController
 ) {

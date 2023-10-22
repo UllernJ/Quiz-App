@@ -18,7 +18,7 @@ import hiof.mobilg11.quizapplication.shared.QuestionDisplay
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
 
 @Composable
-fun QuizPage(quizViewModel: QuizViewModel = hiltViewModel()) {
+fun QuizScreen(quizViewModel: QuizViewModel = hiltViewModel()) {
     val questions by quizViewModel.questions.collectAsState()
     val currentQuestionIndex by quizViewModel.currentQuestionIndex.collectAsState()
     val score by quizViewModel.score.collectAsState()

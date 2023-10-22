@@ -13,7 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyViewModel
 
 @Composable
-fun MultiplayerGameLobbyPage(viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()) {
+fun MultiplayerGameLobbyScreen(viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()) {
     val gameId = viewModel.gameId.collectAsState()
     Box(
         modifier = Modifier.fillMaxSize(),

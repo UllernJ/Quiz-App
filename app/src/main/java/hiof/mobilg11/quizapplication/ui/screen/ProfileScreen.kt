@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @Composable
-fun ProfilePage(
+fun ProfileScreen(
     viewModel: AuthViewModel = hiltViewModel(),
     callback: () -> Unit
 ) {

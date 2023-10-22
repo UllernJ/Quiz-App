@@ -27,7 +27,7 @@ import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 
 @Composable
-fun LoginPage(
+fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel(),
     callback: () -> Unit
