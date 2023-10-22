@@ -18,7 +18,7 @@ val OrangeYellow1 = Color(0xffffa500)
 val OrangeYellow2 = Color(0xffff8c00)
 val OrangeYellow3 = Color(0xffff7f50)
 
-val LightGreen1 = Color(0xff90ee90)
+val LightGreen1 = Color(0xFF387038)
 val LightGreen2 = Color(0xff98fb98)
 val LightGreen3 = Color(0xff00ff7f)
 

@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,11 +32,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.ui.theme.BlueViola1
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.ui.theme.LightBlue
+import hiof.mobilg11.quizapplication.ui.theme.LightGreen1
 import hiof.mobilg11.quizapplication.ui.theme.OrangeYellow2
 import hiof.mobilg11.quizapplication.viewmodels.MainViewModel
 
@@ -60,8 +63,20 @@ fun HomePage(
             }
         }
         if (viewModel.username != null && isUsernameSet.value) {
-            TitleSection(viewModel.username)
-            MiddleSection()
+            TitleSection(viewModel.username, navController)
+            GameCard(
+                "Multiplayer",
+                "Play with friends or strangers!",
+                Screen.Multiplayer.route,
+                navController
+            )
+            GameCard(
+                "Singleplayer",
+                "Play alone and get a highscore!",
+                Screen.SinglePlayer.route,
+                navController,
+                LightGreen1
+            )
             Games(games.value)
         }
 
@@ -70,7 +85,7 @@ fun HomePage(
 }
 
 @Composable
-fun TitleSection(username: String) {
+fun TitleSection(username: String, navController: NavController) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -90,11 +105,11 @@ fun TitleSection(username: String) {
         }
         Column {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screen.Profile.route) },
                 modifier = Modifier.size(24.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.PlayArrow,
+                    imageVector = Icons.Default.Person,
                     modifier = Modifier.size(24.dp),
                     contentDescription = null,
                     tint = Color.White
@@ -105,7 +120,13 @@ fun TitleSection(username: String) {
 }
 
 @Composable
-fun MiddleSection() {
+fun GameCard(
+    title: String,
+    description: String,
+    route: String,
+    navController: NavController,
+    color: Color = OrangeYellow2
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -114,7 +135,7 @@ fun MiddleSection() {
             .padding(top = 5.dp)
     ) {
         Text(
-            text = "Multiplayer",
+            text = title,
             style = MaterialTheme.typography.titleMedium,
         )
         Row(
@@ -123,7 +144,7 @@ fun MiddleSection() {
             modifier = Modifier
                 .padding(15.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(OrangeYellow2)
+                .background(color)
                 .padding(horizontal = 15.dp, vertical = 20.dp)
                 .fillMaxWidth()
 
@@ -135,7 +156,7 @@ fun MiddleSection() {
                     color = Color.White
                 )
                 Text(
-                    text = "Play with friends or strangers!",
+                    text = description,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White
                 )
@@ -148,12 +169,16 @@ fun MiddleSection() {
                     .background(LightBlue)
                     .padding(10.dp),
             ) {
-                Icon(
-                    imageVector = Icons.Default.PlayArrow,
-                    modifier = Modifier.size(24.dp),
-                    contentDescription = null,
-                    tint = Color.White
-                )
+                IconButton(
+                    onClick = { navController.navigate(route) },
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.PlayArrow,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
             }
         }
     }
