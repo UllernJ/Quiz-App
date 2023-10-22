@@ -119,12 +119,14 @@ fun TitleSection(username: String, navController: NavController, gameNotificatio
                     contentDescription = null,
                     tint = Color.White
                 )
-                Badge(
-                    content = {
-                        Text(text = gameNotifications.toString())
-                    },
-                    modifier = Modifier.offset(x = 12.dp, y = (-8).dp)
-                )
+                if (gameNotifications > 0) {
+                    Badge(
+                        content = {
+                            Text(text = gameNotifications.toString())
+                        },
+                        modifier = Modifier.offset(x = 12.dp, y = (-8).dp)
+                    )
+                }
             }
         }
     }
