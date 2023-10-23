@@ -25,8 +25,13 @@ class MultiplayerViewModel @Inject constructor(
     private val _lastChallengedUsers = MutableStateFlow<List<User>>(emptyList())
     val lastChallengedUsers: MutableStateFlow<List<User>> = _lastChallengedUsers
 
-
     private val host: User = userCacheService.getUser()!!
+
+    init {
+        viewModelScope.launch {
+            fetchLastChallengedUsers(15)
+        }
+    }
 
     fun findUser(username: String) {
         viewModelScope.launch {

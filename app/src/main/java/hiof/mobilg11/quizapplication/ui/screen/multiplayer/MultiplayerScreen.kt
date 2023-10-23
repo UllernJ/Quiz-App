@@ -51,12 +51,6 @@ fun MultiplayerScreen(
 
     val lastPlayedUsers = viewModel.lastChallengedUsers.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchLastChallengedUsers(15)
-
-        Log.d("MultiplayerScreen", "Last played users: ${lastPlayedUsers.value}")
-    }
-
     Column(
         modifier = Modifier
             .padding(8.dp)
