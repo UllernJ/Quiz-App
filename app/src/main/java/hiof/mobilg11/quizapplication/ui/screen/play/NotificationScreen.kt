@@ -84,7 +84,7 @@ fun NotificationCard(game: MultiplayerGame, onAccept: () -> Unit, onDecline: () 
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${game.opponent} wants to play!",
+                text = "${game.host} wants to play!",
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,

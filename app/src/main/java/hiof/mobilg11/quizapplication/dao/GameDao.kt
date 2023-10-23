@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication.dao
 
 import com.google.firebase.firestore.FirebaseFirestore
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import kotlinx.coroutines.tasks.await
@@ -61,7 +62,7 @@ class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
             .toObjects(MultiplayerGame::class.java)
     }
 
-    suspend fun getAllActiveGamesByUsername(username: String): List<MultiplayerGame> {
+    suspend fun getAllGamesByUsername(username: String): List<MultiplayerGame> {
         val hostedGames = firebase.collection(COLLECTION)
             .whereEqualTo("host", username)
             .get()
@@ -72,7 +73,11 @@ class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
             .get()
             .await()
             .toObjects(MultiplayerGame::class.java)
-        return getAllActiveGamesFilter(hostedGames + opponentGames)
+        return hostedGames + opponentGames
+    }
+
+    suspend fun getAllActiveGamesByUsername(username: String): List<MultiplayerGame> {
+        return getAllActiveGamesFilter(getAllGamesByUsername(username))
     }
 
     private fun getAllActiveGamesFilter(games: List<MultiplayerGame>): List<MultiplayerGame> {

@@ -17,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,13 +49,13 @@ fun MultiplayerScreen(
     var searchQuery by remember { mutableStateOf("") }
     val searchUserList = viewModel.users.collectAsState()
 
-    val startedGames = listOf(
-        "Din tur mot\nOla\nOla 1-0 Deg",
-        "Din tur mot\nOla\nOla 1-0 Deg",
-        "Din tur mot\nOla\nOla 1-0 Deg",
-        "Din tur mot\nOla\nOla 1-0 Deg",
-        "Din tur mot\nOla\nOla 1-0 Deg",
-    )
+    val lastPlayedUsers = viewModel.lastChallengedUsers.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchLastChallengedUsers(15)
+
+        Log.d("MultiplayerScreen", "Last played users: ${lastPlayedUsers.value}")
+    }
 
     Column(
         modifier = Modifier
@@ -113,27 +114,25 @@ fun MultiplayerScreen(
                 )
             }
 
-            LazyColumn(content = {
-                items(startedGames.size) { index ->
-                    Button(
-                        onClick = {
-                            Log.d("MultiplayerPage", "Clicked on ${startedGames[index]}")
-                            navController.navigate(Screen.MultiplayerLobby.createRoute(index.toString()))
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        Text(
-                            text = startedGames[index],
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-                }
-            })
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Last played",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if(lastPlayedUsers.value.isNotEmpty()) {
+                DisplayUsers(lastPlayedUsers.value, viewModel)
+            } else {
+                Text(
+                    text = "No users found",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

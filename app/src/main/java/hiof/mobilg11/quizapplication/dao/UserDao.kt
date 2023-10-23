@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.model.game.GameState
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -99,6 +100,35 @@ class UserDao @Inject constructor(
             .filter { user ->
                 user.username.contains(username, ignoreCase = true)
             }
+    }
+
+    suspend fun getLastChallengedUsers(username: String, amount: Int): List<String> {
+        val games = GameDao(firestore).getAllGamesByUsername(username)
+
+        val sortedGames = games.sortedByDescending { game -> game.lastUpdated }
+        val filteredGames = sortedGames.filter { game ->
+            game.gameState == GameState.FINISHED
+        }
+
+        val lastChallengedUsers = mutableListOf<String>()
+
+        for(game in filteredGames) {
+            if(lastChallengedUsers.size >= amount) {
+                break
+            }
+
+            var foundUser = ""
+
+            if(game.host == username) foundUser = game.opponent
+            else foundUser = game.host
+
+            if(!lastChallengedUsers.contains(foundUser)) {
+                lastChallengedUsers.add(foundUser)
+            }
+        }
+
+
+        return lastChallengedUsers
     }
 
 }
