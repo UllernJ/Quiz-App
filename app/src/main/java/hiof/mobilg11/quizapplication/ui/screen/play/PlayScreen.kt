@@ -239,7 +239,7 @@ fun GameCard(
         ) {
             Column {
                 Text(
-                    text = "You vs ${game.opponent}",
+                    if (game.host == viewModel.username) "You vs ${game.opponent}" else "You vs ${game.host}",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White
                 )
