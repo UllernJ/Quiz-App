@@ -81,7 +81,7 @@ fun PlayScreen(
                 navController,
                 LightGreen1
             )
-            Games(games.value)
+            Games(games.value, navController)
         }
 
 
@@ -198,7 +198,7 @@ fun GameCard(
 }
 
 @Composable
-fun Games(games: List<MultiplayerGame>) {
+fun Games(games: List<MultiplayerGame>, navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -212,7 +212,7 @@ fun Games(games: List<MultiplayerGame>) {
         )
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            content = { items(games) { GameCard(it) } },
+            content = { items(games) { GameCard(it, navController) } },
         )
     }
 }
@@ -220,6 +220,7 @@ fun Games(games: List<MultiplayerGame>) {
 @Composable
 fun GameCard(
     game: MultiplayerGame,
+    navController: NavController,
     viewModel: PlayViewModel = hiltViewModel()
 ) {
     Box(
@@ -264,7 +265,9 @@ fun GameCard(
             Spacer(modifier = Modifier.weight(1f))
             Column {
                 IconButton(
-                    onClick = { /*TODO go to game*/ },
+                    onClick = {
+                        navController.navigate(Screen.MultiplayerLobby.createRoute(game.uuid))
+                    },
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)

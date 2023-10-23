@@ -15,7 +15,7 @@ data class MultiplayerGame(
     var hostScore: Int = 0,
     var opponentScore: Int = 0,
 
-    var numberOfRounds: Int = 0,
+    var numberOfRounds: Int = 5,
     var roundQuestionsReferences: List<String> = listOf(),
     var roundIndex: Int = 0,
 

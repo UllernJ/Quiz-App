@@ -1,67 +1,96 @@
 package hiof.mobilg11.quizapplication.ui.screen.multiplayer
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyViewModel
 
 @Composable
 fun MultiplayerGameLobbyScreen(viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()) {
-    val gameId = viewModel.gameId.collectAsState()
-    Box(
+    val game = viewModel.game.collectAsState()
+    val user = viewModel.user
+
+    Surface(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Game ID: ${gameId.value}",
-                fontSize = 20.sp
+                text = "Game ID: ${game.value.uuid}",
+                fontSize = 20.sp,
             )
+
             Text(
-                text = "Opponent",
-                fontSize = 20.sp
+                if (user?.username == game.value.host) "${game.value.host} vs ${game.value.opponent}" else "${game.value.opponent} vs ${game.value.host}",
+                fontSize = 18.sp,
             )
-            Spacer(modifier = Modifier.height(10.dp))
+
             Text(
-                text = "3 - 1",
-                fontSize = 40.sp,
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "You",
-                fontSize = 20.sp
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "Categories played",
+                text = "Round ${game.value.roundIndex + 1} of ${game.value.numberOfRounds}",
                 fontSize = 16.sp,
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            Column {
-                // Dummy data for categories list
-                listOf("*", "*", "*", "*").forEach {
-                    Text(
-                        text = it,
-                        fontSize = 16.sp,
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = "Score: ${game.value.hostScore} - ${game.value.opponentScore}",
+                fontSize = 16.sp,
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if(game.value.categoriesPlayedReferences.isNotEmpty()) {
+                Text(
+                    text = "Categories played",
+                    fontSize = 16.sp,
+                )
+                Column {
+                    game.value.categoriesPlayedReferences.forEach {
+                        Text(text = it)
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { /* navigate to quiz game screen */ }) {
-                Text(text = "PLAY")
+
+            if ((game.value.gameState == GameState.WAITING_FOR_HOST && user?.username == game.value.host) ||
+                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user?.username == game.value.opponent)
+            ) {
+                Button(
+                    onClick = { /* navigate to quiz game screen */ },
+                    modifier = Modifier
+                        .padding(vertical = 8.dp),
+                ) {
+                    Text(
+                        text = "PLAY",
+                        color = Color.White,
+                        fontSize = 18.sp
+                    )
+                }
+            } else {
+                Text(
+                    text = "Waiting for opponent to play",
+                    fontSize = 18.sp,
+                )
             }
         }
     }
