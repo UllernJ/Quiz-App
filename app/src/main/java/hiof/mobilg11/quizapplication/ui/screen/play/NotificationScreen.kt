@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,8 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -33,35 +33,44 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
+import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
+import hiof.mobilg11.quizapplication.ui.theme.NotificationColor2
 import hiof.mobilg11.quizapplication.viewmodels.NotificationViewModel
 
 @Composable
 fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
     val notifications = viewModel.notifications.collectAsState()
 
-    if(notifications.value.isEmpty()) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "No notifications",
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(DeepBlue)
+            .padding(top = 10.dp)
+    ) {
+        if (notifications.value.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No notifications",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                    )
                 )
-            )
+            }
         }
-    }
-    LazyColumn {
-        items(notifications.value) { game ->
-            NotificationCard(
-                game,
-                onAccept = { viewModel.acceptGame(game) },
-                onDecline = { viewModel.declineGame(game) }
-            )
+        LazyColumn {
+            items(notifications.value) { game ->
+                NotificationCard(
+                    game,
+                    onAccept = { viewModel.acceptGame(game) },
+                    onDecline = { viewModel.declineGame(game) }
+                )
+            }
         }
     }
 
@@ -69,12 +78,20 @@ fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun NotificationCard(game: MultiplayerGame, onAccept: () -> Unit, onDecline: () -> Unit) {
+fun NotificationCard(
+    game: MultiplayerGame,
+    onAccept: () -> Unit,
+    onDecline: () -> Unit
+) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .padding(16.dp)
+            .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            contentColor = Color.White,
+            containerColor = NotificationColor2,
+        ),
     ) {
         Column(
             modifier = Modifier
@@ -88,44 +105,53 @@ fun NotificationCard(game: MultiplayerGame, onAccept: () -> Unit, onDecline: () 
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
+                    color = Color.White
                 )
             )
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(
-                    onClick = { onAccept() },
+                Box(
                     modifier = Modifier
-                        .size(24.dp)
-                        .background(Color.Green, shape = CircleShape)
+                        .size(40.dp)
+                        .background(Color.Green, shape = CircleShape),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
+                    IconButton(
+                        onClick = { onAccept() },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
                 }
 
-                IconButton(
-                    onClick = { onDecline() },
+                Box(
                     modifier = Modifier
-                        .size(24.dp)
-                        .background(Color.Red, shape = CircleShape)
+                        .size(40.dp)
+                        .background(Color.Red, shape = CircleShape),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
+                    IconButton(
+                        onClick = { onDecline() },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
                 }
             }
         }
     }
 }
+
 
 
 

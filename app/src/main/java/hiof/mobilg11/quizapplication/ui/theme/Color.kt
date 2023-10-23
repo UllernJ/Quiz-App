@@ -12,7 +12,6 @@ val Pink40 = Color(0xFF7D5260)
 
 val DeepBlue = Color(0xff06164c)
 val LightBlue = Color(0xff0f52ba)
-val LightBlue2 = Color(0xff1e90ff)
 
 val OrangeYellow1 = Color(0xffffa500)
 val OrangeYellow2 = Color(0xffff8c00)
@@ -25,3 +24,15 @@ val LightGreen3 = Color(0xff00ff7f)
 val BlueViola1 = Color(0xff8a2be2)
 val BlueViola2 = Color(0xff9400d3)
 val BlueViola3 = Color(0xff9932cc)
+
+val LightBlue1 = Color(0xffadd8e6)
+val LightBlue2 = Color(0xffb0e0e6)
+
+val LightGrey1 = Color(0xffd3d3d3)
+val LightGrey2 = Color(0xffdcdcdc)
+
+val DarkGrey1 = Color(0xffa9a9a9)
+val DarkGrey2 = Color(0xff808080)
+
+val NotificationColor = Color(0xffFF0000)
+val NotificationColor2 = Color(0xffFFA500)
