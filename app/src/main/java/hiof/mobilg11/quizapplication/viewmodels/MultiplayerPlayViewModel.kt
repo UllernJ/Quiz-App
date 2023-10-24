@@ -52,7 +52,12 @@ class MultiplayerPlayViewModel @Inject constructor(
             }
             if (_game.value.roundQuestionsReferences.isEmpty()) {
                 _categories.value =
-                    filterCategoriesPlayed(categoryService.getAllCategories()).shuffled()
+                    filterCategoriesPlayed(categoryService.getAllCategories())
+                        .shuffled()
+                        .subList(0, 3)
+            }
+            if (_game.value.roundQuestionsReferences.isNotEmpty() && !isOurTurnToPick()) {
+                _questions.value = _game.value.roundQuestionsReferences
             }
         }
     }
@@ -94,18 +99,17 @@ class MultiplayerPlayViewModel @Inject constructor(
         viewModelScope.launch {
             delay(1000L)
             _currentQuestionIndex.value++
-            if (_currentQuestionIndex.value == 3) {
-                finishRound()
-            }
         }
     }
 
-    private fun finishRound() {
+    fun finishRound() {
         viewModelScope.launch {
-            if(questions.value.isEmpty()) {
+            if (!isOurTurnToPick()) {
                 game.value.roundQuestionsReferences.clear()
+            } else {
+                game.value.roundQuestionsReferences.addAll(questions.value)
             }
-            if(amIOpponent()) {
+            if (amIOpponent()) {
                 _game.value.gameState = GameState.WAITING_FOR_HOST
             } else {
                 _game.value.gameState = GameState.WAITING_FOR_OPPONENT
