@@ -43,7 +43,7 @@ fun MultiplayerPlayScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (game.value.roundQuestionsReferences.isEmpty()) {
+        if (game.value.roundQuestionsReferences.size != 3) {
             Text(text = if (!viewModel.amIOpponent()) "${game.value.host} vs ${game.value.opponent}" else "${game.value.opponent} vs ${game.value.host}")
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = if (!viewModel.amIOpponent()) "${game.value.hostScore} - ${game.value.opponentScore}" else "${game.value.opponentScore} - ${game.value.hostScore}")
@@ -73,10 +73,10 @@ fun MultiplayerPlayScreen(
                 )
             }
 
-            if (currentQuestionIndex.value == questions.value.size && questions.value.isNotEmpty()) {
+            if (currentQuestionIndex.value == 3) {
                 navController.navigate(Screen.MultiplayerLobby.createRoute(game.value.uuid))
             }
-        } else {
+        } else if(game.value.roundQuestionsReferences.isNotEmpty()) {
             Text(text = "Category: ${game.value.categoriesPlayedReferences.last()}")
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = if (!viewModel.amIOpponent()) "${game.value.host} vs ${game.value.opponent}" else "${game.value.opponent} vs ${game.value.host}")
