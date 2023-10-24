@@ -18,11 +18,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyViewModel
 
 @Composable
-fun MultiplayerGameLobbyScreen(viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()) {
+fun MultiplayerGameLobbyScreen(
+    navController: NavController,
+    viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()
+) {
     val game = viewModel.game.collectAsState()
     val user = viewModel.user
 
@@ -59,7 +64,7 @@ fun MultiplayerGameLobbyScreen(viewModel: MultiplayerGameLobbyViewModel = hiltVi
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            if(game.value.categoriesPlayedReferences.isNotEmpty()) {
+            if (game.value.categoriesPlayedReferences.isNotEmpty()) {
                 Text(
                     text = "Categories played",
                     fontSize = 16.sp,
@@ -76,7 +81,7 @@ fun MultiplayerGameLobbyScreen(viewModel: MultiplayerGameLobbyViewModel = hiltVi
                 (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user?.username == game.value.opponent)
             ) {
                 Button(
-                    onClick = { /* navigate to quiz game screen */ },
+                    onClick = { navController.navigate(Screen.MultiplayerPlay.createRoute(game.value.uuid)) },
                     modifier = Modifier
                         .padding(vertical = 8.dp),
                 ) {

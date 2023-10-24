@@ -15,15 +15,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hiof.mobilg11.quizapplication.ui.screen.QuizScreen
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.screen.ProfileScreen
+import hiof.mobilg11.quizapplication.ui.screen.QuizScreen
 import hiof.mobilg11.quizapplication.ui.screen.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.screen.auth.LoginScreen
 import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterScreen
-import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyScreen
+import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerPlayScreen
 import hiof.mobilg11.quizapplication.ui.screen.play.NotificationScreen
+import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 import hiof.mobilg11.quizapplication.viewmodels.QuizAppViewModel
 
@@ -93,14 +94,13 @@ fun QuizApp(
                         nullable = false
                     })
             ) {
-                MultiplayerGameLobbyScreen()
+                MultiplayerGameLobbyScreen(navController)
             }
             composable(
                 route = Screen.Quiz.route,
-                arguments = listOf(
-                    navArgument(QUIZ_ARGUMENT_KEY) {
-                        nullable = false
-                    })
+                arguments = listOf(navArgument(QUIZ_ARGUMENT_KEY) {
+                    nullable = false
+                })
             ) {
                 QuizScreen(navController)
             }
@@ -114,6 +114,14 @@ fun QuizApp(
                 }
             }
 
+            composable(
+                route = Screen.MultiplayerPlay.route,
+                arguments = listOf(navArgument(LOBBY_ARGUMENT_KEY) {
+                    nullable = false
+                })
+            ) {
+                MultiplayerPlayScreen(navController)
+            }
             composable(Screen.Notifications.route) {
                 NotificationScreen()
             }

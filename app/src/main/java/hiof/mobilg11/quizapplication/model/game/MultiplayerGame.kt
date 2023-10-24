@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication.model.game
 
 import com.google.firebase.firestore.DocumentId
+import hiof.mobilg11.quizapplication.model.Question
 import hiof.mobilg11.quizapplication.model.User
 
 data class MultiplayerGame(
@@ -16,10 +17,10 @@ data class MultiplayerGame(
     var opponentScore: Int = 0,
 
     var numberOfRounds: Int = 5,
-    var roundQuestionsReferences: List<String> = listOf(),
+    var roundQuestionsReferences: MutableList<Question> = mutableListOf(),
     var roundIndex: Int = 0,
 
-    var categoriesPlayedReferences: List<String> = listOf(),
+    var categoriesPlayedReferences: MutableList<String> = mutableListOf(),
 
     var lastUpdated: Long = System.currentTimeMillis()
     )

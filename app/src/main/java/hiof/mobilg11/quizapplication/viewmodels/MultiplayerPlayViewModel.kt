@@ -1,0 +1,116 @@
+package hiof.mobilg11.quizapplication.viewmodels;
+
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hiof.mobilg11.quizapplication.model.Category
+import hiof.mobilg11.quizapplication.model.Question
+import hiof.mobilg11.quizapplication.model.game.GameState
+import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
+import hiof.mobilg11.quizapplication.service.CategoryService
+import hiof.mobilg11.quizapplication.service.GameService
+import hiof.mobilg11.quizapplication.service.QuestionService
+import hiof.mobilg11.quizapplication.service.UserCacheService
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class MultiplayerPlayViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val gameService: GameService,
+    private val categoryService: CategoryService,
+    userCacheService: UserCacheService,
+    private val questionService: QuestionService
+) : ViewModel() {
+
+    private val _game: MutableStateFlow<MultiplayerGame> = MutableStateFlow(MultiplayerGame())
+    val game: MutableStateFlow<MultiplayerGame> = _game
+
+    private val _categories: MutableStateFlow<List<Category>> = MutableStateFlow(listOf())
+    val categories: MutableStateFlow<List<Category>> = _categories
+
+    private val _questions: MutableStateFlow<List<Question>> = MutableStateFlow(listOf())
+    val questions: MutableStateFlow<List<Question>> = _questions
+
+    private val _currentQuestionIndex = MutableStateFlow(0)
+    val currentQuestionIndex: StateFlow<Int> = _currentQuestionIndex
+
+    val user = userCacheService.getUser()!!
+
+    init {
+        viewModelScope.launch {
+            val lobbyId = savedStateHandle.get<String>("lobbyId")
+            _game.value = if (lobbyId != null) {
+                gameService.get(lobbyId) ?: MultiplayerGame()
+            } else {
+                MultiplayerGame()
+            }
+            if (_game.value.roundQuestionsReferences.isEmpty()) {
+                _categories.value =
+                    filterCategoriesPlayed(categoryService.getAllCategories()).shuffled()
+            }
+        }
+    }
+
+
+    private fun filterCategoriesPlayed(categories: List<Category>): List<Category> {
+        return categories.filter { category ->
+            !game.value.categoriesPlayedReferences.contains(category.name)
+        }
+    }
+
+    fun isOurTurnToPick(): Boolean {
+        return game.value.roundQuestionsReferences.isEmpty() && game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host ||
+                game.value.roundQuestionsReferences.isEmpty() && game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent
+    }
+
+    fun fetchQuestions(category: Category) {
+        viewModelScope.launch {
+            _questions.value =
+                questionService.getQuestionsByCategoryName(category.name).subList(0, 3)
+        }
+        _game.value.categoriesPlayedReferences.add(category.name)
+    }
+
+    fun amIOpponent(): Boolean {
+        return ((game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host) ||
+                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent))
+    }
+
+    fun answerQuestion(isCorrect: Boolean) {
+        if (isCorrect && amIOpponent()) {
+            _game.value.opponentScore++
+        } else if (isCorrect && !amIOpponent()) {
+            _game.value.hostScore++
+        }
+        if (questions.value.isNotEmpty()) {
+            _game.value.roundQuestionsReferences.add(questions.value[currentQuestionIndex.value])
+        }
+        viewModelScope.launch {
+            delay(1000L)
+            _currentQuestionIndex.value++
+            if (_currentQuestionIndex.value == 3) {
+                finishRound()
+            }
+        }
+    }
+
+    private fun finishRound() {
+        viewModelScope.launch {
+            if(questions.value.isEmpty()) {
+                game.value.roundQuestionsReferences.clear()
+            }
+            if(amIOpponent()) {
+                _game.value.gameState = GameState.WAITING_FOR_HOST
+            } else {
+                _game.value.gameState = GameState.WAITING_FOR_OPPONENT
+            }
+            gameService.update(_game.value)
+        }
+    }
+}

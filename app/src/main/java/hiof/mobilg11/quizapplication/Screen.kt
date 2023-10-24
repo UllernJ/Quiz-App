@@ -19,6 +19,11 @@ sealed class Screen(val route: String) {
             return this.route.replace("{$LOBBY_ARGUMENT_KEY}", lobbyId)
         }
     }
+    data object MultiplayerPlay : Screen("multiplayer/play/{$LOBBY_ARGUMENT_KEY}") {
+        fun createRoute(lobbyId: String): String {
+            return this.route.replace("{$LOBBY_ARGUMENT_KEY}", lobbyId)
+        }
+    }
     data object SinglePlayer : Screen("singleplayer")
     data object Loading : Screen("loading")
     data object Notifications : Screen("notifications")
