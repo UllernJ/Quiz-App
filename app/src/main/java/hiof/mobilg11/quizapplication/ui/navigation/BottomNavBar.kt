@@ -45,12 +45,13 @@ fun BottomNavBar(
     }
     val selectedItem = remember { mutableStateOf(items[0]) }
 
-    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute by navController.currentBackStackEntryAsState()
 
     NavigationBar {
-        if (currentBackStackEntry?.destination?.route != Screen.Home.route
-            && currentBackStackEntry?.destination?.route != Screen.Loading.route
-            && currentBackStackEntry?.destination?.route != Screen.Profile.route
+        if (currentRoute?.destination?.route != Screen.Home.route
+            && currentRoute?.destination?.route != Screen.Loading.route
+            && currentRoute?.destination?.route != Screen.Profile.route
+            && currentRoute?.destination?.route != Screen.MultiplayerLobby.route
         ) {
             NavigationBarItem(
                 selected = false,

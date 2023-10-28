@@ -33,9 +33,9 @@ fun ShimmerListItem(
     modifier: Modifier = Modifier,
     numberOfItems: Int = 1
 ) {
-    if(isLoading) {
+    if (isLoading) {
         Spacer(modifier = Modifier.height(12.dp))
-        for(index in 0 until numberOfItems) {
+        for (index in 0 until numberOfItems) {
             Row() {
                 Column(modifier = Modifier.weight(1f)) {
                     Box(
@@ -74,7 +74,7 @@ fun Modifier.shimmerEffect(): Modifier = composed {
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.width, size.height)
         ),
-            )
+    )
 
         .onGloballyPositioned {
             size = it.size.toSize()

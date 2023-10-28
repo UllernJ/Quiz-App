@@ -43,7 +43,9 @@ fun QuizApp(
 
     Scaffold(
         topBar = {
-            if (currentRoute?.destination?.route == Screen.Quiz.route) {
+            if (currentRoute?.destination?.route == Screen.Quiz.route
+                && currentRoute?.destination?.route != Screen.MultiplayerPlay.route
+            ) {
                 NavBar(navController)
             }
         },
@@ -51,6 +53,7 @@ fun QuizApp(
             if (user.value != null
                 && currentRoute?.destination?.route != Screen.Loading.route
                 && currentRoute?.destination?.route != Screen.Quiz.route
+                && currentRoute?.destination?.route != Screen.MultiplayerPlay.route
             ) {
                 BottomNavBar(navController, gameNotifications)
             }

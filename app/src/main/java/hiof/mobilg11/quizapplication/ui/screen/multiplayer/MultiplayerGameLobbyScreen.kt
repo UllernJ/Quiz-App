@@ -53,7 +53,7 @@ fun MultiplayerGameLobbyScreen(
             )
 
             Text(
-                text = "Round ${game.value.roundIndex + 1} of ${game.value.numberOfRounds}",
+                text = "Round ${game.value.roundIndex} of ${game.value.numberOfRounds}",
                 fontSize = 16.sp,
             )
 

@@ -100,23 +100,23 @@ class MultiplayerPlayViewModel @Inject constructor(
 
     fun finishRound() {
         viewModelScope.launch {
-            if (!isOurTurnToPick()) {
-                game.value.roundQuestionsReferences.clear()
-            } else {
-                game.value.roundQuestionsReferences.addAll(questions.value)
-            }
-            if (!isOurTurnToPick()) {
+            val game = _game.value
+
+            if (isOurTurnToPick()) {
                 if (amIOpponent()) {
-                    _game.value.gameState = GameState.WAITING_FOR_HOST
+                    game.gameState = GameState.WAITING_FOR_HOST
                 } else {
-                    _game.value.gameState = GameState.WAITING_FOR_OPPONENT
+                    game.gameState = GameState.WAITING_FOR_OPPONENT
                 }
-                _game.value.roundIndex++
-                if(_game.value.roundIndex == _game.value.numberOfRounds) {
-                    _game.value.gameState = GameState.FINISHED
+                game.roundQuestionsReferences.addAll(questions.value)
+            } else {
+                game.roundIndex++
+                if (game.roundIndex == game.numberOfRounds) {
+                    game.gameState = GameState.FINISHED
                 }
+                game.roundQuestionsReferences.clear()
             }
-            gameService.update(_game.value)
+            gameService.update(game)
         }
     }
 }
