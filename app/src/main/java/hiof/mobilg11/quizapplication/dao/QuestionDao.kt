@@ -18,12 +18,12 @@ class QuestionDao @Inject constructor(private val firestore: FirebaseFirestore) 
     }
 
 
-    private suspend fun getDocumentReferenceByCategoryName(categoryName: String): DocumentReference  = firestore.collection("category")
+    private suspend fun getDocumentReferenceByCategoryName(categoryName: String): DocumentReference =
+        firestore.collection("category")
             .whereEqualTo("name", categoryName)
             .get()
             .await()
             .documents[0]
             .reference
-
 }
 

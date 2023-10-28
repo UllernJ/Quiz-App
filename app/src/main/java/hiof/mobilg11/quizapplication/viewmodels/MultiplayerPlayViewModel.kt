@@ -1,6 +1,5 @@
 package hiof.mobilg11.quizapplication.viewmodels;
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -93,9 +92,6 @@ class MultiplayerPlayViewModel @Inject constructor(
         } else if (isCorrect && !amIOpponent()) {
             _game.value.hostScore++
         }
-        if (questions.value.isNotEmpty()) {
-            _game.value.roundQuestionsReferences.add(questions.value[currentQuestionIndex.value])
-        }
         viewModelScope.launch {
             delay(1000L)
             _currentQuestionIndex.value++
@@ -109,10 +105,12 @@ class MultiplayerPlayViewModel @Inject constructor(
             } else {
                 game.value.roundQuestionsReferences.addAll(questions.value)
             }
-            if (amIOpponent()) {
-                _game.value.gameState = GameState.WAITING_FOR_HOST
-            } else {
-                _game.value.gameState = GameState.WAITING_FOR_OPPONENT
+            if (!isOurTurnToPick()) {
+                if (amIOpponent()) {
+                    _game.value.gameState = GameState.WAITING_FOR_HOST
+                } else {
+                    _game.value.gameState = GameState.WAITING_FOR_OPPONENT
+                }
             }
             gameService.update(_game.value)
         }
