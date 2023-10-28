@@ -15,6 +15,8 @@ class QuestionDao @Inject constructor(private val firestore: FirebaseFirestore) 
             .get()
             .await()
             .toObjects(Question::class.java)
+            .shuffled()
+            .toMutableList()
     }
 
 
