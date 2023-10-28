@@ -13,39 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val gameService: GameService,
-    private val userCacheService: UserCacheService
+    private val gameService: GameService
 ) :
     ViewModel() {
-    private val _notifications: MutableStateFlow<MutableList<MultiplayerGame>> =
-        MutableStateFlow(mutableListOf())
-    val notifications = _notifications
 
-    init {
-        viewModelScope.launch {
-            getNotifications()
-        }
-    }
-
-    private suspend fun getNotifications() {
-        userCacheService.getUser()?.let {
-            val notifications = gameService.notifications(it.username)
-            _notifications.value = notifications.toMutableList()
-        }
-    }
+    val notifications = gameService.notifications
 
     fun acceptGame(game: MultiplayerGame) {
-        game.gameState = GameState.WAITING_FOR_OPPONENT
         viewModelScope.launch {
-            gameService.update(game)
-            getNotifications()
+            gameService.update(game.copy(gameState = GameState.WAITING_FOR_OPPONENT))
         }
     }
 
     fun declineGame(game: MultiplayerGame) {
         viewModelScope.launch {
             gameService.delete(game.uuid)
-            getNotifications()
         }
     }
 

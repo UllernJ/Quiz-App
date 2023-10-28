@@ -39,7 +39,7 @@ import hiof.mobilg11.quizapplication.viewmodels.NotificationViewModel
 
 @Composable
 fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
-    val notifications = viewModel.notifications.collectAsState()
+    val notifications = viewModel.notifications.collectAsState(initial = emptyList())
 
     Column(
         modifier = Modifier

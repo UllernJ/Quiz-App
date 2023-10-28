@@ -11,7 +11,8 @@ import javax.inject.Inject
 
 class UserDao @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    private val gameDao: GameDao
 ) {
     private val COLLECTION: String = "users"
 
@@ -103,7 +104,7 @@ class UserDao @Inject constructor(
     }
 
     suspend fun getLastChallengedUsers(username: String, amount: Int): List<String> {
-        val games = GameDao(firestore).getAllGamesByUsername(username)
+        val games = gameDao.getAllGamesByUsername(username)
 
         val sortedGames = games.sortedByDescending { game -> game.lastUpdated }
         val filteredGames = sortedGames.filter { game ->
@@ -112,17 +113,17 @@ class UserDao @Inject constructor(
 
         val lastChallengedUsers = mutableListOf<String>()
 
-        for(game in filteredGames) {
-            if(lastChallengedUsers.size >= amount) {
+        for (game in filteredGames) {
+            if (lastChallengedUsers.size >= amount) {
                 break
             }
 
             var foundUser = ""
 
-            if(game.host == username) foundUser = game.opponent
+            if (game.host == username) foundUser = game.opponent
             else foundUser = game.host
 
-            if(!lastChallengedUsers.contains(foundUser)) {
+            if (!lastChallengedUsers.contains(foundUser)) {
                 lastChallengedUsers.add(foundUser)
             }
         }

@@ -10,6 +10,7 @@ import hiof.mobilg11.quizapplication.dao.CategoryDao
 import hiof.mobilg11.quizapplication.dao.GameDao
 import hiof.mobilg11.quizapplication.dao.QuestionDao
 import hiof.mobilg11.quizapplication.dao.UserDao
+import hiof.mobilg11.quizapplication.service.UserCacheService
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -26,13 +27,13 @@ object DaoModule {
     }
 
     @Provides
-    fun provideUserDao(firestore: FirebaseFirestore, auth: FirebaseAuth): UserDao {
-        return UserDao(firestore, auth)
+    fun provideUserDao(firestore: FirebaseFirestore, auth: FirebaseAuth, gameDao: GameDao): UserDao {
+        return UserDao(firestore, auth, gameDao)
     }
 
     @Provides
-    fun provideGameDao(firestore: FirebaseFirestore): GameDao {
-        return GameDao(firestore)
+    fun provideGameDao(firestore: FirebaseFirestore, userCacheService: UserCacheService): GameDao {
+        return GameDao(firestore, userCacheService)
     }
 
 }

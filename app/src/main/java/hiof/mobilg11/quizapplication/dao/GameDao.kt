@@ -1,14 +1,24 @@
 package hiof.mobilg11.quizapplication.dao
 
 import com.google.firebase.firestore.FirebaseFirestore
-import hiof.mobilg11.quizapplication.model.User
+import com.google.firebase.firestore.ktx.dataObjects
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
+import hiof.mobilg11.quizapplication.service.UserCacheService
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
-    private val COLLECTION = "games"
+class GameDao @Inject constructor(
+    private val firebase: FirebaseFirestore,
+    val userCacheService: UserCacheService
+) {
+
+    val user = userCacheService.getUser()
+
+    val notifications: Flow<List<MultiplayerGame>>
+        get() = getGamesNotifications(user?.username ?: "")
+
     suspend fun createGame(game: MultiplayerGame) {
         firebase.collection(COLLECTION)
             .document(game.uuid)
@@ -53,13 +63,11 @@ class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
             .await()
     }
 
-    suspend fun getGamesNotifications(username: String): List<MultiplayerGame> {
+    fun getGamesNotifications(username: String): Flow<List<MultiplayerGame>> {
         return firebase.collection(COLLECTION)
             .whereEqualTo("opponent", username)
             .whereEqualTo("gameState", GameState.REQUESTING_GAME)
-            .get()
-            .await()
-            .toObjects(MultiplayerGame::class.java)
+            .dataObjects()
     }
 
     suspend fun getAllGamesByUsername(username: String): List<MultiplayerGame> {
@@ -84,6 +92,10 @@ class GameDao @Inject constructor(private val firebase: FirebaseFirestore) {
         return games.filter { game ->
             game.gameState != GameState.FINISHED && game.gameState != GameState.REQUESTING_GAME
         }
+    }
+
+    private companion object {
+        private const val COLLECTION = "games"
     }
 
 }

@@ -42,6 +42,8 @@ fun BottomNavBar(
     )
     if (gameNotifications > 0) {
         items[0].notifications = gameNotifications
+    } else {
+        items[0].notifications = null
     }
     val selectedItem = remember { mutableStateOf(items[0]) }
 

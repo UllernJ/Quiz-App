@@ -6,11 +6,14 @@ import hiof.mobilg11.quizapplication.service.GameService
 import javax.inject.Inject
 
 class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameService {
+
+    override val notifications = gameDao.notifications
+
     override suspend fun create(game: MultiplayerGame) {
-        if(game.host == game.opponent) {
+        if (game.host == game.opponent) {
             throw IllegalArgumentException("Host and opponent cannot be the same")
         }
-        if(game.host.isBlank() || game.opponent.isBlank()) {
+        if (game.host.isBlank() || game.opponent.isBlank()) {
             throw IllegalArgumentException("Host and opponent cannot be blank")
         }
         gameDao.createGame(game)
@@ -30,11 +33,9 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
         gameDao.deleteGame(MultiplayerGame(uuid))
     }
 
-    override suspend fun notifications(username: String): List<MultiplayerGame> {
-        return gameDao.getGamesNotifications(username)
-    }
-
     override suspend fun getGames(username: String): List<MultiplayerGame> {
         return gameDao.getAllActiveGamesByUsername(username)
     }
+
+
 }

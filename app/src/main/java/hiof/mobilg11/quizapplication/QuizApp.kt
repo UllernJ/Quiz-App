@@ -38,7 +38,7 @@ fun QuizApp(
     val navController = rememberNavController()
     val user = auth.user.collectAsState()
     val currentRoute by navController.currentBackStackEntryAsState()
-    val gameNotifications by appModel.gameNotifications.collectAsState()
+    val gameNotifications by appModel.notifications.collectAsState(initial = emptyList())
 
 
     Scaffold(
@@ -55,7 +55,7 @@ fun QuizApp(
                 && currentRoute?.destination?.route != Screen.Quiz.route
                 && currentRoute?.destination?.route != Screen.MultiplayerPlay.route
             ) {
-                BottomNavBar(navController, gameNotifications)
+                BottomNavBar(navController, gameNotifications.size)
             }
         }
     ) { innerPadding ->
@@ -79,7 +79,7 @@ fun QuizApp(
                 }
             }
             composable(Screen.Home.route) {
-                PlayScreen(navController = navController, gameNotifications = gameNotifications)
+                PlayScreen(navController = navController, gameNotifications = gameNotifications.size)
             }
             composable(Screen.SinglePlayer.route) {
                 SinglePlayerScreen {
