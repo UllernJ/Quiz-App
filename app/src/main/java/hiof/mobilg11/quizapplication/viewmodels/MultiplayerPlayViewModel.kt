@@ -111,6 +111,10 @@ class MultiplayerPlayViewModel @Inject constructor(
                 } else {
                     _game.value.gameState = GameState.WAITING_FOR_OPPONENT
                 }
+                _game.value.roundIndex++
+                if(_game.value.roundIndex == _game.value.numberOfRounds) {
+                    _game.value.gameState = GameState.FINISHED
+                }
             }
             gameService.update(_game.value)
         }
