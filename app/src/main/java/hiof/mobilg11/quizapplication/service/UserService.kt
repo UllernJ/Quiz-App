@@ -8,5 +8,5 @@ interface UserService {
     suspend fun isUsernameSet(): Boolean
     suspend fun get(): User?
     suspend fun find(username: String): List<User?>
-    suspend fun getLastChallengedUsers(username: String, limit: Int): List<String>
+//    suspend fun getLastChallengedUsers(username: String, limit: Int): List<String>
 }

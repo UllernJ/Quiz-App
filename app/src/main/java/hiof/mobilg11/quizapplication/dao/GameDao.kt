@@ -6,6 +6,7 @@ import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.UserCacheService
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -70,22 +71,21 @@ class GameDao @Inject constructor(
             .dataObjects()
     }
 
-    suspend fun getAllGamesByUsername(username: String): List<MultiplayerGame> {
+    private fun getAllGamesByUsername(username: String): Flow<List<MultiplayerGame>> {
         val hostedGames = firebase.collection(COLLECTION)
             .whereEqualTo("host", username)
-            .get()
-            .await()
-            .toObjects(MultiplayerGame::class.java)
+            .dataObjects<MultiplayerGame>()
         val opponentGames = firebase.collection(COLLECTION)
             .whereEqualTo("opponent", username)
-            .get()
-            .await()
-            .toObjects(MultiplayerGame::class.java)
-        return hostedGames + opponentGames
+            .dataObjects<MultiplayerGame>()
+
+        return hostedGames.combine(opponentGames) { hosted, opponent ->
+            getAllActiveGamesFilter(hosted) + getAllActiveGamesFilter(opponent)
+        }
     }
 
-    suspend fun getAllActiveGamesByUsername(username: String): List<MultiplayerGame> {
-        return getAllActiveGamesFilter(getAllGamesByUsername(username))
+    fun getAllActiveGamesByUsername(username: String): Flow<List<MultiplayerGame>> {
+        return getAllGamesByUsername(username)
     }
 
     private fun getAllActiveGamesFilter(games: List<MultiplayerGame>): List<MultiplayerGame> {

@@ -1,8 +1,10 @@
 package hiof.mobilg11.quizapplication.service.impl
 
+import android.widget.Toast
 import hiof.mobilg11.quizapplication.dao.GameDao
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.GameService
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameService {
@@ -11,12 +13,21 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
 
     override suspend fun create(game: MultiplayerGame) {
         if (game.host == game.opponent) {
-            throw IllegalArgumentException("Host and opponent cannot be the same")
+            Toast.makeText(
+                null,
+                "You cannot challenge yourself",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        if (game.host.isBlank() || game.opponent.isBlank()) {
-            throw IllegalArgumentException("Host and opponent cannot be blank")
+        else if (game.host.isBlank() || game.opponent.isBlank()) {
+            Toast.makeText(
+                null,
+                "You cannot challenge someone with a blank username",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            gameDao.createGame(game)
         }
-        gameDao.createGame(game)
     }
 
     override suspend fun get(uuid: String) = gameDao.getGame(uuid)
@@ -33,7 +44,7 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
         gameDao.deleteGame(MultiplayerGame(uuid))
     }
 
-    override suspend fun getGames(username: String): List<MultiplayerGame> {
+    override fun getGames(username: String): Flow<List<MultiplayerGame>> {
         return gameDao.getAllActiveGamesByUsername(username)
     }
 

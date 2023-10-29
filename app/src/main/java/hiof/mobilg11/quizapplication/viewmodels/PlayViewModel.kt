@@ -17,7 +17,7 @@ import javax.inject.Inject
 class PlayViewModel @Inject constructor(
     private val userService: UserService,
     userCacheService: UserCacheService,
-    private val gameService: GameService
+    gameService: GameService
 ) : ViewModel() {
     private val _isSet: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isSet: StateFlow<Boolean> = _isSet
@@ -25,23 +25,12 @@ class PlayViewModel @Inject constructor(
     val username: String? = userCacheService.getUser().let { user ->
         user?.username
     }
-    private val _games: MutableStateFlow<MutableList<MultiplayerGame>> = MutableStateFlow(mutableListOf())
-    val games: StateFlow<MutableList<MultiplayerGame>> = _games
+    val games = gameService.getGames(username ?: "")
 
     init {
         viewModelScope.launch {
             isUsernameSet()
-            _games.value = gameService.getGames(username ?: "").toMutableList()
-            Log.d("MainViewModel", "Games: ${_games.value}")
         }
-    }
-
-    suspend fun setUsername(username: String): Boolean {
-        return userService.setUsername(username)
-    }
-
-    suspend fun createUser() {
-        userService.create()
     }
 
     suspend fun isUsernameSet() {

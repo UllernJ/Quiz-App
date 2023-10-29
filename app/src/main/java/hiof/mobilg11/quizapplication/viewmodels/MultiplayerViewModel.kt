@@ -29,7 +29,7 @@ class MultiplayerViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            fetchLastChallengedUsers(15)
+//            fetchLastChallengedUsers(15)
         }
     }
 
@@ -53,15 +53,15 @@ class MultiplayerViewModel @Inject constructor(
         )
     }
 
-    fun fetchLastChallengedUsers(amount: Int) {
-        viewModelScope.launch {
-            val usernames = userService.getLastChallengedUsers(host.username, amount)
-            val users = usernames.map { username ->
-                userService.find(username).first()!!
-            }
-
-            _lastChallengedUsers.value = users
-        }
-    }
+//    fun fetchLastChallengedUsers(amount: Int) {
+//        viewModelScope.launch {
+//            val usernames = userService.getLastChallengedUsers(host.username, amount)
+//            val users = usernames.map { username ->
+//                userService.find(username).first()!!
+//            }
+//
+//            _lastChallengedUsers.value = users
+//        }
+//    }
 
 }

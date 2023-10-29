@@ -52,7 +52,7 @@ fun PlayScreen(
     gameNotifications: Int
 ) {
     val isUsernameSet = viewModel.isSet.collectAsState()
-    val games = viewModel.games.collectAsState()
+    val games = viewModel.games.collectAsState(initial = emptyList())
 
 
     Column(

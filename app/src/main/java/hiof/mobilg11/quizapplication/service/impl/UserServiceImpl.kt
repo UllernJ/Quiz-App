@@ -26,7 +26,7 @@ class UserServiceImpl @Inject constructor(private val userDao: UserDao): UserSer
         return userDao.findUser(username)
     }
 
-    override suspend fun getLastChallengedUsers(username: String, limit: Int): List<String> {
-        return userDao.getLastChallengedUsers(username, limit)
-    }
+//    override suspend fun getLastChallengedUsers(username: String, limit: Int): List<String> {
+//        return userDao.getLastChallengedUsers(username, limit)
+//    }
 }

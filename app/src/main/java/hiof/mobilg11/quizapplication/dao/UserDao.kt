@@ -103,33 +103,33 @@ class UserDao @Inject constructor(
             }
     }
 
-    suspend fun getLastChallengedUsers(username: String, amount: Int): List<String> {
-        val games = gameDao.getAllGamesByUsername(username)
-
-        val sortedGames = games.sortedByDescending { game -> game.lastUpdated }
-        val filteredGames = sortedGames.filter { game ->
-            game.gameState == GameState.FINISHED
-        }
-
-        val lastChallengedUsers = mutableListOf<String>()
-
-        for (game in filteredGames) {
-            if (lastChallengedUsers.size >= amount) {
-                break
-            }
-
-            var foundUser = ""
-
-            if (game.host == username) foundUser = game.opponent
-            else foundUser = game.host
-
-            if (!lastChallengedUsers.contains(foundUser)) {
-                lastChallengedUsers.add(foundUser)
-            }
-        }
-
-
-        return lastChallengedUsers
-    }
+//    suspend fun getLastChallengedUsers(username: String, amount: Int): List<String> {
+//        val games = gameDao.getAllGamesByUsername(username)
+//
+//        val sortedGames = games.sortedByDescending { game -> game.lastUpdated }
+//        val filteredGames = sortedGames.filter { game ->
+//            game.gameState == GameState.FINISHED
+//        }
+//
+//        val lastChallengedUsers = mutableListOf<String>()
+//
+//        for (game in filteredGames) {
+//            if (lastChallengedUsers.size >= amount) {
+//                break
+//            }
+//
+//            var foundUser = ""
+//
+//            if (game.host == username) foundUser = game.opponent
+//            else foundUser = game.host
+//
+//            if (!lastChallengedUsers.contains(foundUser)) {
+//                lastChallengedUsers.add(foundUser)
+//            }
+//        }
+//
+//
+//        return lastChallengedUsers
+//    }
 
 }
