@@ -4,14 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hiof.mobilg11.quizapplication.service.AuthService
-import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authService: AuthService,
-    private val userService: UserService
+    private val authService: AuthService
 ) : ViewModel() {
 
     fun signInWithEmailAndPassword(

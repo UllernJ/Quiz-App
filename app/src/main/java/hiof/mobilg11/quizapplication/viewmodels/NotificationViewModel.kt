@@ -17,7 +17,7 @@ class NotificationViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    val notifications = gameService.notifications(userCacheService.getUser()!!.username)
+    val notifications = gameService.notifications(userCacheService.getUser()?.username ?: "")
 
     fun acceptGame(game: MultiplayerGame) {
         viewModelScope.launch {

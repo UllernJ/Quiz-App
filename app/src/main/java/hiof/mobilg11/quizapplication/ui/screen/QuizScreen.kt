@@ -71,11 +71,13 @@ fun QuizScreen(navController: NavController, quizViewModel: QuizViewModel = hilt
                 val currentQuestion = questions.getOrNull(currentQuestionIndex)
                 ShimmerListItem(
                     isLoading = questions.isEmpty(), contentAfterLoading = {
-                        QuestionDisplay(
-                            question = currentQuestion!!,
-                            onAnswerSelected = { isCorrectAnswer ->
-                                quizViewModel.answerQuestion(isCorrectAnswer)
-                            })
+                        if (currentQuestion != null) {
+                            QuestionDisplay(
+                                question = currentQuestion,
+                                onAnswerSelected = { isCorrectAnswer ->
+                                    quizViewModel.answerQuestion(isCorrectAnswer)
+                                })
+                        }
                     },
                     numberOfItems = 2,
                     modifier = Modifier

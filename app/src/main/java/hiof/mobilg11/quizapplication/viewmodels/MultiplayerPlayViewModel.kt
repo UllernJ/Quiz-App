@@ -39,7 +39,7 @@ class MultiplayerPlayViewModel @Inject constructor(
     private val _currentQuestionIndex = MutableStateFlow(0)
     val currentQuestionIndex: StateFlow<Int> = _currentQuestionIndex
 
-    val user = userCacheService.getUser()!!
+    val user = userCacheService.getUser()
 
     init {
         viewModelScope.launch {
@@ -69,8 +69,8 @@ class MultiplayerPlayViewModel @Inject constructor(
     }
 
     fun isOurTurnToPick(): Boolean {
-        return game.value.roundQuestionsReferences.isEmpty() && game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host ||
-                game.value.roundQuestionsReferences.isEmpty() && game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent
+        return game.value.roundQuestionsReferences.isEmpty() && game.value.gameState == GameState.WAITING_FOR_HOST && user?.username == game.value.host ||
+                game.value.roundQuestionsReferences.isEmpty() && game.value.gameState == GameState.WAITING_FOR_OPPONENT && user?.username == game.value.opponent
     }
 
     fun fetchQuestions(category: Category) {
@@ -82,8 +82,8 @@ class MultiplayerPlayViewModel @Inject constructor(
     }
 
     fun amIOpponent(): Boolean {
-        return ((game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host) ||
-                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent))
+        return ((game.value.gameState == GameState.WAITING_FOR_HOST && user?.username == game.value.host) ||
+                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user?.username == game.value.opponent))
     }
 
     fun answerQuestion(isCorrect: Boolean) {

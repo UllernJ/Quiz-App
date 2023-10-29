@@ -7,7 +7,6 @@ import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.AuthService
 import hiof.mobilg11.quizapplication.service.GameService
-import hiof.mobilg11.quizapplication.service.UserCacheService
 import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +19,6 @@ class QuizAppViewModel @Inject constructor(
     private val gameService: GameService,
     private val userService: UserService,
     private val authService: AuthService,
-    private val userCacheService: UserCacheService
 ) : ViewModel() {
 
 
