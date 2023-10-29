@@ -4,22 +4,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
-import hiof.mobilg11.quizapplication.service.UserCacheService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class GameDao @Inject constructor(
-    private val firebase: FirebaseFirestore,
-    val userCacheService: UserCacheService
+    private val firebase: FirebaseFirestore
 ) {
-
-    val user = userCacheService.getUser()
-
-    val notifications: Flow<List<MultiplayerGame>>
-        get() = getGamesNotifications(user?.username ?: "")
-
     suspend fun createGame(game: MultiplayerGame) {
         firebase.collection(COLLECTION)
             .document(game.uuid)

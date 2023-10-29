@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.Screen
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.ui.theme.BlueViola1
@@ -49,9 +50,10 @@ import hiof.mobilg11.quizapplication.viewmodels.PlayViewModel
 fun PlayScreen(
     viewModel: PlayViewModel = hiltViewModel(),
     navController: NavController,
-    gameNotifications: Int
+    gameNotifications: List<MultiplayerGame>,
+    user: User?
 ) {
-    val isUsernameSet = viewModel.isSet.collectAsState()
+
     val games = viewModel.games.collectAsState(initial = emptyList())
 
 
@@ -61,13 +63,11 @@ fun PlayScreen(
             .background(DeepBlue)
             .padding(top = 10.dp)
     ) {
-        if (!isUsernameSet.value) {
-            Alert {
-                viewModel.setIsSet(true)
-            }
+        if (user?.username.isNullOrBlank()) {
+            Alert()
         }
-        if (viewModel.username != null && isUsernameSet.value) {
-            TitleSection(viewModel.username, navController, gameNotifications)
+        if (user?.username.isNullOrBlank().not() && user != null) {
+            TitleSection(user.username, navController, gameNotifications.size)
             GameCard(
                 "Multiplayer",
                 "Play with friends or strangers!",

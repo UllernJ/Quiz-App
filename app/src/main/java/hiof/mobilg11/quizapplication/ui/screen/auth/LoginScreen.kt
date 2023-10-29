@@ -2,7 +2,14 @@ package hiof.mobilg11.quizapplication.ui.screen.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -61,8 +68,8 @@ fun LoginScreen(
             onClick = {
                 viewModel.signInWithEmailAndPassword(email.value, password.value) { success ->
                     if (success) {
-                        navController.navigate(Screen.Home.route)
                         callback()
+                        navController.navigate(Screen.Home.route)
                     } else {
                         Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }

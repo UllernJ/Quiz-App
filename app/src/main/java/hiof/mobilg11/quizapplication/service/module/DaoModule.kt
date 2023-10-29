@@ -32,8 +32,8 @@ object DaoModule {
     }
 
     @Provides
-    fun provideGameDao(firestore: FirebaseFirestore, userCacheService: UserCacheService): GameDao {
-        return GameDao(firestore, userCacheService)
+    fun provideGameDao(firestore: FirebaseFirestore): GameDao {
+        return GameDao(firestore)
     }
 
 }

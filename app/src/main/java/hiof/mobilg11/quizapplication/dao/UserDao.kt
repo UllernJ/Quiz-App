@@ -4,8 +4,9 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.dataObjects
 import hiof.mobilg11.quizapplication.model.User
-import hiof.mobilg11.quizapplication.model.game.GameState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -84,13 +85,10 @@ class UserDao @Inject constructor(
         return false
     }
 
-    suspend fun getUser(): User? {
-        Log.d("UserDao", "Trying to fetch user...")
-        auth.currentUser?.uid?.let {
-            return firestore.collection(COLLECTION).document(it).get().await()
-                .toObject(User::class.java)
-        }
-        return null
+    fun getUser(uuid: String): Flow<User?> {
+        return firestore.collection(COLLECTION)
+            .document(uuid)
+            .dataObjects()
     }
 
     suspend fun findUser(username: String): List<User?> {

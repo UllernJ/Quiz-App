@@ -13,15 +13,8 @@ import hiof.mobilg11.quizapplication.viewmodels.AlertViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Alert(viewModel: AlertViewModel = hiltViewModel(), successCallback: (Boolean) -> Unit) {
+fun Alert(viewModel: AlertViewModel = hiltViewModel()) {
     var username by remember { mutableStateOf("") }
-    val isSet by viewModel.isSet.collectAsState()
-
-    LaunchedEffect(isSet) {
-        if(isSet) {
-            successCallback(true)
-        }
-    }
 
     Column(
         modifier = Modifier

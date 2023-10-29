@@ -36,7 +36,7 @@ fun QuizApp(
     appModel: QuizAppViewModel = hiltViewModel()
 ) {
     val navController = rememberNavController()
-    val user = auth.user.collectAsState()
+    val user = appModel.user.collectAsState()
     val currentRoute by navController.currentBackStackEntryAsState()
     val gameNotifications by appModel.notifications.collectAsState(initial = emptyList())
 
@@ -66,20 +66,25 @@ fun QuizApp(
         ) {
             composable(Screen.Login.route) {
                 LoginScreen(navController) {
-                    auth.getUser()
+                    appModel.startUserFlow()
                 }
             }
             composable(Screen.Register.route) {
                 RegisterScreen(navController = navController)
             }
             composable(Screen.Profile.route) {
-                ProfileScreen {
+                ProfileScreen(user.value) {
                     auth.signOut()
+                    appModel.stopFlow()
                     navController.navigate(Screen.Login.route)
                 }
             }
             composable(Screen.Home.route) {
-                PlayScreen(navController = navController, gameNotifications = gameNotifications.size)
+                PlayScreen(
+                    navController = navController,
+                    gameNotifications = gameNotifications,
+                    user = user.value
+                )
             }
             composable(Screen.SinglePlayer.route) {
                 SinglePlayerScreen {

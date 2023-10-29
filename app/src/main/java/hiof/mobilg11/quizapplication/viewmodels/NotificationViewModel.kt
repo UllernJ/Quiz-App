@@ -7,17 +7,17 @@ import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.GameService
 import hiof.mobilg11.quizapplication.service.UserCacheService
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val gameService: GameService
+    private val gameService: GameService,
+    private val userCacheService: UserCacheService
 ) :
     ViewModel() {
 
-    val notifications = gameService.notifications
+    val notifications = gameService.notifications(userCacheService.getUser()!!.username)
 
     fun acceptGame(game: MultiplayerGame) {
         viewModelScope.launch {

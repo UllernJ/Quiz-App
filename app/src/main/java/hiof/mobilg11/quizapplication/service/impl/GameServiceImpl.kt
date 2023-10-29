@@ -1,6 +1,5 @@
 package hiof.mobilg11.quizapplication.service.impl
 
-import android.widget.Toast
 import hiof.mobilg11.quizapplication.dao.GameDao
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.GameService
@@ -9,22 +8,11 @@ import javax.inject.Inject
 
 class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameService {
 
-    override val notifications = gameDao.notifications
+    override fun notifications(username: String) = gameDao.getGamesNotifications(username)
 
     override suspend fun create(game: MultiplayerGame) {
-        if (game.host == game.opponent) {
-            Toast.makeText(
-                null,
-                "You cannot challenge yourself",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        else if (game.host.isBlank() || game.opponent.isBlank()) {
-            Toast.makeText(
-                null,
-                "You cannot challenge someone with a blank username",
-                Toast.LENGTH_SHORT
-            ).show()
+        if (game.host.isBlank() || game.opponent.isBlank() || game.host == game.opponent) {
+            return
         } else {
             gameDao.createGame(game)
         }

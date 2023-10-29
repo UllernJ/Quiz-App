@@ -4,7 +4,7 @@ import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import kotlinx.coroutines.flow.Flow
 
 interface GameService {
-    val notifications: Flow<List<MultiplayerGame>>
+    fun notifications(username: String): Flow<List<MultiplayerGame>>
     suspend fun create(game: MultiplayerGame)
     suspend fun get(uuid: String): MultiplayerGame?
     suspend fun update(game: MultiplayerGame)
