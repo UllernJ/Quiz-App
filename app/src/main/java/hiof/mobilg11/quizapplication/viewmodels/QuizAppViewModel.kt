@@ -31,26 +31,27 @@ class QuizAppViewModel @Inject constructor(
     private var notificationsJob: Job? = null
 
     init {
-        if (uuid.isNotEmpty()) {
-            startUserFlow()
-        }
+        startUserFlow()
     }
 
     fun startUserFlow() {
         uuid = authService.currentUserUid
+        if (uuid.isBlank()) {
+            return
+        }
         userJob = viewModelScope.launch {
             userService.get(uuid).cancellable().collect {
                 user.value = it
-                if((it != null) && (notificationsJob == null)) {
-                    startNotificationsFlow()
+                if ((it != null) && (notificationsJob == null)) {
+                    startNotificationsFlow(it.username)
                 }
             }
         }
     }
 
-    private fun startNotificationsFlow() {
+    private fun startNotificationsFlow(username: String) {
         notificationsJob = viewModelScope.launch {
-            gameService.notifications(user.value?.username!!).cancellable().collect {
+            gameService.notifications(username).cancellable().collect {
                 notifications.value = it
             }
         }
@@ -59,7 +60,9 @@ class QuizAppViewModel @Inject constructor(
     fun stopFlow() {
         userJob?.cancel()
         user.value = null
+        userJob = null
         notificationsJob?.cancel()
+        notificationsJob = null
         notifications.value = emptyList()
     }
 }

@@ -54,6 +54,7 @@ fun QuizApp(
                 && currentRoute?.destination?.route != Screen.Loading.route
                 && currentRoute?.destination?.route != Screen.Quiz.route
                 && currentRoute?.destination?.route != Screen.MultiplayerPlay.route
+                && currentRoute?.destination?.route != Screen.Loading.route
             ) {
                 BottomNavBar(navController, gameNotifications.size)
             }
