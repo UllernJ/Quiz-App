@@ -2,13 +2,17 @@ package hiof.mobilg11.quizapplication
 
 import MultiplayerScreen
 import NavBar
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,7 +44,9 @@ fun QuizApp(
     val currentRoute by navController.currentBackStackEntryAsState()
     val gameNotifications by appModel.notifications.collectAsState(initial = emptyList())
 
-
+    val context = LocalContext.current
+    MusicPlayer(context)
+    
     Scaffold(
         topBar = {
             if (currentRoute?.destination?.route == Screen.Quiz.route
@@ -137,4 +143,19 @@ fun QuizApp(
 
         }
     }
+}
+
+@Composable
+fun MusicPlayer(context: Context)  {
+    val mediaPlayer = MediaPlayer.create(context, R.raw.music)
+    mediaPlayer.start()
+
+
+    DisposableEffect(mediaPlayer) {
+        onDispose {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
+    }
+
 }
