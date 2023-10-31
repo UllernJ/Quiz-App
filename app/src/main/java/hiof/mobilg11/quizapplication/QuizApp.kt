@@ -148,8 +148,8 @@ fun QuizApp(
 @Composable
 fun MusicPlayer(context: Context)  {
     val mediaPlayer = MediaPlayer.create(context, R.raw.music)
+    mediaPlayer.isLooping = true
     mediaPlayer.start()
-
 
     DisposableEffect(mediaPlayer) {
         onDispose {
@@ -157,5 +157,5 @@ fun MusicPlayer(context: Context)  {
             mediaPlayer.release()
         }
     }
-
 }
+
