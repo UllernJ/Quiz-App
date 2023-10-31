@@ -29,6 +29,7 @@ import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyS
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerPlayScreen
 import hiof.mobilg11.quizapplication.ui.screen.play.NotificationScreen
 import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
+import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 import hiof.mobilg11.quizapplication.viewmodels.QuizAppViewModel
 
@@ -43,9 +44,9 @@ fun QuizApp(
     val user = appModel.user.collectAsState()
     val currentRoute by navController.currentBackStackEntryAsState()
     val gameNotifications by appModel.notifications.collectAsState(initial = emptyList())
+    val isNewNotification by appModel.isNewNotification.collectAsState(initial = false)
 
-    val context = LocalContext.current
-    MusicPlayer(context)
+    MusicPlayer()
     
     Scaffold(
         topBar = {
@@ -143,10 +144,16 @@ fun QuizApp(
 
         }
     }
+
+    if(isNewNotification) {
+        PlaySoundEffect(R.raw.click)
+    }
+
 }
 
 @Composable
-fun MusicPlayer(context: Context)  {
+fun MusicPlayer()  {
+    val context = LocalContext.current
     val mediaPlayer = MediaPlayer.create(context, R.raw.music)
     mediaPlayer.isLooping = true
     mediaPlayer.start()

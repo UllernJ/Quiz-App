@@ -9,6 +9,7 @@ import hiof.mobilg11.quizapplication.service.AuthService
 import hiof.mobilg11.quizapplication.service.GameService
 import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ class QuizAppViewModel @Inject constructor(
     var uuid = authService.currentUserUid
     val notifications: MutableStateFlow<List<MultiplayerGame>> = MutableStateFlow(emptyList())
     val user: MutableStateFlow<User?> = MutableStateFlow(null)
+    val isNewNotification: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private var userJob: Job? = null
     private var notificationsJob: Job? = null
 
@@ -50,7 +52,13 @@ class QuizAppViewModel @Inject constructor(
     private fun startNotificationsFlow(username: String) {
         notificationsJob = viewModelScope.launch {
             gameService.notifications(username).cancellable().collect {
+                val currentNotifications = notifications.value
                 notifications.value = it
+                if (it.size > currentNotifications.size) {
+                    isNewNotification.value = true
+                    delay(1000)
+                    isNewNotification.value = false
+                }
             }
         }
     }
