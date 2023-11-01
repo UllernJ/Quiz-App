@@ -33,6 +33,8 @@ import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyS
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerPlayScreen
 import hiof.mobilg11.quizapplication.ui.screen.play.NotificationScreen
 import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
+import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
+import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
 import hiof.mobilg11.quizapplication.viewmodels.QuizAppViewModel
@@ -152,7 +154,7 @@ fun QuizApp(
     }
 
     if(isNewNotification && isFinishedLoaded) {
-        PlaySoundEffect(R.raw.click)
+        PlaySoundEffect(NotificationSound)
     }
 
 }
@@ -160,7 +162,7 @@ fun QuizApp(
 @Composable
 fun MusicPlayer()  {
     val context = LocalContext.current
-    val mediaPlayer = MediaPlayer.create(context, R.raw.music)
+    val mediaPlayer = MediaPlayer.create(context, BackgroundMusic)
     mediaPlayer.isLooping = true
     mediaPlayer.start()
 
