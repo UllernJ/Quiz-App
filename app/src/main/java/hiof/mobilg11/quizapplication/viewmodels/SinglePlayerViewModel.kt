@@ -19,7 +19,7 @@ class SinglePlayerViewModel @Inject constructor(private val categoryService: Cat
         getCategories()
     }
 
-    fun getCategories() {
+    private fun getCategories() {
         viewModelScope.launch {
             _categories.value = categoryService.getAllCategories()
         }

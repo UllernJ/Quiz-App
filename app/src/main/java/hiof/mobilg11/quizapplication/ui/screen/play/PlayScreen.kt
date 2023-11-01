@@ -54,7 +54,7 @@ fun PlayScreen(
     user: User?
 ) {
 
-    val games = viewModel.games.collectAsState(initial = emptyList())
+    val games = viewModel.getGames(user?.username ?: "").collectAsState(initial = emptyList())
 
 
     Column(
@@ -81,7 +81,7 @@ fun PlayScreen(
                 navController,
                 LightGreen1
             )
-            Games(games.value, navController)
+            Games(games.value, navController, user)
         }
 
 
@@ -198,7 +198,7 @@ fun GameCard(
 }
 
 @Composable
-fun Games(games: List<MultiplayerGame>, navController: NavController) {
+fun Games(games: List<MultiplayerGame>, navController: NavController, user: User?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -212,7 +212,7 @@ fun Games(games: List<MultiplayerGame>, navController: NavController) {
         )
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            content = { items(games) { GameCard(it, navController) } },
+            content = { items(games) { GameCard(it, navController, user) } },
         )
     }
 }
@@ -221,7 +221,7 @@ fun Games(games: List<MultiplayerGame>, navController: NavController) {
 fun GameCard(
     game: MultiplayerGame,
     navController: NavController,
-    viewModel: PlayViewModel = hiltViewModel()
+    user: User?
 ) {
     Box(
         modifier = Modifier
@@ -239,7 +239,7 @@ fun GameCard(
         ) {
             Column {
                 Text(
-                    if (game.host == viewModel.username) "You vs ${game.opponent}" else "You vs ${game.host}",
+                    if (game.host == user?.username) "You vs ${game.opponent}" else "You vs ${game.host}",
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White
                 )
@@ -251,8 +251,8 @@ fun GameCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = if (game.gameState == GameState.WAITING_FOR_HOST && game.host == viewModel.username ||
-                        game.gameState == GameState.WAITING_FOR_OPPONENT && game.opponent == viewModel.username
+                    text = if (game.gameState == GameState.WAITING_FOR_HOST && game.host == user?.username ||
+                        game.gameState == GameState.WAITING_FOR_OPPONENT && game.opponent == user?.username
                     ) {
                         "Your turn"
                     } else {
