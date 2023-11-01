@@ -20,16 +20,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.Screen
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyViewModel
 
 @Composable
 fun MultiplayerGameLobbyScreen(
     navController: NavController,
-    viewModel: MultiplayerGameLobbyViewModel = hiltViewModel()
+    user: User,
+    viewModel: MultiplayerGameLobbyViewModel = hiltViewModel(),
 ) {
     val game = viewModel.game.collectAsState()
-    val user = viewModel.user
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -48,7 +49,7 @@ fun MultiplayerGameLobbyScreen(
             )
 
             Text(
-                if (user?.username == game.value.host) "${game.value.host} vs ${game.value.opponent}" else "${game.value.opponent} vs ${game.value.host}",
+                if (user.username == game.value.host) "${game.value.host} vs ${game.value.opponent}" else "${game.value.opponent} vs ${game.value.host}",
                 fontSize = 18.sp,
             )
 
@@ -77,8 +78,8 @@ fun MultiplayerGameLobbyScreen(
             }
             Spacer(modifier = Modifier.height(20.dp))
 
-            if ((game.value.gameState == GameState.WAITING_FOR_HOST && user?.username == game.value.host) ||
-                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user?.username == game.value.opponent)
+            if ((game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host) ||
+                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent)
             ) {
                 Button(
                     onClick = { navController.navigate(Screen.MultiplayerPlay.createRoute(game.value.uuid)) },

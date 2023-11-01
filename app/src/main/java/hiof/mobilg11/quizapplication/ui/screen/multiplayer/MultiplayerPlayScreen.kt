@@ -30,12 +30,15 @@ import hiof.mobilg11.quizapplication.viewmodels.MultiplayerPlayViewModel
 @Composable
 fun MultiplayerPlayScreen(
     navController: NavController,
+    username: String,
     viewModel: MultiplayerPlayViewModel = hiltViewModel()
 ) {
     val game = viewModel.game.collectAsState()
     val categories = viewModel.categories.collectAsState()
     val questions = viewModel.questions.collectAsState()
     val currentQuestionIndex = viewModel.currentQuestionIndex.collectAsState()
+
+    viewModel.questionInit(username)
 
     Column(
         modifier = Modifier
@@ -44,26 +47,27 @@ fun MultiplayerPlayScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        renderGameInfo(game.value, viewModel, categories.value)
+        RenderGameInfo(game.value, viewModel, categories.value, username)
         Spacer(modifier = Modifier.height(16.dp))
         RenderQuestionsAndAnswers(
-            game.value,
             questions.value,
             currentQuestionIndex.value,
             viewModel,
-            navController
+            navController,
+            username
         )
     }
 }
 
 @Composable
-private fun renderGameInfo(
+private fun RenderGameInfo(
     game: MultiplayerGame,
     viewModel: MultiplayerPlayViewModel,
-    categories: List<Category>
+    categories: List<Category>,
+    username: String,
 ) {
-    val isOurTurnToPick = viewModel.isOurTurnToPick()
-    val amIOpponent = viewModel.amIOpponent()
+    val isOurTurnToPick = viewModel.isOurTurnToPick(username)
+    val amIOpponent = viewModel.amIOpponent(username)
     val showCategory = remember { mutableStateOf(true) }
 
     Text(text = if (!amIOpponent) "${game.host} vs ${game.opponent}" else "${game.opponent} vs ${game.host}")
@@ -101,11 +105,11 @@ private fun RenderCategoryButtons(
 
 @Composable
 private fun RenderQuestionsAndAnswers(
-    game: MultiplayerGame,
     questions: List<Question>,
     currentQuestionIndex: Int,
     viewModel: MultiplayerPlayViewModel,
-    navController: NavController
+    navController: NavController,
+    username: String
 ) {
     var hasFinishedRound by remember { mutableStateOf(false) }
 
@@ -114,14 +118,16 @@ private fun RenderQuestionsAndAnswers(
         QuestionDisplay(
             question = question,
             onAnswerSelected = { isCorrect ->
-                viewModel.answerQuestion(isCorrect)
+                viewModel.answerQuestion(isCorrect, username)
             }
         )
     }
 
     if (currentQuestionIndex == 3 && !hasFinishedRound) {
         navController.navigate(Screen.Home.route)
-        viewModel.finishRound()
+        viewModel.finishRound(username)
         hasFinishedRound = true
     }
+
+
 }

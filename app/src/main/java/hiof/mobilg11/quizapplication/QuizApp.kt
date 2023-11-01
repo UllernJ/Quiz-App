@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.screen.ProfileScreen
 import hiof.mobilg11.quizapplication.ui.screen.QuizScreen
@@ -114,7 +115,7 @@ fun QuizApp(
                         nullable = false
                     })
             ) {
-                MultiplayerGameLobbyScreen(navController)
+                MultiplayerGameLobbyScreen(navController, (user.value ?: User()))
             }
             composable(
                 route = Screen.Quiz.route,
@@ -141,7 +142,7 @@ fun QuizApp(
                     nullable = false
                 })
             ) {
-                MultiplayerPlayScreen(navController)
+                MultiplayerPlayScreen(navController, user.value?.username ?: "")
             }
             composable(Screen.Notifications.route) {
                 NotificationScreen(notifications = gameNotifications)

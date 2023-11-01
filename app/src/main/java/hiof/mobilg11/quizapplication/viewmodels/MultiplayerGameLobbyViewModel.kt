@@ -15,12 +15,10 @@ import javax.inject.Inject
 class MultiplayerGameLobbyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val gameService: GameService,
-    private val userCacheService: UserCacheService
 ) : ViewModel() {
     private val _game: MutableStateFlow<MultiplayerGame> = MutableStateFlow(MultiplayerGame())
     val game: MutableStateFlow<MultiplayerGame> = _game
 
-    val user = userCacheService.getUser()
     init {
         viewModelScope.launch {
             val categoryName = savedStateHandle.get<String>("lobbyId")
