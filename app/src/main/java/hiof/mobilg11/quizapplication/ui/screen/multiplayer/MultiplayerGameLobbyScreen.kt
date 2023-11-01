@@ -54,12 +54,12 @@ fun MultiplayerGameLobbyScreen(
             )
 
             Text(
-                text = "Round ${game.value.roundIndex} of ${game.value.numberOfRounds}",
+                text = "Round ${game.value.roundIndex+1} of ${game.value.numberOfRounds+1}",
                 fontSize = 16.sp,
             )
 
             Text(
-                text = "Score: ${game.value.hostScore} - ${game.value.opponentScore}",
+                text = if(user.username == game.value.opponent) "Score: ${game.value.hostScore} - ${game.value.opponentScore}" else "Score: ${game.value.opponentScore} - ${game.value.hostScore}",
                 fontSize = 16.sp,
             )
 

@@ -245,7 +245,7 @@ fun GameCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "Score: ${game.hostScore} - ${game.opponentScore}",
+                    text = if(user?.username == game.opponent) "Score: ${game.hostScore} - ${game.opponentScore}" else "Score: ${game.opponentScore} - ${game.hostScore}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White
                 )
