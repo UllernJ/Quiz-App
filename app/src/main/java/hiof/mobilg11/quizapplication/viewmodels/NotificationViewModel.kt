@@ -12,13 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val gameService: GameService,
-    private val userCacheService: UserCacheService
+    private val gameService: GameService
 ) :
     ViewModel() {
-
-    val notifications = gameService.notifications(userCacheService.getUser()?.username ?: "")
-
     fun acceptGame(game: MultiplayerGame) {
         viewModelScope.launch {
             gameService.update(game.copy(gameState = GameState.WAITING_FOR_OPPONENT))

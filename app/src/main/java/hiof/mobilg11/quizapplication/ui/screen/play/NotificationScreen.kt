@@ -38,8 +38,10 @@ import hiof.mobilg11.quizapplication.ui.theme.NotificationColor2
 import hiof.mobilg11.quizapplication.viewmodels.NotificationViewModel
 
 @Composable
-fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
-    val notifications = viewModel.notifications.collectAsState(initial = emptyList())
+fun NotificationScreen(
+    notifications: List<MultiplayerGame>,
+    viewModel: NotificationViewModel = hiltViewModel()
+) {
 
     Column(
         modifier = Modifier
@@ -47,7 +49,7 @@ fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
             .background(DeepBlue)
             .padding(top = 10.dp)
     ) {
-        if (notifications.value.isEmpty()) {
+        if (notifications.isEmpty()) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -64,7 +66,7 @@ fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
             }
         }
         LazyColumn {
-            items(notifications.value) { game ->
+            items(notifications) { game ->
                 NotificationCard(
                     game,
                     onAccept = { viewModel.acceptGame(game) },

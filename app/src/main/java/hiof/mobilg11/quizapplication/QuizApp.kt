@@ -144,7 +144,7 @@ fun QuizApp(
                 MultiplayerPlayScreen(navController)
             }
             composable(Screen.Notifications.route) {
-                NotificationScreen()
+                NotificationScreen(notifications = gameNotifications)
             }
 
         }
