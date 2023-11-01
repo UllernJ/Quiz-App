@@ -72,14 +72,14 @@ private fun renderGameInfo(
     Spacer(modifier = Modifier.height(16.dp))
 
     if (isOurTurnToPick && categories.isNotEmpty() && showCategory.value) {
-        renderCategoryButtons(categories, viewModel) {
+        RenderCategoryButtons(categories, viewModel) {
             showCategory.value = false
         }
     }
 }
 
 @Composable
-private fun renderCategoryButtons(
+private fun RenderCategoryButtons(
     categories: List<Category>,
     viewModel: MultiplayerPlayViewModel,
     callback: () -> Unit
@@ -120,7 +120,7 @@ private fun RenderQuestionsAndAnswers(
     }
 
     if (currentQuestionIndex == 3 && !hasFinishedRound) {
-        navController.navigate(Screen.MultiplayerLobby.createRoute(game.uuid))
+        navController.navigate(Screen.Home.route)
         viewModel.finishRound()
         hasFinishedRound = true
     }

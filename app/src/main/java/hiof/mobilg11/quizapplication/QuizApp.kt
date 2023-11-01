@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,6 +48,7 @@ fun QuizApp(
     val currentRoute by navController.currentBackStackEntryAsState()
     val gameNotifications by appModel.notifications.collectAsState(initial = emptyList())
     val isNewNotification by appModel.isNewNotification.collectAsState(initial = false)
+    var isFinishedLoaded by remember { mutableStateOf(false) }
 
     MusicPlayer()
     
@@ -127,6 +131,7 @@ fun QuizApp(
                     } else {
                         navController.navigate(Screen.Login.route)
                     }
+                    isFinishedLoaded = true
                 }
             }
 
@@ -145,7 +150,7 @@ fun QuizApp(
         }
     }
 
-    if(isNewNotification) {
+    if(isNewNotification && isFinishedLoaded) {
         PlaySoundEffect(R.raw.click)
     }
 
