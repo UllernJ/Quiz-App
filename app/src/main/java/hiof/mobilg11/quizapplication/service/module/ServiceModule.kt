@@ -8,20 +8,16 @@ import hiof.mobilg11.quizapplication.service.AuthService
 import hiof.mobilg11.quizapplication.service.CategoryService
 import hiof.mobilg11.quizapplication.service.GameService
 import hiof.mobilg11.quizapplication.service.QuestionService
-import hiof.mobilg11.quizapplication.service.UserCacheService
 import hiof.mobilg11.quizapplication.service.UserService
 import hiof.mobilg11.quizapplication.service.impl.AuthServiceImpl
 import hiof.mobilg11.quizapplication.service.impl.CategoryServiceImpl
 import hiof.mobilg11.quizapplication.service.impl.GameServiceImpl
 import hiof.mobilg11.quizapplication.service.impl.QuestionServiceImpl
-import hiof.mobilg11.quizapplication.service.impl.UserCacheServiceImpl
 import hiof.mobilg11.quizapplication.service.impl.UserServiceImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class ServiceModule {
-    @Binds
-    abstract fun provideUserCacheService(impl: UserCacheServiceImpl): UserCacheService
 
     @Binds
     abstract fun provideAuthService(impl: AuthServiceImpl): AuthService

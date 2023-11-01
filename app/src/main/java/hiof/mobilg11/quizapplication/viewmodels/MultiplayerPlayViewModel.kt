@@ -11,7 +11,6 @@ import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.CategoryService
 import hiof.mobilg11.quizapplication.service.GameService
 import hiof.mobilg11.quizapplication.service.QuestionService
-import hiof.mobilg11.quizapplication.service.UserCacheService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

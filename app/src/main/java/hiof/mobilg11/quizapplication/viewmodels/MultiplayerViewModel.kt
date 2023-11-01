@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.GameService
-import hiof.mobilg11.quizapplication.service.UserCacheService
 import hiof.mobilg11.quizapplication.service.UserService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
