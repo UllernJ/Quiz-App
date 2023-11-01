@@ -41,7 +41,7 @@ import hiof.mobilg11.quizapplication.viewmodels.MultiplayerViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MultiplayerScreen(
-    navController: NavController,
+    host: User?,
     viewModel: MultiplayerViewModel = hiltViewModel()
 ) {
 
@@ -92,7 +92,7 @@ fun MultiplayerScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             if (searchUserList.value.isNotEmpty()) {
-                DisplayUsers(searchUserList.value, viewModel)
+                DisplayUsers(searchUserList.value, host, viewModel)
             }
         } else {
             Button(
@@ -119,7 +119,7 @@ fun MultiplayerScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             if(lastPlayedUsers.value.isNotEmpty()) {
-                DisplayUsers(lastPlayedUsers.value, viewModel)
+                DisplayUsers(lastPlayedUsers.value, host, viewModel)
             } else {
                 Text(
                     text = "No users found",
@@ -134,6 +134,7 @@ fun MultiplayerScreen(
 @Composable
 private fun DisplayUsers(
     users: List<User?>,
+    host: User?,
     viewModel: MultiplayerViewModel
 ) {
     LazyColumn(
@@ -165,7 +166,7 @@ private fun DisplayUsers(
                             .clickable {
                                 users[index].let {
                                     if (it != null) {
-                                        viewModel.createGame(it)
+                                        viewModel.createGame(it, (host?: User()))
                                     }
                                 }
                             }

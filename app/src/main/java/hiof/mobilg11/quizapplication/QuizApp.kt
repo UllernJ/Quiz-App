@@ -105,7 +105,7 @@ fun QuizApp(
                 }
             }
             composable(Screen.Multiplayer.route) {
-                MultiplayerScreen(navController)
+                MultiplayerScreen(user.value)
             }
             composable(
                 route = Screen.MultiplayerLobby.route,
