@@ -15,8 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MultiplayerViewModel @Inject constructor(
     private val gameService: GameService,
-    private val userService: UserService,
-    private val userCacheService: UserCacheService
+    private val userService: UserService
 ) : ViewModel() {
 
     private val _users = MutableStateFlow<List<User?>>(emptyList())
