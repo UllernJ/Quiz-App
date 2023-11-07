@@ -14,7 +14,7 @@ class GameDao @Inject constructor(
 ) {
     suspend fun createGame(game: MultiplayerGame) {
         firebase.collection(COLLECTION)
-            .document(game.uuid)
+            .document()
             .set(game)
             .await()
     }

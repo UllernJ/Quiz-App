@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.GameService
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,4 +29,22 @@ class MultiplayerGameLobbyViewModel @Inject constructor(
             }
         }
     }
+
+    fun abandonGame(username: String) {
+        viewModelScope.launch {
+            if(!amIOpponent(username)) {
+                _game.value.winner = _game.value.opponent
+            } else {
+                _game.value.winner = _game.value.host
+            }
+            _game.value.gameState = GameState.FINISHED
+            gameService.update(_game.value)
+        }
+    }
+
+    private fun amIOpponent(username: String): Boolean {
+        return ((game.value.gameState == GameState.WAITING_FOR_HOST && username == game.value.host) ||
+                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && username == game.value.opponent))
+    }
+
 }
