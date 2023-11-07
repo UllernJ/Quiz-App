@@ -41,9 +41,7 @@ class MultiplayerViewModel @Inject constructor(
         }
     }
     private fun createGameObject(opponent: User, host: User): MultiplayerGame {
-        val uuid = (100000..999999).random().toString()
         return MultiplayerGame(
-            uuid = uuid,
             host = host.username,
             opponent = opponent.username
         )

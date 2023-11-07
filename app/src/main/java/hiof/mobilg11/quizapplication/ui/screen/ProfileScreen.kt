@@ -8,16 +8,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.model.User
+import hiof.mobilg11.quizapplication.viewmodels.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
     user: User?,
+    viewModel: ProfileViewModel = hiltViewModel(),
     callback: () -> Unit
 ) {
+    viewModel.getStatistics(user?.username ?: "")
+    val games = viewModel.games.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -40,7 +47,7 @@ fun ProfileScreen(
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = if (user != null) "Win percentage: ${user.winPercentage}" else "Win percentage: 0",
+            text = if (user != null) "Win percentage: ${viewModel.calculateWinPercentage(games.value)}%" else "",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(top = 8.dp)
         )

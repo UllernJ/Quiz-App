@@ -11,4 +11,5 @@ interface GameService {
     suspend fun end(game: MultiplayerGame)
     suspend fun delete(uuid: String)
     fun getGames(username: String): Flow<List<MultiplayerGame>>
+    suspend fun getGameStatistics(username: String): List<MultiplayerGame>
 }

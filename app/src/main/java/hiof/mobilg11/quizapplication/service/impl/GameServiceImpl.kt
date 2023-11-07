@@ -36,5 +36,9 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
         return gameDao.getAllActiveGamesByUsername(username)
     }
 
+    override suspend fun getGameStatistics(username: String): List<MultiplayerGame> {
+        return gameDao.getGameStatistics(username)
+    }
+
 
 }
