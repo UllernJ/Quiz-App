@@ -47,7 +47,12 @@ fun ProfileScreen(
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = if (user != null) "Win percentage: ${viewModel.calculateWinPercentage(games.value)}%" else "",
+            text = if (user != null) "Win percentage: ${
+                viewModel.calculateWinPercentage(
+                    games.value,
+                    user.username
+                )
+            }%" else "",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(top = 8.dp)
         )

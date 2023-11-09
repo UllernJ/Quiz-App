@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val gameService: GameService): ViewModel() {
+class ProfileViewModel @Inject constructor(private val gameService: GameService) : ViewModel() {
 
     private val _games = MutableStateFlow<List<MultiplayerGame>>(emptyList())
     val games: MutableStateFlow<List<MultiplayerGame>> = _games
@@ -21,21 +21,17 @@ class ProfileViewModel @Inject constructor(private val gameService: GameService)
         }
     }
 
-    fun calculateWinPercentage(games: List<MultiplayerGame>): Int {
+    fun calculateWinPercentage(games: List<MultiplayerGame>, username: String): Int {
         var wins = 0
         var losses = 0
-        games.forEach {
-            if(it.winner == it.host) {
+        for (game in games) {
+            if (game.winner == username) {
                 wins++
             } else {
                 losses++
             }
         }
-        return if(wins == 0 && losses == 0) {
-            0
-        } else {
-            (wins.toDouble() / (wins + losses) * 100).toInt()
-        }
+        return (wins.toDouble() / (wins + losses) * 100).toInt()
     }
 
 }
