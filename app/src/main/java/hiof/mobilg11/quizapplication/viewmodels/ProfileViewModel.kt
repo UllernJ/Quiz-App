@@ -12,26 +12,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val gameService: GameService) : ViewModel() {
 
-    private val _games = MutableStateFlow<List<MultiplayerGame>>(emptyList())
-    val games: MutableStateFlow<List<MultiplayerGame>> = _games
+    private val _winPercentage = MutableStateFlow(0.0)
+    val winPercentage: MutableStateFlow<Double> = _winPercentage
 
-    fun getStatistics(username: String) {
+    fun getWinPercentage(username: String) {
         viewModelScope.launch {
-            _games.value = gameService.getGameStatistics(username)
+            _winPercentage.value = gameService.getWinPercentage(username)
         }
     }
-
-    fun calculateWinPercentage(games: List<MultiplayerGame>, username: String): Int {
-        var wins = 0
-        var losses = 0
-        for (game in games) {
-            if (game.winner == username) {
-                wins++
-            } else {
-                losses++
-            }
-        }
-        return (wins.toDouble() / (wins + losses) * 100).toInt()
-    }
-
 }

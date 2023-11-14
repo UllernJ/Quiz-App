@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.viewmodels.ProfileViewModel
+import kotlin.math.roundToInt
 
 @Composable
 fun ProfileScreen(
@@ -22,8 +23,8 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     callback: () -> Unit
 ) {
-    viewModel.getStatistics(user?.username ?: "")
-    val games = viewModel.games.collectAsState()
+    val winPercentage = viewModel.winPercentage.collectAsState()
+    viewModel.getWinPercentage(user?.username ?: "")
 
     Column(
         modifier = Modifier
@@ -47,12 +48,7 @@ fun ProfileScreen(
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = if (user != null) "Win percentage: ${
-                viewModel.calculateWinPercentage(
-                    games.value,
-                    user.username
-                )
-            }%" else "",
+            text = if (user != null) "Win percentage: ${winPercentage.value.roundToInt()}%" else "",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(top = 8.dp)
         )

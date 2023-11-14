@@ -12,4 +12,5 @@ interface GameService {
     suspend fun delete(uuid: String)
     fun getGames(username: String): Flow<List<MultiplayerGame>>
     suspend fun getGameStatistics(username: String): List<MultiplayerGame>
+    suspend fun getWinPercentage(username: String): Double
 }
