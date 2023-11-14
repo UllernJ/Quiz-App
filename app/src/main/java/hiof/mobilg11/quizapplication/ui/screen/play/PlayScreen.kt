@@ -75,13 +75,6 @@ fun PlayScreen(
                 Screen.Multiplayer.route,
                 navController
             )
-            GameCard(
-                "Singleplayer",
-                "Play alone and get a highscore!",
-                Screen.SinglePlayer.route,
-                navController,
-                LightGreen1
-            )
             Games(games.value, navController, user)
         }
 
