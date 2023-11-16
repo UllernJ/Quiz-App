@@ -42,6 +42,9 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
 
     override suspend fun getWinPercentage(username: String): Double {
         val games = gameDao.getGameStatistics(username)
+        if(games.isEmpty()) {
+            return 0.0
+        }
         var wins = 0
         var losses = 0
         for (game in games) {
