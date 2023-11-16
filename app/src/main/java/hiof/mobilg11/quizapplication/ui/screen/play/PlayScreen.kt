@@ -45,6 +45,7 @@ import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.ui.theme.BlueViola1
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.ui.theme.LightBlue
+import hiof.mobilg11.quizapplication.ui.theme.LightGreen1
 import hiof.mobilg11.quizapplication.ui.theme.OrangeYellow2
 import hiof.mobilg11.quizapplication.ui.theme.Purple40
 import hiof.mobilg11.quizapplication.ui.theme.PurpleGrey40
@@ -73,11 +74,20 @@ fun PlayScreen(
         if (user?.username.isNullOrBlank().not() && user != null) {
             TitleSection(user.username, navController, gameNotifications.size)
             GameCard(
-                "Multiplayer",
-                "Play with friends or strangers!",
+                stringResource(R.string.multiplayer),
+                stringResource(R.string.multiplayer_description),
                 Screen.Multiplayer.route,
                 navController
             )
+
+            GameCard(
+                stringResource(R.string.single_player),
+                stringResource(R.string.single_player_description),
+                Screen.SinglePlayer.route,
+                navController,
+                LightGreen1
+            )
+
             Games(games.value, navController, user)
         }
 
@@ -251,7 +261,7 @@ fun GameCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = if(user?.username == game.opponent) stringResource(
+                    text = if (user?.username == game.opponent) stringResource(
                         R.string.home_score_display,
                         game.hostScore,
                         game.opponentScore

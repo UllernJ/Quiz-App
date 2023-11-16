@@ -10,7 +10,7 @@
     <string name="quiz_page_path">quiz</string>
     <string name="session_page_path">session</string>
     <string name="join_page_path">join</string>
-    <string name="home_welcome_back">Welcome back, %1$s</string>
+    <string name="home_welcome_back">Welcome, %1$s</string>
     <string name="home_lets_play_quiz">Let\'s play some quizzes!</string>
     <string name="home_start_new_game">Start a new game</string>
     <string name="home_your_games">Your games</string>
@@ -43,4 +43,8 @@
     <string name="login_sign_up">SIGN UP</string>
     <string name="sign_up">Sign up</string>
     <string name="win_percentage">Win percentage: %1$s%%</string>
+    <string name="single_player">Single Player</string>
+    <string name="single_player_description">Play alone and get a highscore!</string>
+    <string name="multiplayer">Multiplayer</string>
+    <string name="multiplayer_description">Play against your friends!</string>
 </resources>
