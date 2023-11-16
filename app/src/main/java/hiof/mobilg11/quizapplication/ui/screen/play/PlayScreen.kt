@@ -33,9 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.GameState
@@ -43,8 +45,9 @@ import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.ui.theme.BlueViola1
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.ui.theme.LightBlue
-import hiof.mobilg11.quizapplication.ui.theme.LightGreen1
 import hiof.mobilg11.quizapplication.ui.theme.OrangeYellow2
+import hiof.mobilg11.quizapplication.ui.theme.Purple40
+import hiof.mobilg11.quizapplication.ui.theme.PurpleGrey40
 import hiof.mobilg11.quizapplication.viewmodels.PlayViewModel
 
 @Composable
@@ -89,16 +92,19 @@ fun TitleSection(username: String, navController: NavController, gameNotificatio
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
+            .background(brush = Brush.horizontalGradient(listOf(Purple40, PurpleGrey40)))
             .fillMaxWidth()
             .padding(15.dp)
     ) {
-        Column(verticalArrangement = Arrangement.Center) {
+        Column(
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
-                text = "Welcome to back, $username",
+                text = stringResource(R.string.home_welcome_back, username),
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                text = "Let's play some quizzes!",
+                text = stringResource(R.string.home_lets_play_quiz),
                 style = MaterialTheme.typography.bodyMedium,
             )
         }
@@ -158,7 +164,7 @@ fun GameCard(
         ) {
             Column {
                 Text(
-                    text = "Start a new game",
+                    text = stringResource(R.string.home_start_new_game),
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.White
                 )
@@ -201,7 +207,7 @@ fun Games(games: List<MultiplayerGame>, navController: NavController, user: User
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "Your games",
+            text = stringResource(R.string.home_your_games),
             style = MaterialTheme.typography.titleMedium,
         )
         LazyColumn(
@@ -233,13 +239,27 @@ fun GameCard(
         ) {
             Column {
                 Text(
-                    if (game.host == user?.username) "You vs ${game.opponent}" else "You vs ${game.host}",
+                    if (game.host == user?.username) stringResource(
+                        R.string.home_you_vs,
+                        game.opponent
+                    ) else stringResource(
+                        R.string.home_you_vs,
+                        game.host
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = if(user?.username == game.opponent) "Score: ${game.hostScore} - ${game.opponentScore}" else "Score: ${game.opponentScore} - ${game.hostScore}",
+                    text = if(user?.username == game.opponent) stringResource(
+                        R.string.home_score_display,
+                        game.hostScore,
+                        game.opponentScore
+                    ) else stringResource(
+                        R.string.home_score_display,
+                        game.opponentScore,
+                        game.hostScore
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White
                 )
@@ -248,9 +268,9 @@ fun GameCard(
                     text = if (game.gameState == GameState.WAITING_FOR_HOST && game.host == user?.username ||
                         game.gameState == GameState.WAITING_FOR_OPPONENT && game.opponent == user?.username
                     ) {
-                        "Your turn"
+                        stringResource(R.string.home_turn_indicater_your_turn)
                     } else {
-                        "Opponent's turn"
+                        stringResource(R.string.home_turn_indicater_opponent_turn)
                     },
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White

@@ -27,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerViewModel
@@ -102,7 +104,7 @@ fun MultiplayerScreen(
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "Challenge a Friend",
+                    text = stringResource(R.string.challenge_a_friend),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -111,7 +113,7 @@ fun MultiplayerScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Last played",
+                text = stringResource(R.string.last_played),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -122,7 +124,7 @@ fun MultiplayerScreen(
                 DisplayUsers(lastPlayedUsers.value, host, viewModel)
             } else {
                 Text(
-                    text = "No users found",
+                    text = stringResource(R.string.no_users_found),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -151,7 +153,7 @@ private fun DisplayUsers(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = users[index]?.username ?: "No user found",
+                        text = users[index]?.username ?: stringResource(R.string.no_user_found),
                         fontSize = 20.sp,
                         modifier = Modifier
                             .weight(1f)
@@ -166,7 +168,7 @@ private fun DisplayUsers(
                             .clickable {
                                 users[index].let {
                                     if (it != null) {
-                                        viewModel.createGame(it, (host?: User()))
+                                        viewModel.createGame(it, (host ?: User()))
                                     }
                                 }
                             }

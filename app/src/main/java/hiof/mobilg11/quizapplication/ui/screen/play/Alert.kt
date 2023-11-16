@@ -6,9 +6,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.viewmodels.AlertViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,7 +26,7 @@ fun Alert(viewModel: AlertViewModel = hiltViewModel()) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Please set a username in the profile page",
+            text = stringResource(R.string.no_username_warning),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary
@@ -33,7 +35,7 @@ fun Alert(viewModel: AlertViewModel = hiltViewModel()) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "This is required to play multiplayer",
+            text = stringResource(R.string.username_required_to_play_multiplayer),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colorScheme.onBackground
@@ -42,7 +44,7 @@ fun Alert(viewModel: AlertViewModel = hiltViewModel()) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "You can still play singleplayer without a username",
+            text = stringResource(R.string.username_warning_singleplayer),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colorScheme.onBackground
@@ -73,7 +75,7 @@ fun Alert(viewModel: AlertViewModel = hiltViewModel()) {
                 .fillMaxWidth()
                 .padding(top = 16.dp)
         ) {
-            Text(text = "Save")
+            Text(text = stringResource(R.string.save))
         }
     }
 }

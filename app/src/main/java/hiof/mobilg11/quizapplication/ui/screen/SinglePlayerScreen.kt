@@ -21,10 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
 import hiof.mobilg11.quizapplication.viewmodels.SinglePlayerViewModel
@@ -57,7 +59,7 @@ fun SinglePlayerScreen(callback: (String) -> Unit) {
                 .fillMaxWidth()
                 .padding(8.dp),
             label = {
-                Text("Search Categories")
+                Text(stringResource(R.string.search_categories))
             }
         )
 
@@ -68,7 +70,7 @@ fun SinglePlayerScreen(callback: (String) -> Unit) {
         ShimmerListItem(
             modifier = Modifier
                 .height(40.dp)
-                 .fillMaxWidth()
+                .fillMaxWidth()
                 .clip(MaterialTheme.shapes.large),
             isLoading = selectedCategory.value.isEmpty(), contentAfterLoading = {
                 CategoryButton(selectedCategory, callback)

@@ -10,11 +10,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.shared.QuestionDisplay
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
 
@@ -41,7 +43,7 @@ fun QuizScreen(navController: NavController, quizViewModel: QuizViewModel = hilt
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "You got $score out of ${questions.size} correct",
+                    text = stringResource(R.string.you_got_out_of_correct, score, questions.size),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -54,7 +56,7 @@ fun QuizScreen(navController: NavController, quizViewModel: QuizViewModel = hilt
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = "Back",
+                        text = stringResource(R.string.back),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )

@@ -24,11 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
 import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
@@ -80,7 +82,7 @@ fun LoginScreen(
                 .padding(8.dp)
         ) {
             Text(
-                text = "Sign in",
+                text = stringResource(R.string.sign_in),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -91,13 +93,13 @@ fun LoginScreen(
             modifier = Modifier.padding(top = 48.dp)
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Don't have an account?")
+            Text(text = stringResource(R.string.login_no_account))
             TextButton(
                 onClick = {
                     navController.navigate(Screen.Register.route)
                 },
             ) {
-                Text("SIGN UP")
+                Text(stringResource(R.string.login_sign_up))
             }
         }
     }

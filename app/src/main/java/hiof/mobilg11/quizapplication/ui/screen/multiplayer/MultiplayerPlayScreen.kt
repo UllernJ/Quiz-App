@@ -17,9 +17,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.model.Question
@@ -70,9 +72,17 @@ private fun RenderGameInfo(
     val amIOpponent = viewModel.amIOpponent(username)
     val showCategory = remember { mutableStateOf(true) }
 
-    Text(text = if (!amIOpponent) "${game.host} vs ${game.opponent}" else "${game.opponent} vs ${game.host}")
+    Text(text = if (!amIOpponent) stringResource(R.string.user_vs_user, game.host, game.opponent) else stringResource(R.string.user_vs_user, game.opponent, game.host))
     Spacer(modifier = Modifier.height(16.dp))
-    Text(text = if (!amIOpponent) "${game.hostScore} - ${game.opponentScore}" else "${game.opponentScore} - ${game.hostScore}")
+    Text(text = if (!amIOpponent) stringResource(
+        R.string.score_vs_score,
+        game.hostScore,
+        game.opponentScore
+    ) else stringResource(
+        R.string.score_vs_score,
+        game.opponentScore,
+        game.hostScore
+    ))
     Spacer(modifier = Modifier.height(16.dp))
 
     if (isOurTurnToPick && categories.isNotEmpty() && showCategory.value) {
@@ -88,7 +98,7 @@ private fun RenderCategoryButtons(
     viewModel: MultiplayerPlayViewModel,
     callback: () -> Unit
 ) {
-    Text(text = "It's your turn to pick a category")
+    Text(text = stringResource(R.string.game_your_turn_category))
     Spacer(modifier = Modifier.height(16.dp))
     categories.forEach { category ->
         Button(

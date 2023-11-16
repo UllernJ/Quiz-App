@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.viewmodels.ProfileViewModel
 import kotlin.math.roundToInt
@@ -32,7 +34,7 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Profile",
+            text = stringResource(R.string.profile),
             style = MaterialTheme.typography.headlineLarge
         )
     }
@@ -44,11 +46,16 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = if (user != null) "Username: ${user.username}" else "Can't find user",
+            text = if (user != null) stringResource(R.string.profile_string_display, user.username) else stringResource(
+                R.string.profile_user_not_found
+            ),
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = if (user != null) "Win percentage: ${winPercentage.value.roundToInt()}%" else "",
+            text = if (user != null) stringResource(
+                R.string.win_percentage,
+                winPercentage.value.roundToInt()
+            ) else "",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -59,7 +66,7 @@ fun ProfileScreen(
             modifier = Modifier.padding(top = 8.dp)
         ) {
             Text(
-                text = "Logout",
+                text = stringResource(R.string.logout),
                 style = MaterialTheme.typography.bodyLarge
             )
         }

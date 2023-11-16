@@ -27,11 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.ui.theme.NotificationColor2
@@ -57,7 +59,7 @@ fun NotificationScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "No notifications",
+                    text = stringResource(R.string.no_notifications),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
@@ -103,7 +105,7 @@ fun NotificationCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "${game.host} wants to play!",
+                text = stringResource(R.string.notification_player_wants_to_play, game.host),
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,

@@ -20,11 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.ui.theme.registerIcon
 import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
 
@@ -86,7 +88,7 @@ fun RegisterScreen(
                 .padding(8.dp)
         ) {
             Text(
-                text = "Sign up",
+                text = stringResource(R.string.sign_up),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
