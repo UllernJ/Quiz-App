@@ -10,13 +10,17 @@ class QuestionDao @Inject constructor(private val firestore: FirebaseFirestore) 
     private val COLLECTION: String = "question"
     suspend fun getQuestionsByCategoryName(name: String): MutableList<Question> {
         val reference = getDocumentReferenceByCategoryName(name)
-        return firestore.collection(COLLECTION)
+        val questions = firestore.collection(COLLECTION)
             .whereEqualTo("category", reference)
             .get()
             .await()
             .toObjects(Question::class.java)
             .shuffled()
             .toMutableList()
+        questions.forEach { question ->
+            question.choices = question.choices.shuffled()
+        }
+        return questions
     }
 
 
