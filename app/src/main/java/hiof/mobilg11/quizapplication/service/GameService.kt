@@ -13,4 +13,5 @@ interface GameService {
     fun getGames(username: String): Flow<List<MultiplayerGame>>
     suspend fun getGameStatistics(username: String): List<MultiplayerGame>
     suspend fun getWinPercentage(username: String): Double
+    suspend fun getRecentlyPlayedAgainst(username: String): List<String>
 }

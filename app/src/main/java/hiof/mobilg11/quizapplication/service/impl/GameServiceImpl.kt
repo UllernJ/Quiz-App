@@ -42,7 +42,7 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
 
     override suspend fun getWinPercentage(username: String): Double {
         val games = gameDao.getGameStatistics(username)
-        if(games.isEmpty()) {
+        if (games.isEmpty()) {
             return 0.0
         }
         var wins = 0
@@ -55,6 +55,16 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
             }
         }
         return (wins.toDouble() / (wins + losses) * 100)
+    }
+
+    override suspend fun getRecentlyPlayedAgainst(username: String): List<String> {
+        val games = gameDao.getGameStatistics(username)
+        val opponents = mutableListOf<String>()
+        games.forEach { game ->
+            opponents.add(game.host)
+            opponents.add(game.opponent)
+        }
+        return opponents.distinct().filter { it != username }
     }
 
 

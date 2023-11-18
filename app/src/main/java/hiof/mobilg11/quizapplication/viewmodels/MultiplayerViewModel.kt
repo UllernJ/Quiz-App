@@ -17,45 +17,36 @@ class MultiplayerViewModel @Inject constructor(
     private val userService: UserService
 ) : ViewModel() {
 
-    private val _users = MutableStateFlow<List<User?>>(emptyList())
-    val users: MutableStateFlow<List<User?>> = _users
+    private val _users = MutableStateFlow<List<String?>>(emptyList())
+    val users: MutableStateFlow<List<String?>> = _users
 
-    private val _lastChallengedUsers = MutableStateFlow<List<User>>(emptyList())
-    val lastChallengedUsers: MutableStateFlow<List<User>> = _lastChallengedUsers
-
-    init {
-        viewModelScope.launch {
-//            fetchLastChallengedUsers(15)
-        }
-    }
+    private val _lastChallengedUsers = MutableStateFlow<List<String>>(emptyList())
+    val lastChallengedUsers: MutableStateFlow<List<String>> = _lastChallengedUsers
 
     fun findUser(username: String) {
         viewModelScope.launch {
-            _users.value = userService.find(username)
+            _users.value = userService.find(username).map { it?.username }
         }
     }
-    fun createGame(opponent: User, host: User) {
-        val game = createGameObject(opponent, host)
+
+    fun createGame(opponentName: String, host: User) {
+        val game = createGameObject(opponentName, host)
         viewModelScope.launch {
             gameService.create(game)
         }
     }
-    private fun createGameObject(opponent: User, host: User): MultiplayerGame {
+
+    private fun createGameObject(opponentName: String, host: User): MultiplayerGame {
         return MultiplayerGame(
             host = host.username,
-            opponent = opponent.username
+            opponent = opponentName
         )
     }
 
-//    fun fetchLastChallengedUsers(amount: Int) {
-//        viewModelScope.launch {
-//            val usernames = userService.getLastChallengedUsers(host.username, amount)
-//            val users = usernames.map { username ->
-//                userService.find(username).first()!!
-//            }
-//
-//            _lastChallengedUsers.value = users
-//        }
-//    }
+    fun fetchLastChallengedUsers(username: String) {
+        viewModelScope.launch {
+            _lastChallengedUsers.value = gameService.getRecentlyPlayedAgainst(username)
+        }
+    }
 
 }

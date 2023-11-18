@@ -17,7 +17,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,9 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
-import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerViewModel
 
@@ -51,6 +48,7 @@ fun MultiplayerScreen(
     var searchQuery by remember { mutableStateOf("") }
     val searchUserList = viewModel.users.collectAsState()
 
+    viewModel.fetchLastChallengedUsers(host?.username ?: "")
     val lastPlayedUsers = viewModel.lastChallengedUsers.collectAsState()
 
     Column(
@@ -120,7 +118,7 @@ fun MultiplayerScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            if(lastPlayedUsers.value.isNotEmpty()) {
+            if (lastPlayedUsers.value.isNotEmpty()) {
                 DisplayUsers(lastPlayedUsers.value, host, viewModel)
             } else {
                 Text(
@@ -135,7 +133,7 @@ fun MultiplayerScreen(
 
 @Composable
 private fun DisplayUsers(
-    users: List<User?>,
+    users: List<String?>,
     host: User?,
     viewModel: MultiplayerViewModel
 ) {
@@ -153,7 +151,7 @@ private fun DisplayUsers(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = users[index]?.username ?: stringResource(R.string.no_user_found),
+                        text = users[index] ?: stringResource(R.string.no_user_found),
                         fontSize = 20.sp,
                         modifier = Modifier
                             .weight(1f)
