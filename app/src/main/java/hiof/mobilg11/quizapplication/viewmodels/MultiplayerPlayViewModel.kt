@@ -86,10 +86,12 @@ class MultiplayerPlayViewModel @Inject constructor(
     }
 
     fun answerQuestion(isCorrect: Boolean, username: String) {
-        if (isCorrect && amIOpponent(username)) {
-            _game.value.opponentScore++
-        } else if (isCorrect && !amIOpponent(username)) {
-            _game.value.hostScore++
+        if (isCorrect) {
+            if (username == _game.value.host) {
+                _game.value.hostScore++
+            } else {
+                _game.value.opponentScore++
+            }
         }
         viewModelScope.launch {
             delay(1000L)

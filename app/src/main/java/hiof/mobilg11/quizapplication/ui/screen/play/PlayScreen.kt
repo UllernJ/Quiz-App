@@ -249,7 +249,7 @@ fun GameCard(
         ) {
             Column {
                 Text(
-                    if (game.host == user?.username) stringResource(
+                    if (user?.username == game.host) stringResource(
                         R.string.home_you_vs,
                         game.opponent
                     ) else stringResource(
@@ -261,7 +261,7 @@ fun GameCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = if (user?.username == game.opponent) stringResource(
+                    text = if (user?.username == game.host) stringResource(
                         R.string.home_score_display,
                         game.hostScore,
                         game.opponentScore
