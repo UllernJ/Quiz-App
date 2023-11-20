@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.screen.home
+package hiof.mobilg11.quizapplication.ui.screens.home
 
 import Alert
 import androidx.compose.foundation.background

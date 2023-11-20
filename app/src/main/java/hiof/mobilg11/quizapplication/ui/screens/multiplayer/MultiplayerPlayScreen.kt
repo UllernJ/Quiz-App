@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.screen.multiplayer
+package hiof.mobilg11.quizapplication.ui.screens.multiplayer
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

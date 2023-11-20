@@ -1,7 +1,6 @@
 package hiof.mobilg11.quizapplication
 
 import MultiplayerScreen
-import NavBar
 import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,15 +22,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
-import hiof.mobilg11.quizapplication.ui.screen.ProfileScreen
-import hiof.mobilg11.quizapplication.ui.screen.singleplayer.QuizScreen
-import hiof.mobilg11.quizapplication.ui.screen.singleplayer.SinglePlayerScreen
-import hiof.mobilg11.quizapplication.ui.screen.auth.LoginScreen
-import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterScreen
-import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyScreen
-import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerPlayScreen
-import hiof.mobilg11.quizapplication.ui.screen.home.NotificationScreen
-import hiof.mobilg11.quizapplication.ui.screen.home.HomeScreen
+import hiof.mobilg11.quizapplication.ui.screens.ProfileScreen
+import hiof.mobilg11.quizapplication.ui.screens.singleplayer.QuizScreen
+import hiof.mobilg11.quizapplication.ui.screens.singleplayer.SinglePlayerScreen
+import hiof.mobilg11.quizapplication.ui.screens.auth.LoginScreen
+import hiof.mobilg11.quizapplication.ui.screens.auth.RegisterScreen
+import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerGameLobbyScreen
+import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerPlayScreen
+import hiof.mobilg11.quizapplication.ui.screens.home.NotificationScreen
+import hiof.mobilg11.quizapplication.ui.screens.home.HomeScreen
 import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
 import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
@@ -55,13 +54,6 @@ fun QuizApp(
     MusicPlayer()
     
     Scaffold(
-        topBar = {
-            if (currentRoute?.destination?.route == Screen.Quiz.route
-                && currentRoute?.destination?.route != Screen.MultiplayerPlay.route
-            ) {
-                NavBar(navController)
-            }
-        },
         bottomBar = {
             if (user.value != null
                 && currentRoute?.destination?.route != Screen.Loading.route

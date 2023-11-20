@@ -1,5 +1,6 @@
-package hiof.mobilg11.quizapplication.ui.screen.singleplayer
+package hiof.mobilg11.quizapplication.ui.screens.singleplayer
 
+import androidx.compose.foundation.background
 import hiof.mobilg11.quizapplication.viewmodels.QuizViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -10,6 +11,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,6 +22,7 @@ import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.shared.QuestionDisplay
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
+import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 
 @Composable
 fun QuizScreen(navController: NavController, quizViewModel: QuizViewModel = hiltViewModel()) {
@@ -26,10 +30,10 @@ fun QuizScreen(navController: NavController, quizViewModel: QuizViewModel = hilt
     val currentQuestionIndex by quizViewModel.currentQuestionIndex.collectAsState()
     val score by quizViewModel.score.collectAsState()
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
