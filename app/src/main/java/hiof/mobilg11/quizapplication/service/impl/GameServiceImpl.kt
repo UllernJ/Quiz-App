@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication.service.impl
 
 import hiof.mobilg11.quizapplication.dao.GameDao
+import hiof.mobilg11.quizapplication.model.PlayerStats
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.service.GameService
 import kotlinx.coroutines.flow.Flow
@@ -40,6 +41,7 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
         return gameDao.getGameStatistics(username)
     }
 
+    /*
     override suspend fun getWinPercentage(username: String): Double {
         val games = gameDao.getGameStatistics(username)
         if (games.isEmpty()) {
@@ -55,6 +57,29 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
             }
         }
         return (wins.toDouble() / (wins + losses) * 100)
+    }
+    */
+
+    override suspend fun getPlayerStats(username: String): PlayerStats {
+        val games = gameDao.getGameStatistics(username)
+        if (games.isEmpty()) {
+            return PlayerStats(username, 0, 0, 0, 0)
+        }
+
+        var wins = 0
+        var losses = 0
+        var draws = 0
+        for(game in games) {
+            if(game.winner == username) {
+                wins++
+            } else if(game.winner == "DRAW" || game.winner == null) {
+                draws++
+            } else {
+                losses++
+            }
+        }
+
+        return PlayerStats(username, games.size, wins, losses, draws)
     }
 
     override suspend fun getRecentlyPlayedAgainst(username: String): List<String> {

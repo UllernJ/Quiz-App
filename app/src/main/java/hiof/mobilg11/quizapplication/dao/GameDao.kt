@@ -41,6 +41,8 @@ class GameDao @Inject constructor(
             game.winner = game.host
         } else if (game.hostScore < game.opponentScore) {
             game.winner = game.opponent
+        } else {
+            game.winner = "DRAW"
         }
 
         firebase.collection(COLLECTION)

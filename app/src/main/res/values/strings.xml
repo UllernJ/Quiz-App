@@ -47,4 +47,10 @@
     <string name="single_player_description">Play alone and get a highscore!</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="multiplayer_description">Play against your friends!</string>
+    <string name="stats">Stats</string>
+    <string name="games_played">Games Played:</string>
+    <string name="games_won">Won: </string>
+    <string name="games_lost">Lost: </string>
+    <string name="games_draw">Drawn: </string>
+    <string name="win_rate">Win rate: </string>
 </resources>
