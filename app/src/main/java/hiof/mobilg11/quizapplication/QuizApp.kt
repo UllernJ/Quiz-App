@@ -2,7 +2,6 @@ package hiof.mobilg11.quizapplication
 
 import MultiplayerScreen
 import NavBar
-import android.content.Context
 import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,14 +24,14 @@ import androidx.navigation.navArgument
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.screen.ProfileScreen
-import hiof.mobilg11.quizapplication.ui.screen.QuizScreen
-import hiof.mobilg11.quizapplication.ui.screen.SinglePlayerScreen
+import hiof.mobilg11.quizapplication.ui.screen.singleplayer.QuizScreen
+import hiof.mobilg11.quizapplication.ui.screen.singleplayer.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.screen.auth.LoginScreen
 import hiof.mobilg11.quizapplication.ui.screen.auth.RegisterScreen
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerGameLobbyScreen
 import hiof.mobilg11.quizapplication.ui.screen.multiplayer.MultiplayerPlayScreen
-import hiof.mobilg11.quizapplication.ui.screen.play.NotificationScreen
-import hiof.mobilg11.quizapplication.ui.screen.play.PlayScreen
+import hiof.mobilg11.quizapplication.ui.screen.home.NotificationScreen
+import hiof.mobilg11.quizapplication.ui.screen.home.HomeScreen
 import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
 import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
@@ -95,7 +94,7 @@ fun QuizApp(
                 }
             }
             composable(Screen.Home.route) {
-                PlayScreen(
+                HomeScreen(
                     navController = navController,
                     gameNotifications = gameNotifications,
                     user = user.value

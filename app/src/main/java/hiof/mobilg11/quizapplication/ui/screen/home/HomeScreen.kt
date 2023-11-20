@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.screen.play
+package hiof.mobilg11.quizapplication.ui.screen.home
 
 import Alert
 import androidx.compose.foundation.background
@@ -52,7 +52,7 @@ import hiof.mobilg11.quizapplication.ui.theme.PurpleGrey40
 import hiof.mobilg11.quizapplication.viewmodels.PlayViewModel
 
 @Composable
-fun PlayScreen(
+fun HomeScreen(
     viewModel: PlayViewModel = hiltViewModel(),
     navController: NavController,
     gameNotifications: List<MultiplayerGame>,

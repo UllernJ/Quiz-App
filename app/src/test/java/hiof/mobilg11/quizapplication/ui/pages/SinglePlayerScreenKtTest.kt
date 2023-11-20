@@ -1,7 +1,7 @@
 package hiof.mobilg11.quizapplication.ui.pages
 
 import hiof.mobilg11.quizapplication.model.Category
-import hiof.mobilg11.quizapplication.ui.screen.filterCategories
+import hiof.mobilg11.quizapplication.ui.screen.singleplayer.filterCategories
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 class SinglePlayerScreenKtTest {

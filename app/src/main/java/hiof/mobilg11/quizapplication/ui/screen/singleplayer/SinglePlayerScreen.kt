@@ -1,5 +1,6 @@
-package hiof.mobilg11.quizapplication.ui.screen
+package hiof.mobilg11.quizapplication.ui.screen.singleplayer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.shared.ShimmerListItem
+import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.viewmodels.SinglePlayerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +48,7 @@ fun SinglePlayerScreen(callback: (String) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(state = scrollState)
+            .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

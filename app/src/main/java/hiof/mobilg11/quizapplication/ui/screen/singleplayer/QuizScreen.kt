@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.ui.screen
+package hiof.mobilg11.quizapplication.ui.screen.singleplayer
 
 import hiof.mobilg11.quizapplication.viewmodels.QuizViewModel
 import androidx.compose.foundation.layout.*
