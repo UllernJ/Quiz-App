@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.viewmodels;
+package hiof.mobilg11.quizapplication.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -112,10 +112,16 @@ class MultiplayerPlayViewModel @Inject constructor(
                 _game.value.roundIndex++
                 if (_game.value.roundIndex == _game.value.numberOfRounds) {
                     _game.value.gameState = GameState.FINISHED
+                } else {
+                    gameService.update(_game.value)
                 }
                 _game.value.roundQuestionsReferences.clear()
             }
-            gameService.update(_game.value)
+            if (_game.value.gameState == GameState.FINISHED) {
+                gameService.end(_game.value)
+            } else {
+                gameService.update(_game.value)
+            }
         }
     }
 }
