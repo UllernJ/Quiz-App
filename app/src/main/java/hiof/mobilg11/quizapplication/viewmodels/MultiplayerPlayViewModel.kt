@@ -112,8 +112,6 @@ class MultiplayerPlayViewModel @Inject constructor(
                 _game.value.roundIndex++
                 if (_game.value.roundIndex == _game.value.numberOfRounds) {
                     _game.value.gameState = GameState.FINISHED
-                } else {
-                    gameService.update(_game.value)
                 }
                 _game.value.roundQuestionsReferences.clear()
             }
