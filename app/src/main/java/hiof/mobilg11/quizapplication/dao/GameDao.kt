@@ -106,6 +106,14 @@ class GameDao @Inject constructor(
         }
     }
 
+    suspend fun getAllGames(): List<MultiplayerGame> {
+        return firebase.collection(COLLECTION)
+            .whereEqualTo("gameState", GameState.FINISHED)
+            .get()
+            .await()
+            .toObjects(MultiplayerGame::class.java)
+    }
+
     private companion object {
         private const val COLLECTION = "games"
     }

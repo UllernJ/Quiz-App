@@ -41,38 +41,18 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
         return gameDao.getGameStatistics(username)
     }
 
-    /*
-    override suspend fun getWinPercentage(username: String): Double {
-        val games = gameDao.getGameStatistics(username)
-        if (games.isEmpty()) {
-            return 0.0
-        }
-        var wins = 0
-        var losses = 0
-        for (game in games) {
-            if (game.winner == username) {
-                wins++
-            } else {
-                losses++
-            }
-        }
-        return (wins.toDouble() / (wins + losses) * 100)
-    }
-    */
-
     override suspend fun getPlayerStats(username: String): PlayerStats {
         val games = gameDao.getGameStatistics(username)
         if (games.isEmpty()) {
             return PlayerStats(username, 0, 0, 0, 0)
         }
-
         var wins = 0
         var losses = 0
         var draws = 0
-        for(game in games) {
-            if(game.winner == username) {
+        for (game in games) {
+            if (game.winner == username) {
                 wins++
-            } else if(game.winner == "DRAW" || game.winner == null) {
+            } else if (game.winner == "DRAW" || game.winner == null) {
                 draws++
             } else {
                 losses++
@@ -90,6 +70,41 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
             opponents.add(game.opponent)
         }
         return opponents.distinct().filter { it != username }
+    }
+
+    override suspend fun getLeaderboardStatistics(): List<PlayerStats> {
+        val games = gameDao.getAllGames()
+        if (games.isNotEmpty()) {
+            return calculateAllPlayerStats(games)
+        }
+        return listOf()
+    }
+
+    private fun calculateAllPlayerStats(list: List<MultiplayerGame>): List<PlayerStats> {
+        val playerStatsMap = mutableMapOf<String, PlayerStats>()
+        list.forEach { game ->
+            if(!playerStatsMap.containsKey(game.host)) {
+                playerStatsMap[game.host] = PlayerStats(game.host, 0, 0, 0, 0)
+            }
+            if(!playerStatsMap.containsKey(game.opponent)) {
+                playerStatsMap[game.opponent] = PlayerStats(game.opponent, 0, 0, 0, 0)
+            }
+            if(game.winner == game.host) {
+                playerStatsMap[game.host]?.gamesWon = playerStatsMap[game.host]?.gamesWon?.plus(1) ?: 1
+                playerStatsMap[game.opponent]?.gamesLost = playerStatsMap[game.opponent]?.gamesLost?.plus(1) ?: 1
+            } else if(game.winner == game.opponent) {
+                playerStatsMap[game.opponent]?.gamesWon = playerStatsMap[game.opponent]?.gamesWon?.plus(1) ?: 1
+                playerStatsMap[game.host]?.gamesLost = playerStatsMap[game.host]?.gamesLost?.plus(1) ?: 1
+            } else {
+                playerStatsMap[game.host]?.gamesDraw = playerStatsMap[game.host]?.gamesDraw?.plus(1) ?: 1
+                playerStatsMap[game.opponent]?.gamesDraw = playerStatsMap[game.opponent]?.gamesDraw?.plus(1) ?: 1
+            }
+        }
+        val playerStatsList = playerStatsMap.values.toList()
+        playerStatsList.forEach { playerStats ->
+            playerStats.gamesPlayed = playerStats.gamesWon + playerStats.gamesLost + playerStats.gamesDraw
+        }
+        return playerStatsList.sortedByDescending { it.gamesWon }
     }
 
 

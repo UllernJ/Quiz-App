@@ -13,7 +13,7 @@ interface GameService {
     suspend fun delete(uuid: String)
     fun getGames(username: String): Flow<List<MultiplayerGame>>
     suspend fun getGameStatistics(username: String): List<MultiplayerGame>
-    // suspend fun getWinPercentage(username: String): Double
     suspend fun getPlayerStats(username: String): PlayerStats
     suspend fun getRecentlyPlayedAgainst(username: String): List<String>
+    suspend fun getLeaderboardStatistics(): List<PlayerStats>
 }

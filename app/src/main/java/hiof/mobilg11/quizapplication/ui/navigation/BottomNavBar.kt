@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.Badge
@@ -36,6 +38,7 @@ fun BottomNavBar(
     val items = listOf(
         BottomNavBarItem.Home,
         BottomNavBarItem.Singleplayer,
+        BottomNavBarItem.Leaderboard,
         BottomNavBarItem.Profile
     )
 
@@ -107,6 +110,13 @@ sealed class BottomNavBarItem(
         title = "Singleplayer",
         selectedIcon = Icons.Filled.PlayArrow,
         unselectedIcon = Icons.Outlined.PlayArrow,
+    )
+
+    object Leaderboard : BottomNavBarItem(
+        route = Screen.Leaderboard.route,
+        title = "Leaderboard",
+        selectedIcon = Icons.Filled.Menu,
+        unselectedIcon = Icons.Outlined.Menu,
     )
 
     object Profile : BottomNavBarItem(

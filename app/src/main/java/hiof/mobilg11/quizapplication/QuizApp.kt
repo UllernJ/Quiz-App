@@ -31,6 +31,7 @@ import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerGameLobby
 import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerPlayScreen
 import hiof.mobilg11.quizapplication.ui.screens.home.NotificationScreen
 import hiof.mobilg11.quizapplication.ui.screens.home.HomeScreen
+import hiof.mobilg11.quizapplication.ui.screens.leaderboard.LeaderboardScreen
 import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
 import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
@@ -139,6 +140,9 @@ fun QuizApp(
             }
             composable(Screen.Notifications.route) {
                 NotificationScreen(notifications = gameNotifications)
+            }
+            composable(Screen.Leaderboard.route) {
+                LeaderboardScreen()
             }
 
         }
