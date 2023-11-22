@@ -94,7 +94,7 @@ fun NotificationCard(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             contentColor = Color.White,
-            containerColor = NotificationColor2,
+            containerColor = Color(0xFF1C3640),
         ),
     ) {
         Column(
