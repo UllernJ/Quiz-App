@@ -129,7 +129,7 @@ fun LeaderboardScreen(viewModel: LeaderboardViewModel = hiltViewModel()) {
                         modifier = Modifier.weight(3f)
                     )
                     Text(
-                        text = "${playerStats.gamesWon}",
+                        text = "${playerStats.gamesWon} (${playerStats.getWinPercentage().toInt()}%)",
                         modifier = Modifier.weight(2f)
                     )
                     Text(
@@ -156,10 +156,10 @@ fun PodiumPlace(playerStats: PlayerStats, backgroundColor: Color, place: Int) {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         Text(
-            text = "Wins: ${playerStats.gamesWon}",
+            text = "Wins: ${playerStats.gamesWon} (${playerStats.getWinPercentage().toInt()}%)",
         )
         Text(
-            text = "Games: ${playerStats.gamesLost}",
+            text = "Games: ${playerStats.gamesPlayed}",
         )
 
         Surface(
