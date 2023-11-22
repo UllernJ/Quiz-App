@@ -1,6 +1,7 @@
 package hiof.mobilg11.quizapplication
 
 import MultiplayerScreen
+import NavBar
 import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,15 +24,15 @@ import androidx.navigation.navArgument
 import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.screens.ProfileScreen
-import hiof.mobilg11.quizapplication.ui.screens.singleplayer.QuizScreen
-import hiof.mobilg11.quizapplication.ui.screens.singleplayer.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.screens.auth.LoginScreen
 import hiof.mobilg11.quizapplication.ui.screens.auth.RegisterScreen
+import hiof.mobilg11.quizapplication.ui.screens.home.HomeScreen
+import hiof.mobilg11.quizapplication.ui.screens.home.NotificationScreen
+import hiof.mobilg11.quizapplication.ui.screens.leaderboard.LeaderboardScreen
 import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerGameLobbyScreen
 import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerPlayScreen
-import hiof.mobilg11.quizapplication.ui.screens.home.NotificationScreen
-import hiof.mobilg11.quizapplication.ui.screens.home.HomeScreen
-import hiof.mobilg11.quizapplication.ui.screens.leaderboard.LeaderboardScreen
+import hiof.mobilg11.quizapplication.ui.screens.singleplayer.QuizScreen
+import hiof.mobilg11.quizapplication.ui.screens.singleplayer.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
 import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
@@ -53,8 +54,13 @@ fun QuizApp(
     var isFinishedLoaded by remember { mutableStateOf(false) }
 
     MusicPlayer()
-    
+
     Scaffold(
+        topBar = {
+            if (currentRoute?.destination?.route == Screen.Register.route) {
+                NavBar(navController = navController)
+            }
+        },
         bottomBar = {
             if (user.value != null
                 && currentRoute?.destination?.route != Screen.Loading.route
@@ -148,14 +154,14 @@ fun QuizApp(
         }
     }
 
-    if(isNewNotification && isFinishedLoaded) {
+    if (isNewNotification && isFinishedLoaded) {
         PlaySoundEffect(NotificationSound)
     }
 
 }
 
 @Composable
-fun MusicPlayer()  {
+fun MusicPlayer() {
     val context = LocalContext.current
     val mediaPlayer = MediaPlayer.create(context, BackgroundMusic)
     mediaPlayer.isLooping = true
