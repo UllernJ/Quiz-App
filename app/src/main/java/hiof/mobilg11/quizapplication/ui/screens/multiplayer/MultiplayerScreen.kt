@@ -137,9 +137,10 @@ private fun DisplayUsers(
     host: User?,
     viewModel: MultiplayerViewModel
 ) {
+    val filteredUsers = users.filter { it != host?.username }
     LazyColumn(
         content = {
-            items(users.size) { index ->
+            items(filteredUsers.size) { index ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -151,7 +152,7 @@ private fun DisplayUsers(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = users[index] ?: stringResource(R.string.no_user_found),
+                        text = filteredUsers[index] ?: stringResource(R.string.no_user_found),
                         fontSize = 20.sp,
                         modifier = Modifier
                             .weight(1f)
@@ -164,7 +165,7 @@ private fun DisplayUsers(
                         tint = Color.Blue,
                         modifier = Modifier
                             .clickable {
-                                users[index].let {
+                                filteredUsers[index].let {
                                     if (it != null) {
                                         viewModel.createGame(it, (host ?: User()))
                                     }
