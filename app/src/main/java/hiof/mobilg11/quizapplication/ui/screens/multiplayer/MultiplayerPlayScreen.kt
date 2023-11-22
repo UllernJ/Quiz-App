@@ -1,5 +1,6 @@
 package hiof.mobilg11.quizapplication.ui.screens.multiplayer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +30,7 @@ import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.model.Question
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.shared.QuestionDisplay
+import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.viewmodels.MultiplayerPlayViewModel
 
 @Composable
@@ -45,6 +49,7 @@ fun MultiplayerPlayScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

@@ -48,7 +48,6 @@ fun SinglePlayerScreen(callback: (String) -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(state = scrollState)
-            .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
             .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally

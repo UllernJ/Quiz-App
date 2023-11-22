@@ -42,8 +42,7 @@ fun ProfileScreen(
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black))),
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Column(
