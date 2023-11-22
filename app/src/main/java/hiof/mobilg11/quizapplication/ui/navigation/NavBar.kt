@@ -17,7 +17,6 @@ import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 fun NavBar(navController: NavController) {
     Row(
         modifier = Modifier
-            .background(DeepBlue)
             .fillMaxWidth()
     ){
         IconButton(
