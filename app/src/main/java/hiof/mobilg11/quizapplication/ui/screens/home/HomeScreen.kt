@@ -66,7 +66,6 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
-            .padding(top = 10.dp)
     ) {
         if (user?.username.isNullOrBlank()) {
             Alert()
