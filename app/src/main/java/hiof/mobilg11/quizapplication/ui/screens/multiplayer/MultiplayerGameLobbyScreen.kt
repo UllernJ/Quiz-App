@@ -47,113 +47,124 @@ fun MultiplayerGameLobbyScreen(
             .fillMaxSize()
             .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
             .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Image(
-            painter = painterResource(id = Swords),
-            contentDescription = null,
-            modifier = Modifier
-                .size(100.dp)
-                .padding(bottom = 10.dp)
-        )
-
-        Text(
-            if (user.username == game.value.host) "${game.value.host} vs ${game.value.opponent}" else "${game.value.opponent} vs ${game.value.host}",
-            fontSize = 18.sp,
-        )
-
-        Text(
-            text = "Round ${game.value.roundIndex + 1} of ${game.value.numberOfRounds + 1}",
-            fontSize = 16.sp,
-        )
-
-        Text(
-            text = if (user.username == game.value.opponent) "Score: ${game.value.hostScore} - ${game.value.opponentScore}" else "Score: ${game.value.opponentScore} - ${game.value.hostScore}",
-            fontSize = 16.sp,
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        if (game.value.categoriesPlayedReferences.isNotEmpty()) {
-            Text(
-                text = "Categories played",
-                fontSize = 16.sp,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = Swords),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(bottom = 10.dp)
             )
-            Column {
+
+            Text(
+                text = "${game.value.host} vs ${game.value.opponent}",
+                fontSize = 24.sp,
+                color = Color.White,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Text(
+                text = "Round ${game.value.roundIndex + 1} of ${game.value.numberOfRounds + 1}",
+                fontSize = 20.sp,
+                color = Color.Gray
+            )
+
+            Text(
+                text = "Score: ${game.value.hostScore} - ${game.value.opponentScore}",
+                fontSize = 20.sp,
+                color = Color.Gray
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if (game.value.categoriesPlayedReferences.isNotEmpty()) {
+                Text(
+                    text = "Categories played",
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
                 game.value.categoriesPlayedReferences.forEach {
-                    Text(text = it)
+                    Text(text = it, color = Color.LightGray)
                 }
             }
-        }
-        Spacer(modifier = Modifier.height(20.dp))
 
-        if ((game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host) ||
-            (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent)
-        ) {
-            Button(
-                onClick = { navController.navigate(Screen.MultiplayerPlay.createRoute(game.value.uuid)) },
-                modifier = Modifier
-                    .padding(vertical = 8.dp),
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if ((game.value.gameState == GameState.WAITING_FOR_HOST && user.username == game.value.host) ||
+                (game.value.gameState == GameState.WAITING_FOR_OPPONENT && user.username == game.value.opponent)
             ) {
+                Button(
+                    onClick = { navController.navigate(Screen.MultiplayerPlay.createRoute(game.value.uuid)) },
+                    modifier = Modifier
+                ) {
+                    Text(
+                        text = "PLAY",
+                        color = Color.White,
+                        fontSize = 18.sp
+                    )
+                }
+            } else {
                 Text(
-                    text = "PLAY",
-                    color = Color.White,
-                    fontSize = 18.sp
+                    text = "Waiting for opponent to play...",
+                    fontSize = 18.sp,
+                    color = Color.White
                 )
             }
-        } else {
+        }
+
+        Button(
+            onClick = {
+                showDialogue.value = true
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .height(48.dp)
+        ) {
             Text(
-                text = "Waiting for opponent to play",
-                fontSize = 18.sp,
+                text = "Leave game",
+                color = Color.White,
+                fontSize = 18.sp
             )
         }
-        if (showDialogue.value) {
-            AlertDialog(
-                onDismissRequest = {
-                    showDialogue.value = false
-                },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            viewModel.abandonGame(user.username)
-                            navController.navigateUp()
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Text(text = "Yes")
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = {
-                            showDialogue.value = false
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Text(text = "No")
-                    }
-                },
-                title = { Text(text = "Are you sure you want to leave the game?") },
-                text = { Text(text = "You will lose the game if you leave.") },
-            )
-        } else {
-            Button(
-                onClick = {
-                    showDialogue.value = true
-                },
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-            {
-                Text(
-                    text = "Leave game",
-                    color = Color.White,
-                    fontSize = 18.sp
-                )
-            }
-        }
+    }
+
+    if (showDialogue.value) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialogue.value = false
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.abandonGame(user.username)
+                        navController.navigateUp()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(text = "Yes")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        showDialogue.value = false
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(text = "No")
+                }
+            },
+            title = { Text(text = "Are you sure you want to leave the game?") },
+            text = { Text(text = "You will lose the game if you leave.") },
+        )
     }
 }
