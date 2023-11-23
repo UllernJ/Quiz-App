@@ -3,6 +3,7 @@ package hiof.mobilg11.quizapplication.viewmodels.auth
 import androidx.lifecycle.ViewModel
 
 import androidx.lifecycle.viewModelScope
+import android.util.Patterns
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hiof.mobilg11.quizapplication.model.User
@@ -41,7 +42,7 @@ class RegisterViewModel @Inject constructor(
             onRegisterResult(Error.USERNAME_INVALID)
             return
         }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             onRegisterResult(Error.EMAIL_INVALID)
             return
         }
@@ -65,7 +66,7 @@ class RegisterViewModel @Inject constructor(
                         onRegisterResult(null)
                     }
                 } catch (e: Exception) {
-                    if(e.message == "The email address is already in use by another account."){
+                    if (e.message == "The email address is already in use by another account.") {
                         onRegisterResult(Error.EMAIL_TAKEN)
                     } else {
                         onRegisterResult(Error.UNKNOWN)
