@@ -1,111 +1,116 @@
 package hiof.mobilg11.quizapplication.ui.screens.singleplayer
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.Category
-import hiof.mobilg11.quizapplication.shared.ShimmerListItem
 import hiof.mobilg11.quizapplication.viewmodels.singleplayer.SinglePlayerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SinglePlayerScreen(callback: (String) -> Unit) {
     val singlePlayerViewModel: SinglePlayerViewModel = hiltViewModel()
-    val categories = singlePlayerViewModel.categories.collectAsState()
-    val searchQuery = remember { mutableStateOf("") }
-    val selectedCategory = remember { mutableStateOf<List<Category>>(emptyList()) }
-    val scrollState = rememberScrollState()
+    val categories by singlePlayerViewModel.categories.collectAsState()
+    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
+    val filteredCategories = filterCategories(searchQuery.text, categories)
+
+
+    // Print all categories, loop
+    for (category in categories) {
+        Log.d(" ", category.name)
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(state = scrollState)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+            .padding(8.dp),
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         TextField(
-            value = searchQuery.value,
+            value = searchQuery,
             onValueChange = { newValue ->
-                searchQuery.value = newValue
-                selectedCategory.value = filterCategories(searchQuery.value, categories.value)
+                searchQuery = newValue
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            label = {
-                Text(stringResource(R.string.search_categories))
+            placeholder = { Text("Search categories") },
+            colors = TextFieldDefaults.textFieldColors(Color.Transparent)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyVerticalGrid(
+            GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(filteredCategories) { category ->
+                CategoryCard(category = category, onClick = { callback(category.name) })
             }
-        )
-
-        if (searchQuery.value.isEmpty()) {
-            selectedCategory.value = categories.value
         }
-
-        ShimmerListItem(
-            modifier = Modifier
-                .height(40.dp)
-                .fillMaxWidth()
-                .clip(MaterialTheme.shapes.large),
-            isLoading = selectedCategory.value.isEmpty(), contentAfterLoading = {
-                CategoryButton(selectedCategory, callback)
-            },
-            numberOfItems = 20
-        )
     }
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CategoryButton(
-    categories: MutableState<List<Category>>,
-    callback: (String) -> Unit
-) {
-    categories.value.forEach { category ->
-        Button(
-            onClick = {
-                callback(category.name)
-            },
+fun CategoryCard(category: Category, onClick: () -> Unit) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier
+            .padding(12.dp)
+            .height(140.dp)
+            .width(120.dp),
+        onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
+                .padding(16.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
+                text = category.emoji,
+                fontSize = 48.sp,
+                modifier = Modifier.weight(1f).align(Alignment.CenterHorizontally)
+            )
+            Text(
                 text = category.name,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                fontSize = 16.sp
             )
         }
     }
 }
 
 fun filterCategories(searchQuery: String, categories: List<Category>): List<Category> {
-    return categories.filter { category ->
-        category.name.contains(searchQuery, ignoreCase = true)
+    return if (searchQuery.isEmpty()) categories
+    else categories.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
     }
 }

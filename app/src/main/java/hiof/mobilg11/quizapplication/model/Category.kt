@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentReference
 
 data class Category(
     val name: String = "",
+    val emoji: String = "",
     @DocumentId val documentReference: DocumentReference? = null
 ) {
 }
