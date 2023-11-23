@@ -71,21 +71,18 @@ fun RegisterScreen(
         TextInput(confirmPassword)
         Button(
             onClick = {
-                if (password.value != confirmPassword.value) {
-                    Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
-                } else {
-                    viewModel.createUserWithEmailAndPassword(
-                        username.value,
-                        email.value,
-                        password.value,
-                        confirmPassword.value
-                    ) { success ->
-                        if (success) {
-                            Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
-                            navController.navigateUp()
-                        } else {
-                            Toast.makeText(context, "Failed to register", Toast.LENGTH_SHORT).show()
-                        }
+                viewModel.createUserWithEmailAndPassword(
+                    username.value,
+                    email.value,
+                    password.value,
+                    confirmPassword.value
+                ) { error ->
+                    if (error == null) {
+                        Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT)
+                            .show()
+                        navController.navigateUp()
+                    } else {
+                        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             },

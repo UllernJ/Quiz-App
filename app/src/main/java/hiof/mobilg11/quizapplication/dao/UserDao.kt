@@ -66,21 +66,13 @@ class UserDao @Inject constructor(
         return querySnapshot.isEmpty
     }
 
-    suspend fun isUsernameSet(): Boolean {
-        val uid = auth.currentUser?.uid
-        if (uid != null) {
-            try {
-                val document = firestore.collection(COLLECTION)
-                    .document(uid)
-                    .get()
-                    .await()
-                val username = document.data?.get("username") as String?
-                return !username.isNullOrEmpty()
-            } catch (e: Exception) {
-                println("Error checking if username is set: $e")
-            }
-        }
-        return false
+    suspend fun isUsernameSet(username: String): Boolean {
+        return firestore.collection(COLLECTION)
+            .whereEqualTo("username", username)
+            .get()
+            .await()
+            .isEmpty
+            .not()
     }
 
     fun getUser(uuid: String): Flow<User?> {
@@ -98,34 +90,5 @@ class UserDao @Inject constructor(
                 user.username.contains(username, ignoreCase = true)
             }
     }
-
-//    suspend fun getLastChallengedUsers(username: String, amount: Int): List<String> {
-//        val games = gameDao.getAllGamesByUsername(username)
-//
-//        val sortedGames = games.sortedByDescending { game -> game.lastUpdated }
-//        val filteredGames = sortedGames.filter { game ->
-//            game.gameState == GameState.FINISHED
-//        }
-//
-//        val lastChallengedUsers = mutableListOf<String>()
-//
-//        for (game in filteredGames) {
-//            if (lastChallengedUsers.size >= amount) {
-//                break
-//            }
-//
-//            var foundUser = ""
-//
-//            if (game.host == username) foundUser = game.opponent
-//            else foundUser = game.host
-//
-//            if (!lastChallengedUsers.contains(foundUser)) {
-//                lastChallengedUsers.add(foundUser)
-//            }
-//        }
-//
-//
-//        return lastChallengedUsers
-//    }
 
 }

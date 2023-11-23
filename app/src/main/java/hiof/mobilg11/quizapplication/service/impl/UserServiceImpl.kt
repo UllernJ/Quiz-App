@@ -15,8 +15,8 @@ class UserServiceImpl @Inject constructor(private val userDao: UserDao): UserSer
         userDao.createUser(user)
     }
 
-    override suspend fun isUsernameSet(): Boolean {
-        return userDao.isUsernameSet()
+    override suspend fun isUsernameSet(username: String): Boolean {
+        return userDao.isUsernameSet(username)
     }
 
     override fun get(uuid: String): Flow<User?> {
