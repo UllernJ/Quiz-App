@@ -36,8 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
-import hiof.mobilg11.quizapplication.ui.theme.NotificationColor2
-import hiof.mobilg11.quizapplication.viewmodels.NotificationViewModel
+import hiof.mobilg11.quizapplication.viewmodels.home.NotificationViewModel
 
 @Composable
 fun NotificationScreen(

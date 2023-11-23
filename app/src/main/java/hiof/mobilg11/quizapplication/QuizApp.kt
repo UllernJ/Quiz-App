@@ -36,7 +36,7 @@ import hiof.mobilg11.quizapplication.ui.screens.singleplayer.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
 import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
-import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
+import hiof.mobilg11.quizapplication.viewmodels.auth.AuthViewModel
 import hiof.mobilg11.quizapplication.viewmodels.QuizAppViewModel
 
 

@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.viewmodels
+package hiof.mobilg11.quizapplication.viewmodels.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

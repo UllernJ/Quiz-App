@@ -31,7 +31,7 @@ import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
 import hiof.mobilg11.quizapplication.ui.theme.Swords
-import hiof.mobilg11.quizapplication.viewmodels.MultiplayerGameLobbyViewModel
+import hiof.mobilg11.quizapplication.viewmodels.multiplayer.MultiplayerGameLobbyViewModel
 
 @Composable
 fun MultiplayerGameLobbyScreen(

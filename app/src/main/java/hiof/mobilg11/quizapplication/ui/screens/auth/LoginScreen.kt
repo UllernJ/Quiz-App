@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.Screen
 import hiof.mobilg11.quizapplication.ui.theme.quizIcon
-import hiof.mobilg11.quizapplication.viewmodels.AuthViewModel
+import hiof.mobilg11.quizapplication.viewmodels.auth.AuthViewModel
 
 @Composable
 fun LoginScreen(

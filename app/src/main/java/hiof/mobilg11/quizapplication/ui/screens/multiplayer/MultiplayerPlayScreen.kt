@@ -31,7 +31,7 @@ import hiof.mobilg11.quizapplication.model.Question
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
 import hiof.mobilg11.quizapplication.shared.QuestionDisplay
 import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
-import hiof.mobilg11.quizapplication.viewmodels.MultiplayerPlayViewModel
+import hiof.mobilg11.quizapplication.viewmodels.multiplayer.MultiplayerPlayViewModel
 
 @Composable
 fun MultiplayerPlayScreen(

@@ -48,11 +48,11 @@ import hiof.mobilg11.quizapplication.ui.theme.LightGreen1
 import hiof.mobilg11.quizapplication.ui.theme.OrangeYellow2
 import hiof.mobilg11.quizapplication.ui.theme.Purple40
 import hiof.mobilg11.quizapplication.ui.theme.PurpleGrey40
-import hiof.mobilg11.quizapplication.viewmodels.PlayViewModel
+import hiof.mobilg11.quizapplication.viewmodels.home.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: PlayViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController,
     gameNotifications: List<MultiplayerGame>,
     user: User?

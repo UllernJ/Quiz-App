@@ -1,6 +1,5 @@
 package hiof.mobilg11.quizapplication.ui.screens.leaderboard
 
-import android.view.RoundedCorner
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,8 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.model.PlayerStats
-import hiof.mobilg11.quizapplication.ui.theme.DeepBlue
-import hiof.mobilg11.quizapplication.viewmodels.LeaderboardViewModel
+import hiof.mobilg11.quizapplication.viewmodels.leaderboard.LeaderboardViewModel
 
 @Composable
 fun LeaderboardScreen(viewModel: LeaderboardViewModel = hiltViewModel()) {

@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.ui.theme.registerIcon
-import hiof.mobilg11.quizapplication.viewmodels.RegisterViewModel
+import hiof.mobilg11.quizapplication.viewmodels.auth.RegisterViewModel
 
 @Composable
 fun RegisterScreen(

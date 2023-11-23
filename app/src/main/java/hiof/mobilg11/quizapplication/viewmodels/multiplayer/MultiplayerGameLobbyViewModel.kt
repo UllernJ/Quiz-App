@@ -1,4 +1,4 @@
-package hiof.mobilg11.quizapplication.viewmodels
+package hiof.mobilg11.quizapplication.viewmodels.multiplayer
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

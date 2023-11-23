@@ -1,7 +1,7 @@
 package hiof.mobilg11.quizapplication.ui.screens.singleplayer
 
 import androidx.compose.foundation.background
-import hiof.mobilg11.quizapplication.viewmodels.QuizViewModel
+import hiof.mobilg11.quizapplication.viewmodels.singleplayer.QuizViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme

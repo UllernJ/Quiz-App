@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import hiof.mobilg11.quizapplication.R
 import hiof.mobilg11.quizapplication.model.User
-import hiof.mobilg11.quizapplication.viewmodels.MultiplayerViewModel
+import hiof.mobilg11.quizapplication.viewmodels.multiplayer.MultiplayerViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
