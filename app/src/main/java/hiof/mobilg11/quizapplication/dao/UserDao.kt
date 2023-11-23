@@ -18,14 +18,12 @@ class UserDao @Inject constructor(
     private val COLLECTION: String = "users"
 
     //    val ISO_8601_FORMATTER = DateTimeFormatter.ISO_DATE_TIME
-    suspend fun createUser() {
+    suspend fun createUser(user: User) {
         Log.d("UserDao", "Trying to create user...")
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val user = hashMapOf(
-            "username" to "",
+            "username" to user.username,
             "games" to mutableListOf<DocumentReference>(),
-//            "created" to ISO_8601_FORMATTER.format(LocalDateTime.now()),
-//            "lastLogin" to ISO_8601_FORMATTER.format(LocalDateTime.now()),
             "friends" to mutableListOf<DocumentReference>(),
             "onlineGameSessions" to mutableListOf<DocumentReference>(),
         )

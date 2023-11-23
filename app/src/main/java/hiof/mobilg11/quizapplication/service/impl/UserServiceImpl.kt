@@ -11,8 +11,8 @@ class UserServiceImpl @Inject constructor(private val userDao: UserDao): UserSer
         return userDao.setUsername(username)
     }
 
-    override suspend fun create() {
-        userDao.createUser()
+    override suspend fun create(user: User) {
+        userDao.createUser(user)
     }
 
     override suspend fun isUsernameSet(): Boolean {
@@ -26,8 +26,4 @@ class UserServiceImpl @Inject constructor(private val userDao: UserDao): UserSer
     override suspend fun find(username: String): List<User?> {
         return userDao.findUser(username)
     }
-
-//    override suspend fun getLastChallengedUsers(username: String, limit: Int): List<String> {
-//        return userDao.getLastChallengedUsers(username, limit)
-//    }
 }

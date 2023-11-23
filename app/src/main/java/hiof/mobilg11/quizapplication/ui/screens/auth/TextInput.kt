@@ -3,6 +3,7 @@ package hiof.mobilg11.quizapplication.ui.screens.auth
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +25,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 
+/*
+ Inspired by: https://www.youtube.com/watch?v=-oT9-IbPQWY
+ */
+
 sealed class InputType(
     var value: String = "",
     var label: String,
@@ -31,9 +36,16 @@ sealed class InputType(
     val keyboardOptions: KeyboardOptions,
     val visualTransformation: VisualTransformation,
 ) {
+    object Username : InputType(
+        label = "Username",
+        icon = Icons.Default.Person,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        visualTransformation = VisualTransformation.None,
+    )
+
     object Email : InputType(
         label = "Email",
-        icon = Icons.Default.Person,
+        icon = Icons.Default.Email,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         visualTransformation = VisualTransformation.None,
     )

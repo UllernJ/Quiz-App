@@ -1,6 +1,5 @@
 package hiof.mobilg11.quizapplication.ui.screens.home
 
-import Alert
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,9 +66,6 @@ fun HomeScreen(
             .fillMaxSize()
             .background(brush = Brush.linearGradient(listOf(DeepBlue, Color.Black)))
     ) {
-        if (user?.username.isNullOrBlank()) {
-            Alert()
-        }
         if (user?.username.isNullOrBlank().not() && user != null) {
             TitleSection(user.username, navController, gameNotifications.size)
             GameCard(

@@ -35,6 +35,10 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
     navController: NavController
 ) {
+    var username by remember {
+        mutableStateOf(InputType.Username)
+    }
+
     var email by remember {
         mutableStateOf(InputType.Email)
     }
@@ -61,6 +65,7 @@ fun RegisterScreen(
                 .size(120.dp)
                 .padding(bottom = 24.dp)
         )
+        TextInput(username)
         TextInput(email)
         TextInput(password)
         TextInput(confirmPassword)
@@ -70,6 +75,7 @@ fun RegisterScreen(
                     Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                 } else {
                     viewModel.createUserWithEmailAndPassword(
+                        username.value,
                         email.value,
                         password.value,
                         confirmPassword.value
