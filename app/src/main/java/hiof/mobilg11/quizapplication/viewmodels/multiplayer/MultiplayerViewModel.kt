@@ -29,10 +29,11 @@ class MultiplayerViewModel @Inject constructor(
         }
     }
 
-    fun createGame(opponentName: String, host: User) {
+    fun createGame(opponentName: String, host: User, onGameCreated: (Boolean) -> Unit) {
         val game = createGameObject(opponentName, host)
         viewModelScope.launch {
-            gameService.create(game)
+            val result = gameService.create(game)
+            onGameCreated(result)
         }
     }
 

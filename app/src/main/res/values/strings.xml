@@ -53,4 +53,6 @@
     <string name="games_lost">Lost: </string>
     <string name="games_draw">Drawn: </string>
     <string name="win_rate">Win rate: </string>
+    <string name="game_request_sent">Game request sent</string>
+    <string name="game_request_failed">Game request failed</string>
 </resources>

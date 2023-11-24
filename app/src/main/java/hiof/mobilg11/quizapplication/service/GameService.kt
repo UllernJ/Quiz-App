@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface GameService {
     fun notifications(username: String): Flow<List<MultiplayerGame>>
-    suspend fun create(game: MultiplayerGame)
+    suspend fun create(game: MultiplayerGame): Boolean
     suspend fun get(uuid: String): MultiplayerGame?
     suspend fun update(game: MultiplayerGame)
     suspend fun end(game: MultiplayerGame)

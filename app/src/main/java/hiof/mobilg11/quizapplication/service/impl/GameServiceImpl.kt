@@ -11,11 +11,11 @@ class GameServiceImpl @Inject constructor(private val gameDao: GameDao) : GameSe
 
     override fun notifications(username: String) = gameDao.getGamesNotifications(username)
 
-    override suspend fun create(game: MultiplayerGame) {
+    override suspend fun create(game: MultiplayerGame): Boolean {
         if (game.host.isBlank() || game.opponent.isBlank() || game.host == game.opponent) {
-            return
+            return false
         } else {
-            gameDao.createGame(game)
+            return gameDao.createGame(game)
         }
     }
 

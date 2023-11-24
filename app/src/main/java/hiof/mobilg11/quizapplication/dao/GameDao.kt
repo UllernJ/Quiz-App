@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import hiof.mobilg11.quizapplication.model.game.GameState
 import hiof.mobilg11.quizapplication.model.game.MultiplayerGame
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.tasks.await
@@ -12,11 +13,18 @@ import javax.inject.Inject
 class GameDao @Inject constructor(
     private val firebase: FirebaseFirestore
 ) {
-    suspend fun createGame(game: MultiplayerGame) {
-        firebase.collection(COLLECTION)
-            .document()
-            .set(game)
-            .await()
+    suspend fun createGame(game: MultiplayerGame): Boolean {
+        return try {
+            firebase.collection(COLLECTION)
+                .document()
+                .set(game)
+                .await()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+
     }
 
     suspend fun getGame(uuid: String): MultiplayerGame? {
