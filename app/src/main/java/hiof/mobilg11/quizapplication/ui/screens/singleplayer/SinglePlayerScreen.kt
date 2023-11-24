@@ -32,12 +32,6 @@ fun SinglePlayerScreen(callback: (String) -> Unit) {
     var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
     val filteredCategories = filterCategories(searchQuery.text, categories)
 
-
-    // Print all categories, loop
-    for (category in categories) {
-        Log.d(" ", category.name)
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
