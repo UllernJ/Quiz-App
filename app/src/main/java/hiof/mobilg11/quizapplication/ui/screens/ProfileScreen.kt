@@ -30,10 +30,10 @@ fun ProfileScreen(
     val playerStats = viewModel.playerStats.collectAsState()
     viewModel.getPlayerStats(user?.username ?: "")
 
-    val gamesPlayed = playerStats.value?.gamesPlayed ?: 0
-    val gamesWon = playerStats.value?.gamesWon ?: 0
-    val gamesLost = playerStats.value?.gamesLost ?: 0
-    val gamesDraw = playerStats.value?.gamesDraw ?: 0
+    val gamesPlayed = playerStats.value.gamesPlayed
+    val gamesWon = playerStats.value.gamesWon
+    val gamesLost = playerStats.value.gamesLost
+    val gamesDraw = playerStats.value.gamesDraw
     val winRate = if (gamesPlayed > 0) {
         ((gamesWon.toDouble() / gamesPlayed.toDouble()) * 100).roundToInt()
     } else {
@@ -78,18 +78,18 @@ fun ProfileScreen(
                             .padding(bottom = 16.dp)
                     )
 
-                    Divider()
+                    HorizontalDivider()
 
                     StatItem(statName = stringResource(R.string.games_played), statValue = "$gamesPlayed")
-                    Divider(color = Color.LightGray)
+                    HorizontalDivider(color = Color.LightGray)
                     StatItem(statName = stringResource(R.string.games_won), statValue = "$gamesWon")
-                    Divider(color = Color.LightGray)
+                    HorizontalDivider(color = Color.LightGray)
                     StatItem(statName = stringResource(R.string.games_lost), statValue = "$gamesLost")
-                    Divider(color = Color.LightGray)
+                    HorizontalDivider(color = Color.LightGray)
                     StatItem(statName = stringResource(R.string.games_draw), statValue = "$gamesDraw")
-                    Divider(color = Color.LightGray)
+                    HorizontalDivider(color = Color.LightGray)
                     StatItem(statName = stringResource(R.string.win_rate), statValue = "$winRate%")
-                    Divider(color = Color.LightGray)
+                    HorizontalDivider(color = Color.LightGray)
                 }
             }
 

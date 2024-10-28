@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.dataObjects
+import com.google.firebase.firestore.dataObjects
 import hiof.mobilg11.quizapplication.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -87,10 +88,10 @@ fun LoginScreen(
                 fontWeight = FontWeight.Bold
             )
         }
-        Divider(
-            color = Color.White.copy(alpha = 0.3f),
+        HorizontalDivider(
+            modifier = Modifier.padding(top = 48.dp),
             thickness = 1.dp,
-            modifier = Modifier.padding(top = 48.dp)
+            color = Color.White.copy(alpha = 0.3f)
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = stringResource(R.string.login_no_account))

@@ -1,10 +1,8 @@
 package hiof.mobilg11.quizapplication
 
-import MultiplayerScreen
 import NavBar
 import android.media.MediaPlayer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -21,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hiof.mobilg11.quizapplication.model.User
 import hiof.mobilg11.quizapplication.ui.navigation.BottomNavBar
 import hiof.mobilg11.quizapplication.ui.screens.ProfileScreen
 import hiof.mobilg11.quizapplication.ui.screens.auth.LoginScreen
@@ -29,18 +26,14 @@ import hiof.mobilg11.quizapplication.ui.screens.auth.RegisterScreen
 import hiof.mobilg11.quizapplication.ui.screens.home.HomeScreen
 import hiof.mobilg11.quizapplication.ui.screens.home.NotificationScreen
 import hiof.mobilg11.quizapplication.ui.screens.leaderboard.LeaderboardScreen
-import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerGameLobbyScreen
-import hiof.mobilg11.quizapplication.ui.screens.multiplayer.MultiplayerPlayScreen
 import hiof.mobilg11.quizapplication.ui.screens.singleplayer.QuizScreen
 import hiof.mobilg11.quizapplication.ui.screens.singleplayer.SinglePlayerScreen
 import hiof.mobilg11.quizapplication.ui.theme.BackgroundMusic
 import hiof.mobilg11.quizapplication.ui.theme.NotificationSound
 import hiof.mobilg11.quizapplication.utils.PlaySoundEffect
-import hiof.mobilg11.quizapplication.viewmodels.auth.AuthViewModel
 import hiof.mobilg11.quizapplication.viewmodels.QuizAppViewModel
+import hiof.mobilg11.quizapplication.viewmodels.auth.AuthViewModel
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizApp(
     auth: AuthViewModel = hiltViewModel(),
@@ -65,7 +58,6 @@ fun QuizApp(
             if (user.value != null
                 && currentRoute?.destination?.route != Screen.Loading.route
                 && currentRoute?.destination?.route != Screen.Quiz.route
-                && currentRoute?.destination?.route != Screen.MultiplayerPlay.route
                 && currentRoute?.destination?.route != Screen.Loading.route
             ) {
                 BottomNavBar(navController, gameNotifications.size)
@@ -105,18 +97,7 @@ fun QuizApp(
                     navController.navigate(route)
                 }
             }
-            composable(Screen.Multiplayer.route) {
-                MultiplayerScreen(user.value)
-            }
-            composable(
-                route = Screen.MultiplayerLobby.route,
-                arguments = listOf(
-                    navArgument(LOBBY_ARGUMENT_KEY) {
-                        nullable = false
-                    })
-            ) {
-                MultiplayerGameLobbyScreen(navController, (user.value ?: User()))
-            }
+
             composable(
                 route = Screen.Quiz.route,
                 arguments = listOf(navArgument(QUIZ_ARGUMENT_KEY) {
@@ -136,14 +117,6 @@ fun QuizApp(
                 }
             }
 
-            composable(
-                route = Screen.MultiplayerPlay.route,
-                arguments = listOf(navArgument(LOBBY_ARGUMENT_KEY) {
-                    nullable = false
-                })
-            ) {
-                MultiplayerPlayScreen(navController, user.value?.username ?: "")
-            }
             composable(Screen.Notifications.route) {
                 NotificationScreen(notifications = gameNotifications)
             }

@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
-    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -74,9 +74,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-compose:2.8.3")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.dagger:hilt-android:2.49")
+    implementation("com.google.dagger:hilt-android:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    ksp("com.google.dagger:hilt-compiler:2.47")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
 
 
     implementation(platform("androidx.compose:compose-bom:2024.10.00"))

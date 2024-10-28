@@ -90,7 +90,6 @@ fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TitleSection(username: String, navController: NavController, gameNotifications: Int) {
     Row(
