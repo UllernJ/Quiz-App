@@ -3,7 +3,7 @@ package hiof.mobilg11.quizapplication.ui.pages
 import hiof.mobilg11.quizapplication.model.Category
 import hiof.mobilg11.quizapplication.ui.screens.singleplayer.filterCategories
 import junit.framework.TestCase.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Test
 class SinglePlayerScreenKtTest {
 
     private var categories: List<Category> = listOf(
