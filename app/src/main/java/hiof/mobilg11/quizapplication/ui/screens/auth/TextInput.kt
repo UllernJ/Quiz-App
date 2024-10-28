@@ -72,7 +72,6 @@ sealed class InputType(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextInput(inputType: InputType) {
     var value by remember { mutableStateOf("") }
@@ -85,7 +84,7 @@ fun TextInput(inputType: InputType) {
         shape = MaterialTheme.shapes.large,
         leadingIcon = { Icon(imageVector = inputType.icon, null) },
         label = { Text(text = inputType.label) },
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
