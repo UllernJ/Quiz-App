@@ -57,10 +57,6 @@ fun HomeScreen(
     gameNotifications: List<MultiplayerGame>,
     user: User?
 ) {
-
-    val games = viewModel.getGames(user?.username ?: "").collectAsState(initial = emptyList())
-
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,22 +64,20 @@ fun HomeScreen(
     ) {
         if (user?.username.isNullOrBlank().not() && user != null) {
             TitleSection(user.username, navController, gameNotifications.size)
-            GameCard(
-                stringResource(R.string.multiplayer),
-                stringResource(R.string.multiplayer_description),
-                Screen.Multiplayer.route,
-                navController
+            CardSection(
+                stringResource(R.string.upcoming_title),
+                stringResource(R.string.upcoming_body),
+                null,
+                null
             )
 
-            GameCard(
+            CardSection(
                 stringResource(R.string.single_player),
                 stringResource(R.string.single_player_description),
                 Screen.SinglePlayer.route,
                 navController,
                 LightGreen1
             )
-
-            Games(games.value, navController, user)
         }
 
 
@@ -137,11 +131,11 @@ fun TitleSection(username: String, navController: NavController, gameNotificatio
 }
 
 @Composable
-fun GameCard(
+fun CardSection(
     title: String,
     description: String,
-    route: String,
-    navController: NavController,
+    route: String?,
+    navController: NavController?,
     color: Color = OrangeYellow2
 ) {
     Column(
@@ -178,125 +172,25 @@ fun GameCard(
                     color = Color.White
                 )
             }
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(LightBlue)
-                    .padding(10.dp),
-            ) {
-                IconButton(
-                    onClick = { navController.navigate(route) },
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun Games(games: List<MultiplayerGame>, navController: NavController, user: User?) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 5.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(
-            text = stringResource(R.string.home_your_games),
-            style = MaterialTheme.typography.titleMedium,
-        )
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            content = { items(games) { GameCard(it, navController, user) } },
-        )
-    }
-}
-
-@Composable
-fun GameCard(
-    game: MultiplayerGame,
-    navController: NavController,
-    user: User?
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(BlueViola1)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(15.dp)
-                .fillMaxWidth()
-        ) {
-            Column {
-                Text(
-                    if (user?.username == game.host) stringResource(
-                        R.string.home_you_vs,
-                        game.opponent
-                    ) else stringResource(
-                        R.string.home_you_vs,
-                        game.host
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = if (user?.username == game.host) stringResource(
-                        R.string.home_score_display,
-                        game.hostScore,
-                        game.opponentScore
-                    ) else stringResource(
-                        R.string.home_score_display,
-                        game.opponentScore,
-                        game.hostScore
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = if (game.gameState == GameState.WAITING_FOR_HOST && game.host == user?.username ||
-                        game.gameState == GameState.WAITING_FOR_OPPONENT && game.opponent == user?.username
-                    ) {
-                        stringResource(R.string.home_turn_indicater_your_turn)
-                    } else {
-                        stringResource(R.string.home_turn_indicater_opponent_turn)
-                    },
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Column {
-                IconButton(
-                    onClick = {
-                        navController.navigate(Screen.MultiplayerLobby.createRoute(game.uuid))
-                    },
+            if (navController != null && route != null) {
+                Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
                         .background(LightBlue)
-                        .padding(10.dp)
+                        .padding(10.dp),
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
+                    IconButton(
+                        onClick = { navController.navigate(route) },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
                 }
             }
         }

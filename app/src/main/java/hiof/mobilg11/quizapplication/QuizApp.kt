@@ -43,10 +43,7 @@ fun QuizApp(
     val user = appModel.user.collectAsState()
     val currentRoute by navController.currentBackStackEntryAsState()
     val gameNotifications by appModel.notifications.collectAsState(initial = emptyList())
-    val isNewNotification by appModel.isNewNotification.collectAsState(initial = false)
     var isFinishedLoaded by remember { mutableStateOf(false) }
-
-    MusicPlayer()
 
     Scaffold(
         topBar = {
@@ -92,8 +89,8 @@ fun QuizApp(
                 )
             }
             composable(Screen.SinglePlayer.route) {
-                SinglePlayerScreen {
-                    val route = Screen.Quiz.createRoute(it)
+                SinglePlayerScreen { categoryName ->
+                    val route = Screen.Quiz.createRoute(categoryName)
                     navController.navigate(route)
                 }
             }
@@ -124,26 +121,6 @@ fun QuizApp(
                 LeaderboardScreen()
             }
 
-        }
-    }
-
-    if (isNewNotification && isFinishedLoaded) {
-        PlaySoundEffect(NotificationSound)
-    }
-
-}
-
-@Composable
-fun MusicPlayer() {
-    val context = LocalContext.current
-    val mediaPlayer = MediaPlayer.create(context, BackgroundMusic)
-    mediaPlayer.isLooping = true
-    mediaPlayer.start()
-
-    DisposableEffect(mediaPlayer) {
-        onDispose {
-            mediaPlayer.stop()
-            mediaPlayer.release()
         }
     }
 }
